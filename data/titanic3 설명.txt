@@ -1,0 +1,16 @@
+# titanic3.csv 변수 설명
+#'data.frame': 1309 obs. of 14 variables:
+#1.pclass : 1, 2, 3등석 정보를 각각 1, 2, 3으로 저장
+#2.survived : 생존 여부. survived(생존=1), dead(사망=0)
+#3.name : 이름(제외)
+#4.sex : 성별. female(여성), male(남성)
+#5.age : 나이
+#6.sibsp : 함께 탑승한 형제 또는 배우자의 수
+#7.parch : 함께 탑승한 부모 또는 자녀의 수
+#8.ticket : 티켓 번호(제외)
+#9.fare : 티켓 요금
+#10.cabin : 선실 번호(제외)
+#11.embarked : 탑승한 곳. C(Cherbourg), Q(Queenstown), S(Southampton)
+#12.boat     : (제외)Factor w/ 28 levels "","1","10","11",..: 13 4 1 1 1 14 3 1 28 1 ...
+#13.body     : (제외)int  NA NA NA 135 NA NA NA NA NA 22 ...
+#14.home.dest: (제외)
