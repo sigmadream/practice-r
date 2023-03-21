@@ -1,8 +1,12 @@
-# Chapter 07
+# EDA 5단계
+## 1. 데이터 확인
+## 2. 결측치 제거
+## 3. 코딩(숫자 -> 문자)
+## 4. 시각화
+## 5. 보고서 작성
 
-# 실습: 실습용 데이터 가져오기 
+# 1. 데이터 확인
 getwd()
-setwd("C:/Rwork/Part-II")
 dataset <- read.csv("dataset.csv", header = T)
 dataset
 
