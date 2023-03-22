@@ -32,12 +32,70 @@ knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.he
 - 선택된 연습문제
   - 7장 연습문제 2번, 3번, 4번
   - 8장 연습문제 1번, 2번
+  
+## 7장 연습문제 풀이
 
+```{r}
+install.packages("latticeExtra", repos = "https://cran.us.r-project.org")
+library(lattice)
+library(latticeExtra)
+```
 
+### 7장 2번 연습문제 풀이
+```{r}
+dataset <- read.csv("./data/dataset.csv", header = T)
+dataset2 <- subset(dataset, price >= 2 & price <= 8)
+pos <- dataset2$position
+cpos <- 6 - pos
+dataset2$position <- cpos
+dataset2$position2[dataset2$position==1] <-'1급'
+dataset2$position2[dataset2$position==2] <-'2급'
+dataset2$position2[dataset2$position==3] <-'3급'
+dataset2$position2[dataset2$position==4] <-'4급'
+dataset2$position2[dataset2$position==5] <-'5급'
+range(dataset2$resident, na.rm = T) # 1 5
+dataset2 <- subset(dataset2, !is.na(dataset2$resident))
+head(dataset2)
+```
+
+### 7장 3번 연습문제 풀이
+```{r}
+dataset2$gender2[dataset2$gender == 1] <-'남자'
+dataset2$gender2[dataset2$gender == 2] <-'여자'
+pie(table(dataset2$gender2))
+```
+
+### 7장 4번 연습문제 풀이
+```{r}
+dataset2$age2[dataset2$age <= 30] <- "청년층"
+dataset2$age2[dataset2$age > 30 & dataset2$age <= 55] <- "중년층"
+dataset2$age2[dataset2$age > 55 ] <- "장년층"
+dataset2$age3[dataset2$age <= 30] <-1
+dataset2$age3[dataset2$age > 30 & dataset2$age <= 55] <-2
+dataset2$age3[dataset2$age > 55] <-3
+head(dataset2[c('age', 'age2', 'age3')])
+```
+
+## 8장 연습문제 풀이
+
+### 8장 1번 연습문제 풀이
+```{r}
+depthgroup<-equal.count(quakes$depth, number=3, overlap=0)
+magnitudegroup<-equal.count(quakes$mag, number=2, overlap=0)
+xyplot(lat ~ long | magnitudegroup*depthgroup, data=quakes, 
+       main="Fiji Earthquakes", ylab="latitude", xlab="longitude", 
+       pch="@",col=c("red","blue"))
+```
+
+### 8장 2번 연습문제 풀이
+```{r}
+xyplot(min.temp + max.temp ~ day | month, data=SeatacWeather, 
+       type="l", layout=c(3,1))
+```
 
 # 2023년 3월 17일 강의 내용 요약 및 정리
 ## EDA 5단계
-- 1. 데이터 확인
+- 1. 데이터 불러오기 및 확인
 - 2. 결측치 제거
 - 3. 코딩(숫자 -> 문자)
 - 4. 시각화
@@ -49,15 +107,18 @@ knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.he
 getwd()
 ```
 - 필요한 패키지/라이브러리를 설치하세요.
-```{r eval=F}
-install.packages("ggplot2")
-install.packages("lattice")
+```{r 환경설정}
+suppressPackageStartupMessages({
+  install.packages("ggplot2", repos = "https://cran.us.r-project.org")
+  install.packages("lattice", repos = "https://cran.us.r-project.org")  
+})
 ```
-```{r}
+
+- 설치된 패키지 중에서 사용할 것을 불러오세요.
+```{r 패키지 불러오기}
 library(ggplot2)
 library(lattice)
 ```
-
 
 ## 1. 데이터 확인
 - `str()` 명령어를 사용해서 데이터를 확인하도록 합니다. 특히 자료형에 주의하세요!
@@ -112,15 +173,6 @@ xyplot(age~position, data = dataset2)
 ```{r}
 dotplot(price~age, data=dataset2, type="o")
 ```
+
 ### 5. 보고서 작성
 생략
-
-
-
-
-
-
-
-
-
-
