@@ -1,0 +1,218 @@
+---
+title: "15장 선형모델 연습"
+author: Sangkon Han(sangkon@pusan.ac.kr)
+date: "`r format(Sys.Date())`" 
+output:
+  pdf_document:
+    extra_dependencies: ["kotex"]
+    fig_height: 6
+    fig_width: 10
+    toc: no    
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    theme: cosmo
+    toc: yes
+    toc_depth: 3
+    toc_float: yes    
+  word_document:
+    fig_height: 6
+    fig_width: 9
+    toc: no  
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
+library(tidyverse)
+library(reshape2)
+library(boot)
+```
+
+# 캘리포니아 집 값 예측
+
+## 데이터 불러오기
+
+```{r}
+housing = read.csv("./data/housing.csv")
+head(housing)
+```
+
+### 캐리포니아 집 값 예측 데이터 구조
+- logitude, 경도
+- latitude, 위도
+- housing_median_age, 주변의 집을 그룹화 했기 때문에 중앙값 사용
+- total_rooms, 정체 방 수
+- total_bedrooms, 전체 침실 수
+- population, 인구
+- households, 세대수
+- median_income, 소득(중앙값)
+- median_house_value, 주택 가격(중앙값)
+- ocean_proximity, 해안 근접도
+
+### 변수 요약 정보 확인
+1. `total_bedrooms`에 있는 207건의 결측값(NA)을 처리해야 합니다.
+2. `ocean_proximity`는 `binary column`으로 변환해야 합니다.
+3. 집 가격에 영향을 미치는 요소로 간주되는 `total_bedrooms`와 `total_rooms`등은 개별 가치로 파악할 수 있도록  `mean_number_bedrooms` 및 `mean_number_rooms`로 만들어야 됩니다.
+
+```{r}
+summary(housing)
+```
+
+개별적인 데이터에 대한 내용을 기술 통계를 활용해서 확인함고 동시에 해당 데이터의 분포(구성)도 함께 확인해야 합니다.
+
+```{r}
+par(mfrow=c(2,5)) # 출력 화면 분할
+colnames(housing) # 컬럼명 확인
+```
+
+데이터 전체 분포를 확인하도록 하겠습니다.
+```{r}
+ggplot(data = melt(housing), mapping = aes(x = value)) + 
+  geom_histogram(bins = 30) + 
+  facet_wrap(~variable, scales = 'free_x')
+```
+
+## 전처리
+
+### 결측치 처리
+
+평균에 비해서 극단값에 덜 민감한 중앙값을 사용해서 결측치를 해결하도록 하겠습니다.
+
+```{r}
+housing$total_bedrooms[is.na(housing$total_bedrooms)] <- median(housing$total_bedrooms, na.rm=TRUE)
+sum(is.na(housing))
+```
+
+### 파생 변수
+
+```{r}
+housing$mean_bedrooms <- housing$total_bedrooms/housing$households
+housing$mean_rooms <- housing$total_rooms/housing$households
+head(housing)
+```
+
+### 불필요한 특징 삭제
+
+사용되지 않을 불필요한 특징은 삭제하도록 하겠습니다.
+
+```{r}
+drops <- c('total_bedrooms', 'total_rooms')
+housing <- housing[ , !(names(housing) %in% drops)]
+head(housing)
+```
+
+### 범주형 변수
+
+범주형 변수 처리를 위해서 별도의 데이터 프레임을 생성합니다.
+
+```{r}
+categories <- unique(housing$ocean_proximity)
+cat_housing <- data.frame(ocean_proximity = housing$ocean_proximity)
+head(cat_housing)
+```
+
+모든 값이 `0`으로 채워진 데이터 프레임을 생성합니다.
+
+```{r}
+for(cat in categories){
+  cat_housing[,cat] = rep(0, times= nrow(cat_housing))
+}
+
+head(cat_housing)
+```
+
+필요한 데이터만 `1`로 업데이트 합니다.
+
+```{r}
+for(i in 1:length(cat_housing$ocean_proximity)){
+  cat <- as.character(cat_housing$ocean_proximity[i])
+  cat_housing[,cat][i] <- 1
+}
+
+head(cat_housing)
+```
+
+기존 특징은 사용하지 않기 때문에 삭제합니다.
+
+```{r}
+cat_columns <- names(cat_housing)
+keep_columns <- cat_columns[cat_columns != 'ocean_proximity']
+cat_housing <- select(cat_housing,one_of(keep_columns))
+tail(cat_housing)
+```
+
+### 수치형 변수 처리
+
+수치의 단위(unit)이 일정하지 않기 때문에 수치형 변수를 일괄로 처리하도록 하겠습니다. 먼저 특징을 확인합니다.
+
+```{r}
+colnames(housing)
+```
+
+명목형 변수(ocean_proximity)와 예측 변수(median_house_value)는 대상에서 제외하도록 하겠습니다.
+
+```{r}
+drops <- c('ocean_proximity','median_house_value')
+housing_num <-  housing[ , !(names(housing) %in% drops)]
+head(housing_num)
+```
+
+```{r}
+scaled_housing_num <- scale(housing_num)
+head(scaled_housing_num)
+```
+
+### 정리된 데이터 결합
+```{r}
+cleaned_housing <- cbind(cat_housing, scaled_housing_num, median_house_value=housing$median_house_value)
+head(cleaned_housing)
+```
+
+
+## 검증 데이터
+
+```{r}
+set.seed(42)
+sample <- sample.int(n = nrow(cleaned_housing), size = floor(.8*nrow(cleaned_housing)), replace = F)
+train <- cleaned_housing[sample, ] #just the samples
+test  <- cleaned_housing[-sample, ] #everything but the samples
+head(train)
+```
+
+분리된 데이터가 전체 데이터를 반영하고 있는지 확인합니다.
+
+```{r}
+nrow(train) + nrow(test) == nrow(cleaned_housing)
+```
+
+## 모델 생성 및 평가
+
+첫 번째 성분은 예측 오차의 원시 교차 검증 추정치 입니다. 두 번째 구성 요소는 조정된 교차 검증 추정치 입니다.
+```{r}
+glm_house = glm(median_house_value~median_income+mean_rooms+population, data=cleaned_housing)
+k_fold_cv_error = cv.glm(cleaned_housing , glm_house, K=5)
+k_fold_cv_error$delta
+```
+
+`RMSE` 값을 출력합니다.
+
+```{r}
+glm_cv_rmse = sqrt(k_fold_cv_error$delta)[1]
+glm_cv_rmse
+```
+
+```{r}
+names(glm_house)
+```
+
+```{r}
+glm_house$coefficients
+## (Intercept) median_income    mean_rooms    population
+##  206855.817     82608.959     -9755.442     -3948.293
+```
+
+
+## 결론
+분석을 통해 소득 중앙값(median_income)이 주택 가격(median_house_value)에 가장 큰 영향을 미친다고 판단할 수 있습니다.
