@@ -1,20 +1,35 @@
+install.packages("readr")
 library(readr)
+install.packages("ggplot2")
 library(ggplot2)
+install.packages("knitr")
 library(knitr)
+install.packages("tidyverse")
 library(tidyverse)
+install.packages("caret")
 library(caret)
+install.packages("leaps")
 library(leaps)
+install.packages("car")
 library(car)
+install.packages("mice")
 library(mice)
+install.packages("scales")
 library(scales)
+install.packages("RColorBrewer")
 library(RColorBrewer)
+install.packages("plotly")
 library(plotly)
+install.packages("nortest")
 library(nortest)
+install.packages("lmtest")
 library(lmtest)
 
-housing_data = read_csv("./data/housing.csv")
+# 데이터 읽어오기
+housing_data <- read_csv("./data/housing.csv")
 summary(housing_data)
 
+# 시각화(지도는 아니지만, 지도 같은 시각화)
 plot_map = ggplot(housing_data, 
                   aes(x = longitude, y = latitude, color = median_house_value, 
                       hma = housing_median_age, tr = total_rooms, tb = total_bedrooms,
@@ -28,20 +43,24 @@ plot_map = ggplot(housing_data,
   labs(color = "Median House Value (in $USD)", size = "Population")
 plot_map
 
-housing_data$ocean_proximity = as.factor(housing_data$ocean_proximity)
-levels(housing_data$ocean_proximity)
+# 전처리
 
+## 이걸 어쩐다?
+housing_data$ocean_proximity <- as.factor(housing_data$ocean_proximity)
+levels(housing_data$ocean_proximity)
 ggplot(housing_data, aes(x = factor(ocean_proximity))) +
   geom_bar(stat = "count", color = "black", fill = "blue")
 
+## 지우자!
 summary(housing_data$ocean_proximity)
-housing_data = housing_data[housing_data$ocean_proximity != "ISLAND", ]
+housing_data <- housing_data[housing_data$ocean_proximity != "ISLAND", ]
 
+## NA 처리
 sum(is.na(housing_data))
-
-total_bedrooms = housing_data$total_bedrooms
+total_bedrooms <- housing_data$total_bedrooms
 sum(is.na(total_bedrooms))
 
+### 중앙 vs 중위
 bedroom_mean = mean(housing_data$total_bedrooms, na.rm=TRUE)
 bedroom_median = median(housing_data$total_bedrooms, na.rm=TRUE)
 ggplot(housing_data, aes(x = total_bedrooms)) +
@@ -52,11 +71,10 @@ ggplot(housing_data, aes(x = total_bedrooms)) +
   ylab("Frequency") +
   ggtitle("Histogram of Total Bedrooms (noncontinuous variable)") +
   scale_color_manual(name = "Summary Stats", labels = c("Mean", "Median"), values = c("red", "green"))
+housing_data$total_bedrooms[is.na(housing_data$total_bedrooms)] <- bedroom_median
 
-housing_data$total_bedrooms[is.na(housing_data$total_bedrooms)] = bedroom_median
-
+### 데이터 시각화
 str(housing_data)
-
 par(mfrow = c(3, 3))
 hist(housing_data$longitude, breaks = 20, main = "longitude", border="darkorange", col="dodgerblue")
 hist(housing_data$latitude, breaks = 20, main = "latitude", border="darkorange", col="dodgerblue")
@@ -68,24 +86,27 @@ hist(housing_data$households, breaks = 20, main = "households", border="darkoran
 hist(housing_data$median_income, breaks = 20, main = "median_income", border="darkorange", col="dodgerblue")
 hist(housing_data$median_house_value, breaks = 20, main = "median_house_value", border="darkorange", col="dodgerblue")
 
+### 후처리가 끝났다고 가정한다면 이 영원할 것 같은 함수도 사용 가능
+par(mfrow = c(1, 1))
 pairs(housing_data, col = "dodgerblue")
 
-housing_data_nc = housing_data[, -10]
-corrmatrix = cor(housing_data_nc)
+### 상관계수를 확인
+housing_data_nc <- housing_data[, -10]
+corrmatrix <- cor(housing_data_nc)
 kable(t(corrmatrix))
 
+# 머신러닝
+## 데이터 분류
 set.seed(42)
-housing_trn_idx = createDataPartition(housing_data$ocean_proximity, p = .70, list = FALSE)
+housing_trn_idx <- createDataPartition(housing_data$ocean_proximity, p = .70, list = FALSE)
+housing_trn_data <- housing_data[housing_trn_idx, ]
+housing_tst_data <- housing_data[-housing_trn_idx, ]
 
-housing_trn_data = housing_data[housing_trn_idx, ]
-housing_tst_data = housing_data[-housing_trn_idx, ]
-
+## 
 full_additive_model = lm(median_house_value ~ ., data = housing_trn_data)
 full_additive_adjr2 = summary(full_additive_model)$adj.r.squared
-
 full_twoway_model = lm(median_house_value ~ (.)^2, data = housing_trn_data)
 full_twoway_adjr2 = summary(full_twoway_model)$adj.r.squared
-
 full_threeway_model = lm(median_house_value ~ (.)^3, data = housing_trn_data)
 full_threeway_adjr2 = summary(full_threeway_model)$adj.r.squared
 
@@ -102,19 +123,15 @@ beginning_mods_results = data.frame(
     c("Additive Model" = full_additive_adjr2,
       "Two-Way Int. Model" = full_twoway_adjr2,
       "Three-Way Int. Model" = full_threeway_adjr2))
-
 kable(beginning_mods_results, align = c("c", "r"))
 
 back_additive_mod_finish_aic = step(full_additive_model, direction = "backward", trace = 0)
 both_additive_mod_finish_aic = step(full_additive_model, direction = "both", trace = 0)
-
 n = length(resid(full_additive_model))
 back_additive_mod_finish_bic = step(full_additive_model, direction = "backward", k = log(n), trace = 0)
 both_additive_mod_finish_bic = step(full_additive_model, direction = "both", k = log(n), trace = 0)
-
 back_twoway_mod_finish_aic = step(full_twoway_model, direction = "backward", trace = 0)
 both_twoway_mod_finish_aic = step(full_twoway_model, direction = "both", trace = 0)
-
 n = length(resid(full_twoway_model))
 back_twoway_mod_finish_bic = step(full_twoway_model, direction = "backward", k = log(n), trace = 0)
 both_twoway_mod_finish_bic = step(full_twoway_model, direction = "both", k = log(n), trace = 0)
@@ -138,7 +155,6 @@ aic_and_bic_results = data.frame(
         c("Additive" = extractAIC(both_additive_mod_finish_bic)[2],
           "Two-Way" = extractAIC(both_twoway_mod_finish_bic)[2],
           "Three-way" = extractAIC(full_threeway_model)[2])))
-
 kable(aic_and_bic_results)
 
 diagnostics = function(model, alpha = .05, pointcol = "orange", linecol = "blue", plots = TRUE, tests = TRUE, pointtype = 16) {

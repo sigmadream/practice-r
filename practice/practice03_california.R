@@ -1,3 +1,4 @@
+# 필수 라이브러리
 library(tidyverse)
 library(reshape2)
 library(boot)
