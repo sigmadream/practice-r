@@ -1,25 +1,14 @@
-getwd()
-
-# 월별 신생아 출생 평균을 구해보자.
-## - 기간 : 1997년 1월 ~ 2021년 12월
-## - 데이터 : 통계청
-## - tidyverse를 사용한 데이터 분석
-
-# 라이브러리 설치
-install.packages("tidyverse")
-
-# 1. 데이터 불러오기
 library(tidyverse)
 library(readxl)
 
-birth_df <- read_excel("practice/01_시군구_성_월별_출생.xlsx")
+birth_df <- read_excel("data/2023_시군구_성_월별_출생.xlsx")
 
 # 1. 데이터 확인
 birth_df %>% 
   dim()
 
-View(birth_df)
-
+# 2. 전처리
+## 2-1. 결측치(NA) 확인
 colSums(is.na(birth_df))
 
 birth_df$시점 %>% 
@@ -27,10 +16,11 @@ birth_df$시점 %>%
 
 is.na(birth_df$시점) %>% 
   head()
+
 !is.na(birth_df$시점) %>% 
   head()
 
-# 2. 결측치(NA) 처리
+## 2-2. 결측치(NA) 처리
 birth_df %>%
   filter(!is.na(시점)) %>%
   head()
@@ -40,7 +30,7 @@ birth_df %>%
   select(시점, 전국) %>%
   head()
 
-## 컬럼 정리
+## 2-3. 열 정리
 birth_df <- birth_df %>%
   filter(!is.na(시점)) %>%
   select(시점, 전국) %>%
@@ -49,6 +39,7 @@ birth_df <- birth_df %>%
 birth_df %>% 
   head()
 
+## 3. 데이터 정리
 birth_df %>%
   group_by(월) %>%
   summarise(평균출생수 = mean(전국))
@@ -63,7 +54,7 @@ birth_df %>%
   summarise(평균출생수 = mean(전국)) %>%
   arrange(desc(평균출생수))
 
-# 4. ggplot2를 사용한 시각화
+## 4. 시각화를 통한 데이터 확인
 birth_df %>%
   group_by(월) %>%
   summarise(평균출생수 = mean(전국)) %>%
@@ -71,8 +62,8 @@ birth_df %>%
   labs(title = "월별 신생아 출생 평균", subtitle = "1997년 1월 ~ 2021년 12월") +
   theme_bw(base_size = 15)
 
-# Q.부산지역 출생아수는?
-birth_df <- read_excel("practice/01_시군구_성_월별_출생.xlsx")
+# 추가문제) Q2.부산지역 출생아수는?
+birth_df <- read_excel("data/2023_시군구_성_월별_출생.xlsx")
 birth_df %>%
   filter(!is.na(시점)) %>%
   select(시점, 전국) %>%
