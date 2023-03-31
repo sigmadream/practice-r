@@ -1,0 +1,21 @@
+   https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/에서 
+   wdbc.data 파일로 제공
+  1. Title: Wisconsin Diagnostic Breast Cancer (WDBC) : 
+  2. Source Information
+    a) Creators:
+	Dr. William H. Wolberg, General Surgery Dept., University of
+	Wisconsin,  Clinical Sciences Center, Madison, WI 53792
+	wolberg@eagle.surgery.wisc.edu
+
+	W. Nick Street, Computer Sciences Dept., University of
+	Wisconsin, 1210 West Dayton St., Madison, WI 53706
+	street@cs.wisc.edu  608-262-6619
+
+	Olvi L. Mangasarian, Computer Sciences Dept., University of
+	Wisconsin, 1210 West Dayton St., Madison, WI 53706
+	olvi@cs.wisc.edu
+   b) Donor: Nick Street
+   c) Date: November 1995
+ 3 .569개 관측치와 32개 칼럼 구성
+   a) 위스콘신 유방암 센터에서 유방암 진단결과를 기록한 데이터 셋
+   b) id, diagnosis(진단결과-M(악성),B(양성)), 30개 수치'

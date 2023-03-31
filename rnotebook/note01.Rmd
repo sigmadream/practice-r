@@ -1,0 +1,178 @@
+---
+title: "EDA와 고급 시각화"
+author: Sangkon Han(sangkon@pusan.ac.kr)
+date: "`r format(Sys.Date())`" 
+output:
+  pdf_document:
+    extra_dependencies: ["kotex"]
+    fig_height: 6
+    fig_width: 10
+    toc: no    
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    theme: cosmo
+    toc: yes
+    toc_depth: 3
+    toc_float: yes    
+  word_document:
+    fig_height: 6
+    fig_width: 9
+    toc: no  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
+```
+
+# 선택된 연습문제
+- 아래 선택된 연습문제를 `practice_20130317.R`에 저장해서 `R`파일만 제출하시면 됩니다. 연습문제 중 해결이 힘들거나 어려운 문제는 해당 파일에 주석으로 문제점이나 궁금증을 남겨주세요.
+- 연습문제 해결시 꼭 책을 참고하시고, 다같이 모여서 해결하시고 코드보다는 절차를 익히는데 집중하세요.
+- 선택된 연습문제
+  - 7장 연습문제 2번, 3번, 4번
+  - 8장 연습문제 1번, 2번
+  
+## 7장 연습문제 풀이
+
+```{r}
+install.packages("latticeExtra", repos = "https://cran.us.r-project.org")
+library(lattice)
+library(latticeExtra)
+```
+
+### 7장 2번 연습문제 풀이
+```{r}
+dataset <- read.csv("./data/dataset.csv", header = T)
+dataset2 <- subset(dataset, price >= 2 & price <= 8)
+pos <- dataset2$position
+cpos <- 6 - pos
+dataset2$position <- cpos
+dataset2$position2[dataset2$position==1] <-'1급'
+dataset2$position2[dataset2$position==2] <-'2급'
+dataset2$position2[dataset2$position==3] <-'3급'
+dataset2$position2[dataset2$position==4] <-'4급'
+dataset2$position2[dataset2$position==5] <-'5급'
+range(dataset2$resident, na.rm = T) # 1 5
+dataset2 <- subset(dataset2, !is.na(dataset2$resident))
+head(dataset2)
+```
+
+### 7장 3번 연습문제 풀이
+```{r}
+dataset2$gender2[dataset2$gender == 1] <-'남자'
+dataset2$gender2[dataset2$gender == 2] <-'여자'
+pie(table(dataset2$gender2))
+```
+
+### 7장 4번 연습문제 풀이
+```{r}
+dataset2$age2[dataset2$age <= 30] <- "청년층"
+dataset2$age2[dataset2$age > 30 & dataset2$age <= 55] <- "중년층"
+dataset2$age2[dataset2$age > 55 ] <- "장년층"
+dataset2$age3[dataset2$age <= 30] <-1
+dataset2$age3[dataset2$age > 30 & dataset2$age <= 55] <-2
+dataset2$age3[dataset2$age > 55] <-3
+head(dataset2[c('age', 'age2', 'age3')])
+```
+
+## 8장 연습문제 풀이
+
+### 8장 1번 연습문제 풀이
+```{r}
+depthgroup<-equal.count(quakes$depth, number=3, overlap=0)
+magnitudegroup<-equal.count(quakes$mag, number=2, overlap=0)
+xyplot(lat ~ long | magnitudegroup*depthgroup, data=quakes, 
+       main="Fiji Earthquakes", ylab="latitude", xlab="longitude", 
+       pch="@",col=c("red","blue"))
+```
+
+### 8장 2번 연습문제 풀이
+```{r}
+xyplot(min.temp + max.temp ~ day | month, data=SeatacWeather, 
+       type="l", layout=c(3,1))
+```
+
+# 2023년 3월 17일 강의 내용 요약 및 정리
+## EDA 5단계
+- 1. 데이터 불러오기 및 확인
+- 2. 결측치 제거
+- 3. 코딩(숫자 -> 문자)
+- 4. 시각화
+- 5. 보고서 작성
+
+## 0. 프로젝트 구성
+- 경로를 확인하세요.
+```{r}
+getwd()
+```
+- 필요한 패키지/라이브러리를 설치하세요.
+```{r 환경설정}
+suppressPackageStartupMessages({
+  install.packages("ggplot2", repos = "https://cran.us.r-project.org")
+  install.packages("lattice", repos = "https://cran.us.r-project.org")  
+})
+```
+
+- 설치된 패키지 중에서 사용할 것을 불러오세요.
+```{r 패키지 불러오기}
+library(ggplot2)
+library(lattice)
+```
+
+## 1. 데이터 확인
+- `str()` 명령어를 사용해서 데이터를 확인하도록 합니다. 특히 자료형에 주의하세요!
+- 데이터는 '컬럼(열)'을 기준으로 선택됩니다. 데이터에서 컬럼과 열을 선택하는 방법은 `과제1-1`을 통해서 연습하도록 합니다.
+
+```{r}
+dataset <- read.csv("./data/dataset.csv", header = T)
+str(dataset)
+```
+## 2. 결측치 제거
+### 2.1 결측치 확인 및 제거
+결측치 제거를 위해선 기본적으로 결측치가 얼마나 있는지 확인해야 합니다.
+```{r}
+summary(dataset$price)
+```
+```{r}
+sum(dataset$price)
+```
+- 결측치 제거를 위한 함수 사용법은 아래와 같습니다.
+```{r}
+price2 <- na.omit(dataset$price)
+sum(price2)
+```
+### 2.2 결측치 및 이상치 제거
+- 데이터 분석에 필요한 데이터를 기준으로 데이터 정제를 진행
+- 기존 데이터와 별의 데이터를 생성할 필요가 있음
+```{r}
+# 실습: price 변수의 데이터 정제와 시각화 
+dataset2 <- subset(dataset, price >= 2 & price <= 7.9)
+dataset2 <- subset(dataset2, age >= 20 & age <= 69)
+dataset2 <- na.omit(dataset2)
+summary(dataset2)
+```
+## 3. 코딩(숫자 -> 문자)
+```{r}
+dataset2$job2[dataset2$job == 1] <- '공무원'
+dataset2$job2[dataset2$job == 2] <- '회사원'
+dataset2$job2[dataset2$job == 3] <- '개인사업'
+head(dataset2[c("job", "job2")])
+```
+
+## 4. 시각화(lattice)
+- 히스토그램
+```{r}
+histogram(~job, data = dataset2)
+```
+- 산포도
+```{r}
+xyplot(age~position, data = dataset2)
+```
+- 간단한 선 그래프
+```{r}
+dotplot(price~age, data=dataset2, type="o")
+```
+
+### 5. 보고서 작성
+생략

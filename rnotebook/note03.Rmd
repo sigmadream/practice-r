@@ -1,0 +1,312 @@
+---
+title: "California Housing Prices"
+author: Sangkon Han(sangkon@pusan.ac.kr)
+date: "`r format(Sys.Date())`" 
+output:
+  pdf_document:
+    extra_dependencies: ["kotex"]
+    fig_height: 6
+    fig_width: 10
+    toc: yes
+    toc_depth: 3
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    theme: cosmo
+    toc: yes
+    toc_depth: 3
+    toc_float: yes    
+  word_document:
+    fig_height: 6
+    fig_width: 10
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=T, message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
+library(tidyverse)
+library(reshape2)
+library(boot)
+```
+
+# 캘리포니아 집 값(California Housing Prices)
+
+해당 Competition의 데이터는 1990년 캘리포니아 인구조사 데이터인 캘리포니아 주택 가격(California Housing Prices) 데이터셋을 사용하며, 학습을 통해 주택 가격(median)을 예측하는 문제입니다.
+
+## 데이터 불러오기
+
+```{r 데이터 파일 불러오기}
+housing = read.csv("./data/housing.csv")
+head(housing)
+```
+### 변수 요약 정보 확인
+
+해당 데이터에 대한 정확한 정보를 모른다고 가정했을 때 가장 먼저 확인해야 하는 것은 데이터 자료형과 NA 값 입니다.
+
+```{r 데이터 구조 확인}
+str(housing)
+```
+
+기술 통계를 기반으로 한 정보도 함께 보도록 하겠습니다.
+
+```{r 기술 통계를 기반으로 한 요약 정보}
+summary(housing)
+```
+
+기술 통계 정보를 기반으로 한 데이터를 통해서 확인할 수 있는 것은 아래와 같습니다.
+
+1. `total_bedrooms`에 있는 207건의 결측값(NA)을 처리해야 합니다.
+2. `ocean_proximity`는 `binary column`으로 변환해야 합니다.
+3. 집 가격에 영향을 미치는 요소로 간주되는 `total_bedrooms`와 `total_rooms`등은 개별 가치로 파악할 수 있도록  `mean_number_bedrooms` 및 `mean_number_rooms`로 만들어야 됩니다.
+
+### 캐리포니아 집 값 예측 데이터 구조
+
+- `logitude`, 경도
+- `latitude`, 위도
+- `housing_median_age`, 주변의 집을 그룹화 했기 때문에 중앙값 사용
+- `total_rooms`, 정체 방 수
+- `total_bedrooms`, 전체 침실 수
+- `population`, 인구
+- `households`, 세대수
+- `median_income`, 소득(중앙값)
+- `median_house_value`, 주택 가격(중앙값)
+- `ocean_proximity`, 해안 근접도
+
+### 시각화를 통한 데이터 확인
+
+```{r 그래프의 출력 화면 분할}
+colnames(housing)
+par(mfrow=c(2,5))
+```
+
+데이터 전체 분포를 확인하도록 하겠습니다.
+
+```{r 히스토그램을 활용한 데이터 분포 확인}
+ggplot(data = melt(housing), mapping = aes(x = value)) + 
+  geom_histogram(bins = 30) + 
+  facet_wrap(~variable, scales = 'free_x')
+```
+
+만약 `ggplot`등과 같은 형태의 데이터를 확인할 수 없다면, 아래와 같이 직접 히스토그램을 작성하셔도 됩니다.
+
+```{r ggplot이 아닌 hist를 사용한 직접 생성, linewidth=60}
+par(mfrow = c(3, 3))
+hist(housing$longitude, breaks = 30, main = "longitude", border="darkorange", col="dodgerblue")
+hist(housing$latitude, breaks = 30, main = "latitude", border="darkorange", col="dodgerblue")
+hist(housing$housing_median_age, breaks = 30, main = "housing_median_age", border="darkorange", col="dodgerblue")
+hist(housing$total_rooms, breaks = 30, main = "total_rooms", border="darkorange", col="dodgerblue")
+hist(housing$total_bedrooms, breaks = 30, main = "total_bedrooms", border="darkorange", col="dodgerblue")
+hist(housing$population, breaks = 30, main = "population", border="darkorange", col="dodgerblue")
+hist(housing$households, breaks = 30, main = "households", border="darkorange", col="dodgerblue")
+hist(housing$median_income, breaks = 30, main = "median_income", border="darkorange", col="dodgerblue")
+hist(housing$median_house_value, breaks = 30, main = "median_house_value", border="darkorange", col="dodgerblue")
+```
+```{r 산점도 활용방법}
+plot_map <- ggplot(housing, 
+                   aes(x = longitude, y = latitude, color = median_house_value, 
+                       hma = housing_median_age, tr = total_rooms, tb = total_bedrooms,
+                       hh = households, mi = median_income)) +
+  geom_point(aes(size = population), alpha = 0.4) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  ggtitle("Data Map - Longtitude vs Latitude and Associated Variables") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_color_distiller(palette = "Paired") +
+  labs(color = "Median House Value (in $USD)", size = "Population")
+plot_map
+```
+
+## 전처리
+
+### 결측치(NA) 처리
+
+평균에 비해서 극단값에 덜 민감한 `중앙값`을 사용해서 결측치를 해결하도록 하겠습니다. 그런데 가끔은 정말로 평균이 극단값에 덜 민감한지 확인하거나, 평균이나 중앙값 중 하나를 선택해야 할 때 어떤 것이 좋은 선택인지 궁금할 때가 있습니다. 잠시 확인해보고 넘어가보도록 하겠습니다. 
+
+```{r 평균과 중앙값 선택을 위한 시각화}
+bedroom_mean <- mean(housing$total_bedrooms, na.rm=TRUE)
+bedroom_median <- median(housing$total_bedrooms, na.rm=TRUE)
+ggplot(housing, aes(x = total_bedrooms)) +
+  geom_histogram(bins = 40, color = "black", fill = "blue") +
+  geom_vline(aes(xintercept = bedroom_mean, color = "Mean"), lwd = 1.5) +
+  geom_vline(aes(xintercept = bedroom_median, color = "Median"), lwd = 1.5) +
+  xlab("Total Bedrooms") +
+  ylab("Frequency") +
+  ggtitle("Histogram of Total Bedrooms (noncontinuous variable)") +
+  scale_color_manual(name = "Summary Stats", labels = c("Mean", "Median"), values = c("red", "green"))
+```
+
+히스토그램에서 데이터 분포를 살펴보면 `total_bedrooms` 변수의 중앙값을 사용하는 것이 더 좋을 듯 합니다. 선택은 각자의 몫이지만, 해당 히스토그램을 통해서 결정에 대한 근거를 찾을 수 있습니다. NA값을 중앙값으로 처리하도록 하겠습니다.
+
+```{r NA값을 처리하고, 중앙값으로 처리}
+housing$total_bedrooms[is.na(housing$total_bedrooms)] <- median(housing$total_bedrooms, na.rm=TRUE)
+sum(is.na(housing))
+```
+
+## 후처리(Post-Cleaning)
+
+데이터를 정리한 후 데이터셋의 구조를 보면 factor 변수인 `ocean_proximity` 외에도 9개의 numeric 변수가 있음을 알 수 있습니다. 이 중 3개는 연속적(continuous)(`longitude`, `latitude`, `median_income`)이고 6개는 불연속적(discrete)(`housing_median_age`, `total_rooms`, `total_bedrooms`, `population`, `households`, `median_house_value`) 입니다..
+
+```{r}
+housing$mean_bedrooms <- housing$total_bedrooms/housing$households
+housing$mean_rooms <- housing$total_rooms/housing$households
+head(housing)
+```
+
+### 불필요한 특징 삭제
+
+머신러닝의 학습에 사용되지 않을 불필요한 특징은 삭제하도록 하겠습니다.
+
+```{r}
+drops <- c('total_bedrooms', 'total_rooms')
+housing <- housing[ , !(names(housing) %in% drops)]
+head(housing)
+```
+
+### 범주형 변수(1)
+
+범주형 변수 처리를 위해서 별도의 데이터 프레임을 생성합니다.
+
+```{r}
+categories <- unique(housing$ocean_proximity)
+cat_housing <- data.frame(ocean_proximity = housing$ocean_proximity)
+head(cat_housing)
+```
+
+모든 값이 `0`으로 채워진 데이터 프레임을 생성합니다.
+
+```{r}
+for(cat in categories){
+  cat_housing[,cat] = rep(0, times= nrow(cat_housing))
+}
+
+head(cat_housing)
+```
+
+필요한 데이터만 `1`로 업데이트 합니다.
+
+```{r}
+for(i in 1:length(cat_housing$ocean_proximity)){
+  cat <- as.character(cat_housing$ocean_proximity[i])
+  cat_housing[,cat][i] <- 1
+}
+
+head(cat_housing)
+```
+
+기존 특징은 사용하지 않기 때문에 삭제합니다.
+
+```{r}
+cat_columns <- names(cat_housing)
+keep_columns <- cat_columns[cat_columns != 'ocean_proximity']
+cat_housing <- select(cat_housing,one_of(keep_columns))
+tail(cat_housing)
+```
+
+### 수치형 변수 처리
+
+수치의 단위(unit)이 일정하지 않기 때문에 수치형 변수를 일괄로 처리하도록 하겠습니다. 먼저 특징을 확인합니다.
+
+```{r}
+colnames(housing)
+```
+
+명목형 변수(`ocean_proximity`)와 예측 변수(`median_house_value`)는 대상에서 제외하도록 하겠습니다.
+
+```{r}
+drops <- c('ocean_proximity','median_house_value')
+housing_num <-  housing[ , !(names(housing) %in% drops)]
+head(housing_num)
+```
+
+대부분의 데이터는 자신만의 단위(Unit)을 사용합니다. 예를 들어, 한국에서 사용하는 대표적인 단위가 '평수'입니다. '년', 'km' 등 과 같은 표준적인 단위도 있지만, '마일', '피트'와 같은 특정 문화권에서 사용하는 단위도 있습니다. 그리고 단위에 따른 값의 범위도 꽤 차이가 있습니다. 단위가 다르면 직접적인 비교가 불가능합니다. 그래서 일반적으로 데이터를 정규화 또는 표준화를 진행합니다. 문제는 정규화와 표준화에 대한 이해도가 생각보다 낮다는 점 입니다.
+
+정규화(normalization)는 특성 내에 가장 큰 값은 1로, 가장 작은 값은 0으로 변환합니다. 공식은 아래와 같습니다.
+
+\begin{align*}
+{x-x_{min} \over x_{max}-x_{min}}
+\end{align*}
+
+표준화(standardization)는 어떤 특성의 값들이 정규분포, 즉 종모양의 분포를 따른다고 가정하고 값들을 0의 평균, 1의 표준편차를 갖도록 변환해주는 것입니다. 공식은 아래와 같습니다.
+
+\begin{align*}
+\frac {x-\mu} {\sigma} \space \space \space (\mu:평균, \sigma: 표준편차)
+\end{align*}
+
+해당 데이터는 정규화가 아니라 '표준화'를 사용합니다.
+
+```{r}
+scaled_housing_num <- scale(housing_num)
+head(scaled_housing_num)
+```
+
+### 정리된 데이터 결합
+
+```{r}
+cleaned_housing <- cbind(cat_housing, scaled_housing_num, median_house_value=housing$median_house_value)
+head(cleaned_housing)
+```
+
+데이터 전/후 처리가 완료되었습니다. 이제 머신러닝을 진행해보도록 하겠습니다.
+
+## 검증 데이터
+
+이번 단계에서는 전체 데이터에서 학습 데이터(`train`)와 검증 데이터(`test`)를 분리합니다. 검증 데이터는 학습된 모델의 평가에만 사용되며, 학습/검증 데이터 분리를 통해 예측 결과의 객관성을 확보할 수 있습니다.
+
+```{r}
+set.seed(42)
+sample <- sample.int(n = nrow(cleaned_housing), size = floor(.8*nrow(cleaned_housing)), replace = F)
+train <- cleaned_housing[sample, ] #just the samples
+test  <- cleaned_housing[-sample, ] #everything but the samples
+head(train)
+```
+
+분리된 데이터가 전체 데이터를 반영하고 있는지 확인합니다.
+
+```{r}
+nrow(train) + nrow(test) == nrow(cleaned_housing)
+```
+
+## 예측 모델 생성 및 평가
+
+### 단순 선형 모델
+
+간단한 선형 모형 테스트를 위해 아래 3개 변수를 선택하여 분석에 적용합니다.
+- 소득(중앙값) : `median_income`
+- 방 수(평균값) : `mean_rooms`
+- 인구 : `population`
+
+또한, 모델의 과적합(`overfit`) 문제를 피하기 위해 `cv.glm`함수를 이용하여 교차 검증(k_fold)를 수행하며, 여기서는 모델 테스트에 전처리된 데이터 자체를 사용합니다.
+
+```{r}
+glm_house = glm(median_house_value~median_income+mean_rooms+population, data=cleaned_housing)
+k_fold_cv_error = cv.glm(cleaned_housing , glm_house, K=5)
+k_fold_cv_error$delta
+```
+
+첫 번째 성분은 예측 오차의 원시 교차 검증 추정치 입니다. 두 번째 구성 요소는 조정된 교차 검증 추정치 입니다.
+
+`RMSE`(평균 제곱근 오차) 값을 출력합니다. RMSE는 회귀 예측 모델에 대한 두 개의 주요 성과 지표 중 하나입니다. 평균 제곱근 오차는 예측 모델에서 예측한 값과 실제 값 사이의 평균 차이를 측정합니다. 예측 모델이 목표 값(정확도)을 얼마나 잘 예측할 수 있는지 추정합니다. 일반적으로 회귀 모델은 `MAE`(평균 절대 오차)가 적당하지만, 이상치에 민감한 단점이 있습니다. 해당 데이터는 기본적으로 이상치가 많이 포함된 데이터이기 때문에 MAE가 아닌 RMSE를 사용하도록 하겠씁니다.
+
+```{r}
+glm_cv_rmse = sqrt(k_fold_cv_error$delta)[1]
+glm_cv_rmse
+```
+
+glm에서 제공하는 다양한 정보는 아래에서 확인할 수 있습니다.
+
+```{r}
+names(glm_house)
+```
+
+이중에서 가장 중요한 정보를 제공하는 `coefficients`를 확인하도록 하겠습니다.
+
+```{r}
+glm_house$coefficients
+## (Intercept) median_income    mean_rooms    population
+##  206855.817     82608.959     -9755.442     -3948.293
+```
+
+## 결론
+
+분석을 통해 소득 중앙값(`median_income`)이 주택 가격(`median_house_value`)에 가장 큰 영향을 미친다고 판단할 수 있습니다.
