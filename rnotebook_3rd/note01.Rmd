@@ -1,20 +1,25 @@
 ---
 title: "R 프로그래밍 기초 Part1"
-author: 한상곤(sangkon@pusan.ac.kr)
-date: "2023.06.13(화)" 
+author: "한상곤(sangkon@pusan.ac.kr)"
+date: "2023.06.13(화)"
 output:
-  pdf_document: 
+  pdf_document:
     extra_dependencies: kotex
     fig_height: 6
     fig_width: 10
     toc: yes
     fig_caption: yes
     number_sections: yes
+  word_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
 ```
+
+> 세부적인 사항은 교재를 참고하세요. 해당 노트는 복습을 위해서 별도로 제작된 것 입니다.
+
 # `R` 프로그래밍 관련 주요 Topic
 
 ## R 프로그래밍 언어 소개
@@ -24,11 +29,8 @@ knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.he
 
 ## R의 주요 특징
 - 통계분석(Statistical Analysis)과 시각화(Visualization)을 위한 공개 소프트웨어로 활용되고 있음
-  - 모든 데이터가 객체 형태로 관리
-  - 고속 메모리 처리
-  - 다양한 자료구조를 제공
-  - 패키지 제공
-  - 시각화 도구를 제공
+  - 풍부한 통계 패키지 제공
+  - 다양한 시각화 도구를 제공
 
 ## 작업 환경 구축하기
 - R [공식 사이트](https://www.r-project.org)에서 무료로 다운로드 할 수 있음
@@ -38,31 +40,27 @@ knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.he
 
 ## 패키지와 Session 보기
 
-- `R` 패키지는 통계학 관련 교수와 학자 그리고 관련 개발자에 의해서 꾸준히 관리
+- R 패키지는 통계학 관련 교수와 학자 그리고 관련 개발자에 의해서 꾸준히 관리
   - 대부분의 패키지는 무료로 사용할 수 있음
 
-## 패키지 설치와 삭제
-
-1. 패키지는 `install.packages("패키지명")` 명령어를 사용해서 설치할 수 있다. `stringr` 패키지를 설치해보자.
+패키지는 `install.packages("패키지명")` 명령어를 사용해서 설치할 수 있다. RStudio의 `Packages` 탭을 사용해도 설치가 가능하기 때문에 두 개 중 자신에게 편한 것을 선택하자.
 
 ```R
-install.packages("stringr")
+install.packages("stringr") # 패키지 설치
 ```
 
-2. RStudio의 `Packages` 탭을 사용해도 설치가 가능하다.
+패키지를 사용하는 방법은 `library(패키지명)`, `require(패키지명)`으로 가능하다. 패키지가 없을 경우 libray는 에러를, require는 경고를 출력한다. 가능하면 library를 사용하자. 그리고 RStudio에서도 가능하다.
 
-3. 패키지를 사용하는 방법은 `library(패키지명)`, `require(패키지명)`으로 가능하다.
-
-```{R}
+```R
 library(stringr)
 search() # 현재 사용하는 패키지 확인
 ```
 
-4. 패키지 삭제는 `remove.packages("패키지명")`으로 가능하다.
+패키지 삭제는 `remove.packages("패키지명")`으로 가능하다. RStudio에서도 가능하다.
 
 ## R Session
 
-R Session이란 사용자가 R 프로그램을 기동한 이후 R 콘솔 시작과 종료 전까지의 기간에 수행된 정보를 의미
+R Session이란 사용자가 R 프로그램을 기동한 이후 R 콘솔 시작과 종료 전까지의 기간에 수행된 정보를 의미한다.
 
 ```{R}
 sessionInfo()
@@ -72,61 +70,45 @@ sessionInfo()
 
 - `setwd()`, 지정된 작업공간을 변경하기 위해서 사용
 - `getwd()`, 지정된 작업공간을 확인하기 위해서 사용
+
 ```{R}
 getwd()
 ```
 
 ## 데이터의 유형과 구조
 
-`R`에서 제공하는 5가지 주요 자료구조는 다음과 같이 5가지 입니다.
+R 에서 제공하는 5가지 주요 자료구조는 다음과 같다.
+
 - Vector(1차원)
+- List(중접 자료구조)
 - Matrix(2차원)
 - Array(다차원)
 - Data Frame(2차원 테이블 구조)
-- List(중접 자료구조)
 
 ## Vector(벡터)(1차원)
 
-- 일반적인 벡터는 `c()` 함수를 사용해서 작성할 수 있음
+일반적인 벡터는 `c` 함수를 사용해서 생성할 수 있다.
 
-```{R}
+```R
 c(1,2,3,4,5)
 c(1:20)
 seq(1, 10, 2)
 rep(1:3, 3)
 ```
 
-- 벡터 연산
-
-```{R}
-x <- c(1, 3, 5, 7)
-y <- c(3, 5)
-union(x, y) # 합집합
-setdiff(x, y) # 차집합
-intersect(x, y) # 교집합
-```
-
-- 벡터는 동일한 자료형으로 생성
+벡터는 동일한 자료형으로 생성한다.
 
 ```{R}
 v1 <- c(33, -5, 20:23, 12, -2:3)
 v2 <- c("홍길동", "이순신", "유관순")
 v3 <- c(T, TRUE, FALSE, T, TRUE, F, T)
-v4 <- c(33, 05, 20:23, 12, "4")
+v4 <- c(33, 05, 20:23, 12, "4") # 주의!
 v1; v2; v3; v4
 ```
 
-- `name`을 사용하면 컬럼명을 지정
+벡터는 인덱스를 사용해서 벡터 참조 가능하다.
 
-```{R}
-age <- c(30, 35, 40)
-names(age) <- c("홍길동", "이순신", "강감찬") # 컬럼명을 지정할 수 있음
-age
-```
-
-- 인덱스를 사용해서 벡터 참조 가능
-
-```{R, error = T}
+```R
 v1 <- c(13, -5, 20:23, 12, -2:3) # 생성
 v1[1]
 v1[c(2, 4)]
@@ -134,212 +116,38 @@ v1[c(3:5)]
 v1[c(4, 5:8, 7)]
 v1[-1]; v1[-c(2, 4)]; v1[-c(2:5)]; v1[-c(2, 5:10, 1)]
 ```
-## Matrix(2차원)
 
-- 행렬은 2차원 배열의 구조를 가지며, 벡터를 활용해서 행렬 객체를 생성할 수 있음
+벡터에 사용 가능한 기본적인 함수는 아래와 같다.
 
-```{R}
-m <- matrix(c(1:5))
-m
+```R
+vec <- 1:10
+min(vec)
+max(vec)
+sum(vec)
+range(vec) # 범위(m-M)
+mean(vec) # 평균
+median(vec) # 중앙
+sd(rnorm(10)) # 표준 편차
+table(vec) # 분할표
 ```
 
-- 벡터를 사용해서 열 우선으로 행렬 객체를 생성
-```{R}
-m <- matrix(c(1:10), nrow = 2)
-m
-```
+## List(중접 자료구조)
 
-- 행과 열의 수가 일치하지 않는 경우는 경우 부족한 데이터는 첫번째 데이터를 재사용
-
-```{R}
-m <- matrix(c(1:11), nrow = 2)
-m
-```
-
-- 행 우선으로 데이터를 생성할 경우 가능하면 `byrow`를 사용해서 가독성을 확보
-
-```{R}
-m <- matrix(c(1:10), nrow = 2, byrow = T)
-m
-```
-
-- 기존에 만들어준 벡터를 활용해서 행렬을 생성
-
-```{R}
-x1 <- c(m, 40, 50:52)
-x2 <- c(30, 5, 6:8)
-mr <- rbind(x1, x2)
-mr
-```
-
-- 열을 기준으로 행렬을 생성할 수 있음
-
-```{R}
-mc <- cbind(x1, x2)
-mc
-```
-
-- 행렬 생성 함수를 사용해서 행렬 객체를 생성할 수 있음
-
-```{R}
-m3 <- matrix(10:19, 2)
-m4 <- matrix(10:20, 2)
-m3  
-m4
-mode(m3); class(m3)  
-```
-  
-- 인덱스(첨자)를 사용하여 행렬 객체에 접근할 수 있음
-```{R}
-m3[1, ]
-m3[ , 5]
-m3[2, 3]
-m3[1, c(2:5)]
-```
-
-- 3행 3열의 행렬 객체 생성하는 방법인 행과 열의 크기를 정하는 것
-```{R}
-x <- matrix(c(1:9), nrow = 3, ncol = 3)
-x
-```
-
-- 행렬의 크기와 형태를 확인하는 방법은 `length`와 `ncol`을 사용할 수 있음
-```{R}
-length(x)
-ncol(x)
-```
-
-- `apply`를 사용해서 함수나 사용자 정의 함수를 적용할 수 있음
-```{R}
-apply(x, 1, max)
-apply(x, 1, min)
-apply(x, 2, mean)
-```
-
-- 사용자 정의 함수도 가능
-```{R}
-f <- function(x) {
-  x * c(1, 2, 3)
-}
-result <- apply(x, 1, f)
-result
-```
-
-```{R}
-result <- apply(x, 2, f) # 1은 행, 2는 열
-result
-```
-
-- 행렬 객체에 칼럼명을 지정할 수 있음
-```{R}
-colnames(x) <- c("one", "two", "three")
-x
-```
-
-## Array(다차원)
-
-- 배열을 생성하는 방법은 `array`를 활용하는 것
-```{R}
-vec <- c(1:12)
-arr <- array(vec, c(3, 2, 2))
-arr
-```
-
-- 배열 객체의 자료 조회하는 방법은 행렬과 유사
-```{R}
-arr[ , , 1]
-arr[ , , 2]
-mode(arr); class(arr)
-```
-
-## Data Frame(2차원 테이블 구조)
-
-- 데이터 프레임은 열(!) 단위로 서로 다른 자료형을 포함할 수 있음
-
-```{R}
-no <- c(1, 2, 3)
-name <- c("hong", "lee", "kim")
-pay <- c(150, 250, 300)
-vemp <- data.frame(No = no, Name = name, Pay = pay)
-vemp
-```
-
-```{R}
-m <- matrix(
-  c(1, "hong", 150,
-    2, "lee", 250,
-    3, "kim", 300), 3, by = T)
-memp <- data.frame(m)
-memp
-```
-
-- 텍스트 파일을 활용해서 데이터프레임 객체를 생성
-```{R}
-getwd()
-txtemp <- read.table('./data/emp.txt', header = 1, sep = "", fileEncoding = "euc-kr")
-txtemp
-```
-
-- CSV 파일도 가능
-```{R}
-csvtemp <- read.csv('./data/emp.csv', header = T, fileEncoding = "euc-kr")
-csvtemp
-help(read.csv)
-name <- c("사번", "이름", "급여")
-read.csv('./data/emp.csv', header = F, col.names = name, fileEncoding = "euc-kr")
-```
-
-- 데이터 프레임을 생성하는 간단한 예제
-```{R}
-df <- data.frame(x = c(1:5), y = seq(2, 10, 2), z = c('a', 'b', 'c', 'd', 'e'))
-df$x
-str(df)
-ncol(df)
-nrow(df)
-names(df)
-df[c(2:3), 1]
-summary(df)
-```
-
-- 데이터프레임 자료에 함수 적용하는 방법도 유사
-```{R}
-apply(df[ , c(1, 2)], 2, sum)
-```
-
-- 데이터프레임의 부분 객체 만들기는 방법은 `subset`을 활용
-```{R}
-x1 <- subset(df, x >= 3)
-y1 <- subset(df, y <= 8)
-xyand <- subset(df, x >= 2 & y <= 6)
-xyor <- subset(df, x >= 2 | y <= 6)
-```
-
-- 데이터 프레임 병합은 `merge`를 사용
-```{R}
-height <- data.frame(id = c(1, 2), h = c(180, 175))
-weight <- data.frame(id = c(1, 2), w = c(80, 75))
-user <- merge(height, weight, by.x = "id", by.y = "id")
-user
-```
-
-### List(중접 자료구조)
+리스트의 경우 딕셔너리 형태뿐만 아니라 서로 다른 자료형 값들을 저장하고 다룰 수 있다.
 
 - 리스트를 생성하는 방법은 매우 간단
-```{R}
+```R
 list <- list("lee", "이순신", 95)
-list
 ```
 
 - 기존의 리스트를 벡터 구조로 변경하는 것도 가능
-```{R}
+```R
 unlist <- unlist(list)
-unlist
 ```
 
 - 1개 이상의 값을 갖는 리스트 객체 생성
-```{R}
+```R
 num <- list(c(1:5), c(6, 10))
-num
 ```
 
 - 리스트를 제대로 활용하는 방법은 key와 value 형식으로 리스트를 생성하는 것
@@ -354,8 +162,9 @@ member$name[1]
 member$name[2]
 ```
 
-- 리스트의 key를 이용하여 value에 접근할 수 있다.
+- 리스트의 key를 이용하여 value에 접근할 수 있음
 ```{R}
+member
 member$age[1] <- 45
 member$id <- "hong"
 member$pwd <- "1234"
@@ -390,8 +199,313 @@ do.call(cbind, multi_list)
 class(do.call(cbind, multi_list))
 ```
 
+## apply 함수에 대해서
+
+데이터 분석의 특성상, 데이터를 다룰 때 원자별/그룹별로 함수를 적용할 경우가 많다. `apply` 계열의 함수는 데이터 구조를 갖는 `R object` 를 input 으로 받아 원소 별 혹은 그룹별로 함수를 적용시키는 것으로, input 과 output 의 형태에 따라 여러 종류로 나뉜다.
+-  apply (input : array, output : array)
+- lapply (input : list or vector, output : list)
+- sapply (input : list or vector, output : vector or array)
+- vapply (input : list or vector, output : vector or array)
+- tapply (input : list or vector and factor, output : vector or array)
+- mapply (input : list or vector, output : vector or array)
+
+## 팩터(factor)
+
+팩터는 일종의 범주형 자료를 저장하는 데 사용한다. 범주형 자료란 성별, 혈액형 등 같은 것으로 팩터는 벡터를 만든 다음 `factor` 함수를 이용하여 변환한다.
+
+```{R}
+bt <- c('A', 'B', 'C', 'B', 'C')
+bt.new <- factor(bt)
+bt
+bt.new
+bt[5]
+bt.new[5]
+levels(bt.new)
+as.integer(bt.new)
+as.integer(bt)
+bt.new[6] <- 'B'
+bt.new[8] <- 'A'
+bt.new
+levels(bt.new)
+as.integer(bt.new)
+```
+
+## Matrix(2차원)
+
+2차원 데이터는 테이블 형태로 표현할 수 있는데, 이때 사용되는 몇 가지 용어들이 있다. 데이터 테이블에서 가로줄 방향을 행(row) 또는 관측값(observation)이라고 부르고, 세로줄 방향을 열(column) 도는 변수(variable)이라고 부른다. 이 때, 행과 열의 상호 교차에 의해서 만들어지는 사각형 영역을 셀(cell)이라고 부른다.
+
+모든 경우에 통용되는 단어는 아니지만, 일반적인 경우 모든 셀 값들이 동일한 자료형일 때는 매트릭스를 사용하고, 자료형이 서로 다른 값들로 구성된 셀로 데이터 형태가 구성된다면 데이터프레임을 사용한다.
+
+- 행렬은 2차원 배열의 구조를 가지며, 벡터를 활용해서 행렬 객체를 생성할 수 있음
+
+```R
+m <- matrix(c(1:5))
+```
+
+- 벡터를 사용해서 열 우선으로 행렬 객체를 생성
+```R
+m <- matrix(c(1:10), nrow = 2)
+```
+
+- 행과 열의 수가 일치하지 않는 경우는 경우 부족한 데이터는 첫번째 데이터를 재사용
+
+```R
+m <- matrix(c(1:11), nrow = 2)
+```
+
+- 행 우선으로 데이터를 생성할 경우 가능하면 `byrow`를 사용해서 가독성을 확보
+
+```R
+m <- matrix(c(1:10), nrow = 2, byrow = T)
+```
+
+- 기존에 만들어준 벡터를 활용해서 행렬을 생성
+
+```R
+x1 <- c(m, 40, 50:52)
+x2 <- c(30, 5, 6:8)
+mr <- rbind(x1, x2) # 행방향
+```
+
+- 열을 기준으로 행렬을 생성할 수 있음
+
+```R
+mc <- cbind(x1, x2) # 열방향
+```
+
+- 행렬 생성 함수를 사용해서 행렬 객체를 생성할 수 있음
+
+```R
+m3 <- matrix(10:19, 2)
+m4 <- matrix(10:20, 2)
+m3; m4
+mode(m3); class(m3)  
+```
+  
+- 인덱스(첨자)를 사용하여 행렬 객체에 접근할 수 있음
+
+```R
+m3[1, ]
+m3[ , 5]
+m3[2, 3]
+m3[1, c(2:5)]
+```
+
+- 3행 3열의 행렬 객체 생성하는 방법인 행과 열의 크기를 정하는 것
+
+```R
+x <- matrix(c(1:9), nrow = 3, ncol = 3)
+```
+
+- 행렬의 크기와 형태를 확인하는 방법은 `length`와 `ncol`을 사용할 수 있음
+```R
+length(x)
+ncol(x)
+nrow(x)
+```
+
+*행렬에서 `MARGIN`이 1인 경우 행, 2인 경우 열을 나타낸다. 다른 언어와 혼돈하지 않도록 주의하자.*
+
+- `apply`를 사용해서 함수나 사용자 정의 함수를 적용할 수 있음
+```R
+apply(x, 1, max)
+apply(x, 1, min)
+apply(x, 1, mean)
+apply(x, 2, max)
+apply(x, 2, min)
+apply(x, 2, mean)
+```
+
+- 사용자 정의 함수도 가능
+```R
+f <- function(x) {
+  x * c(1, 2, 3)
+}
+result <- apply(x, 1, f)
+```
+
+```R
+result <- apply(x, 2, f) # 1은 행, 2는 열
+```
+
+- 행렬 객체에 칼럼명을 지정할 수 있음
+```R
+colnames(x) <- c("one", "two", "three")
+```
+
+## Array(다차원)
+
+- 배열을 생성하는 방법은 `array`를 활용하는 것
+
+```R
+vec <- c(1:12)
+arr <- array(vec, c(3, 2, 2))
+```
+
+- 배열 객체의 자료 조회하는 방법은 행렬과 유사
+
+```R
+arr[ , , 1]
+arr[ , , 2]
+```
+
+## Data Frame(2차원 테이블 구조)
+
+- 데이터 프레임은 *열(!) 단위*로 서로 다른 자료형을 포함할 수 있음
+
+```{R}
+no <- c(1, 2, 3)
+name <- c("hong", "lee", "kim")
+pay <- c(150, 250, 300)
+vemp <- data.frame(No = no, Name = name, Pay = pay)
+vemp
+```
+
+```{R}
+m <- matrix(
+  c(1, "hong", 150,
+    2, "lee", 250,
+    3, "kim", 300), 3, by = T)
+memp <- data.frame(m)
+memp
+```
+
+- 텍스트 파일을 활용해서 데이터프레임 객체를 생성
+
+```R
+txtemp <- read.table('./data/emp.txt', header = 1, sep = "", fileEncoding = "euc-kr")
+```
+
+- CSV 파일도 가능
+```R
+name <- c("사번", "이름", "급여")
+csvtmp <- read.csv('./data/emp.csv', header = F, col.names = name, fileEncoding = "euc-kr")
+```
+
+- 데이터 프레임을 생성하는 간단한 예제
+
+```R
+df <- data.frame(x = c(1:5), y = seq(2, 10, 2), z = c('a', 'b', 'c', 'd', 'e'))
+df$x
+str(df)
+ncol(df)
+nrow(df)
+names(df)
+df[c(2:3), 1]
+summary(df)
+```
+
+- 데이터프레임 자료에 함수 적용하는 방법도 유사
+```R
+apply(df[ , c(1, 2)], 2, sum)
+```
+
+- 데이터프레임의 부분 객체 만들기는 방법은 `subset`을 활용
+
+```R
+x1 <- subset(df, x >= 3)
+y1 <- subset(df, y <= 8)
+xyand <- subset(df, x >= 2 & y <= 6)
+xyor <- subset(df, x >= 2 | y <= 6)
+```
+
+- 데이터 프레임 병합은 `merge`를 사용
+
+```R
+height <- data.frame(id = c(1, 2), h = c(180, 175))
+weight <- data.frame(id = c(1, 2), w = c(80, 75))
+user <- merge(height, weight, by.x = "id", by.y = "id")
+user
+```
+
 ## 문자열 처리
+
 - 문자열 처리는 교재를 참고
 
 ## 데이터 불러오기 및 저장하기
+
 - 교재를 참고
+
+# 데이터 분석 과정
+
+데이터를 분석하는 과정을 간단하게 요약하였다. 해당 과정은 일반화된 형태로 개별 데이터 분석 절차와 차이가 날 수 있지만, 일반적인 상황에서 데이터 분석을 하는 전형적인 과정을 소개한다.
+
+1. 문제 정의(problem definition) 및 계획
+모든 데이터 분석은 문제를 명확하게 정의하는 것으로 시작한다. 데이터 분석의 문제 정의가 명확해야 그 문제를 해결하기 위한 데이터가 어떤 것인지 추정할 수 있고, 어떤 기법을 적용해야 할지 계획할 수 있다.
+
+1. 데이터 수집(data acquisition)
+문제 해결에 필요한 데이터를 파악하고 관련 데이터를 수집하는 것으로, 대부분의 경우 여러 경로를 통해서 데이터를 수집해야 하는 경우가 많다. 많은 경우 해당 데이터가 문서 형태로 기록된 것이 많기 때문에 데이터 수집 비용의 경우 비용 및 시간을 고려해서 진행해야 한다.
+
+1. 데이터 정제 및 전처리
+데이터 수집 후 데이터 정체 및 전처리를 진행한다. 이 때 정제 및 전처리를 진행하는 대표적인 이유는 데이터에 사용된 단위가 단일하지 않기 때문이다. 이와 같이 데이터를 분석하는데 있어서 데이터의 일관성을 유지하기 위해서 정제 및 전처리가 필요하다. 또한 이상치나 오류 등이 포함되어 있으 경우에도 정제와 전처리를 진행해야 한다.
+
+1. 데이터 탐색(data exploration)
+가벼운 데이터 분석 단계이다. 정돈된 데이터를 이해하고, 수집된 데이터에 대한 지표 등을 파악하는 단계이다. 탐색 단계를 거쳐서 분석 과정에 사용될 기법 등을 결정하는 경우가 많다.
+
+1. 데이터 분석(data analysis)
+탐색 단계에서 파악한 정보를 바탕으로 심화된 분석을 수행한다. 전통적인 통계 기법을 포함하여 머신러닝, 딥러닝 등을 활용해서 데이터를 분석하고 해당 분석 결과에 대한 해석(interpretation) 과정을 진행한다.
+
+1. 결과 보고
+분석과 해석이 종료되면 보고서를 작성한다. 결과 보고를 위해서 기존에 탐색과 분석에서 사용된 시각화 자료를 바탕으로 결과를 해석하고 이해하기 쉽도록 보고서를 작성한다.
+
+## 예제를 사용한 데이터 분석 과정에 필요한 기초적인 함수
+
+### `iris`를 사용한 예제
+
+```{R}
+data(iris)
+iris
+```
+
+`iris` 각 열의 이름별 의미와 자료형은 아래와 같다.
+- `Sepal.Length`, 꽃받침의 길이, 숫자
+- `Sepal.Width`, 꽃받침의 폭, 숫자
+- `Petal.Length`, 꽃잎의 길이, 숫자
+- `Petal.Width`, 꽃잎의 폭, 숫자
+- `Species`, 붓꽃의 품종, 문자(Factor)
+
+1. 먼저 데이터의 전체 규모와 해당 데이터의 특징을 알아보자.
+
+```{R}
+dim(iris)
+nrow(iris)
+ncol(iris)
+colnames(iris)
+head(iris)
+tail(iris)
+str(iris)
+unique(iris[,5])
+table(iris[,"Species"])
+```
+
+1. 데이터를 조작하는 방법은 아래와 같다.
+```{R}
+iris[,c(1:2)] # 1~2열의 모든 데이터
+iris[,c(1,3,5)] # 1,3,5열의 모든 데이터
+iris[,c('Sepal.Length', 'Sepal.Width')] # 1,3,5열의 모든 데이터
+iris[1:5,] # 1~5행의 모든 데이터
+iris[1:5,c(1,3,5)] # 1~5행의 데이터 중 1,3열의 데이터
+colSums(iris[,-5])
+colMeans(iris[,-5])
+rowSums(iris[,-5])
+rowMeans(iris[,-5])
+```
+
+1. 조건에 맞는 데이터를 추출하는 방법
+
+`subset`은 행렬이 아닌 데이터프레임에서 주로 활용된다.
+
+- is.matrix() # 데이터셋인지 확인하는 함수
+- is.data.frame() # 데이터프레임인지 확인하는 함수
+
+```{R}
+is.data.frame(iris)
+IR.1 <- subset(iris, Species="setosa")
+IR.1
+IR.2 <- subset(iris, Sepal.Length > 5.0 & Sepal.Width > 4.0)
+IR.2
+IR.2[,c(2,4)]
+iris.m <- as.matrix(iris[,1:4])
+iris.m
+iris$Sepal.Length
+```

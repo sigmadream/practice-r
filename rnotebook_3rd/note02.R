@@ -1,9 +1,38 @@
 # 첫번째 도전
+
+## 1. 파일 읽기
 df <- read.csv("data/시군구_성_월별_출생_2021.csv", fileEncoding = "euc-kr")
-colnames(df)
-head(df)
-df$X1997.01
-df$시군구별 # 현재 상황에선 불가
+
+## 2. 컬럼명 변경
+colnames(df) # 뭘 어떻게??
+
+f <- function(x) {
+  n <- unlist(strsplit(x, "\\."))
+  if (length(n) == 1) {
+    return(x)
+  } else if (length(n) == 2) {
+    return(gsub("X", "", paste(n[1], n[2], "전체", sep = ".")))
+  } else {
+    # if (n[3] == 1) {
+    if (identical(n[3],"1")) {
+      return(gsub("X", "", paste(n[1], n[2], "남자", sep = ".")))
+    } else {
+      return(gsub("X", "", paste(n[1], n[2], "여자", sep = ".")))
+    }
+  }
+}
+
+names(df) <- lapply(colnames(df), f)
+names(df)
+
+## 3. 잘못된 형태의 데이터 구조
+
+library(reshape2)
+melt_data <- melt(df, id = "시군구별")
+melt_data[melt_data["시군구별"] == "시군구별"]
+
+df2 <- melt_data[!(melt_data$시군구별=="시군구별" | melt_data$시군구별=="전국"),]
+df2
 
 # 두번쨰 도전
 df <- read.csv("data/시군구_성_월별_출생_2021_Part2.csv", fileEncoding = "euc-kr")

@@ -1,6 +1,6 @@
 # Chapter 06
 
-# 실습: iris 데이터 셋을 대상으로 '%>%' 기호를 이용하여 함수 적용하기 
+## 실습: iris 데이터 셋을 대상으로 '%>%' 기호를 이용하여 함수 적용하기 
 install.packages("dplyr")
 library(dplyr)
 iris %>% head()
