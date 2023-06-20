@@ -1,534 +1,313 @@
-# Chapter 09
+# Chapter 09(수정)
 
-# 실습: Oracle 데이터베이스에 연결하기 위한 패키지 설치 
-# 단계 1: 데이터베이스 연결을 위한 패키지 설치 
-install.packages("rJava")
-install.packages("DBI")
-install.packages("RJDBC")
+# 실습: SQLite3 데이터베이스 작성
+# install.packages("RSQLite")
+# install.packages("DBI")
 
-# 단계 2: 데이터베이스 연결을 위한 패키지 로딩
+# 단계 1: 데이터베이스 연결을 위한 패키지 로딩
+library(tidyverse)
+library(tidytext)
 library(DBI)
-Sys.setenv(JAVA_HOME = "C:\\Program Files\\Java\\jre1.8.0_251")
-library(rJava)
-library(RJDBC)
+library(RSQLite)
 
+# 단계 2: DB에 입력할 데이터 
+data("mtcars")
+mtcars
+rownames(mtcars)
+mtcars$car_names <- rownames(mtcars)
+rownames(mtcars) <- c()
+head(mtcars)
 
-# 실습: 드라이버 로딩과 데이터베이스 연동
-# 단계 1: Drive 설정
-drv <- JDBC("oracle.jdbc.driver.OracleDriver",
-            "F:\\OracleTest\\ojdbc8.jar")
+# 단계 3: 데이터 베이스 연결
+conn <- dbConnect(RSQLite::SQLite(), "output/testdb.db")
 
-# 단계 2: 오라클 데이터베이스 연결
-conn <- dbConnect(drv,
-                  "jdbc:oracle:thin:@//127.0.0.1:1521/xe", "c##scott", "tiger")
+# 단계 4: 테이블 추가 및 확인
+dbWriteTable(conn, "cars_data", mtcars)
+dbListTables(conn)
 
+# 실습: SQLite3 데이터 추가 및 확인
+car <- c('Camaro', 'California', 'Mustang', 'Explorer')
+make <- c('Chevrolet','Ferrari','Ford','Ford')
+df1 <- data.frame(car,make)
+df1
 
-# 실습: 데이터베이스로부터 레코드 검색, 추가, 수정, 삭제하기 
-# 단계 1: 모든 레코드 검색
-query = "SELECT * FROM test_table"
-dbGetQuery(conn, query)
+car <- c('Corolla', 'Lancer', 'Sportage', 'XE')
+make <- c('Toyota','Mitsubishi','Kia','Jaguar')
+df2 <- data.frame(car,make)
+df2
 
-# 단계 2: 정렬 조회 - 나이 칼럼을 기준으로 내림차순 정렬
-query = "SELECT * FROM test_table order by age desc"
-dbGetQuery(conn, query)
+dfList <- list(df1,df2)
+dfList
 
-# 단계 3: 레코드 삽입(insert)
-qeuery = "insert into test_table values('kang', '1234', '강감찬', 45)"
-dbSendUpdate(conn, query)
+for(k in 1:length(dfList)){
+  dbWriteTable(conn,"Cars_and_Makes", dfList[[k]], append = TRUE)
+}
 
-# 단계 4: 조건 검색 - 나이가 40세 이상인 레코드 조회 
-query = "select * from test_table where age >= 40"
-result <- dbGetQuery(conn, query)
+dbListTables(conn)
+
+# 실습: 데이터베이스로부터 레코드 검색
+dbGetQuery(conn, "SELECT * FROM Cars_and_Makes")
+dbGetQuery(conn, "SELECT * FROM cars_data LIMIT 10")
+dbGetQuery(conn,"SELECT car_names, hp, cyl FROM cars_data
+                 WHERE cyl = 8")
+dbGetQuery(conn,"SELECT car_names, hp, cyl FROM cars_data
+                 WHERE car_names LIKE 'M%' AND cyl IN (6,8)")
+dbGetQuery(conn,"SELECT cyl, AVG(hp) AS 'average_hp', AVG(mpg) AS 'average_mpg' FROM cars_data
+                 GROUP BY cyl
+                 ORDER BY average_hp")
+avg_HpCyl <- dbGetQuery(conn,"SELECT cyl, AVG(hp) AS 'average_hp' FROM cars_data
+                 GROUP BY cyl
+                 ORDER BY average_hp")
+avg_HpCyl
+class(avg_HpCyl)
+
+# 실습: 매개변수를 사용한 검색
+mpg <-  18
+cyl <- 6
+Result <- dbGetQuery(conn, "SELECT car_names, mpg, cyl 
+                     FROM cars_data WHERE mpg >= ? AND cyl >= ?", params = c(mpg,cyl))
+Result
+
+assembleQuery <- function(conn, base, search_parameters){
+  parameter_names <- names(search_parameters)
+  partial_queries <- ""
+  for(k in 1:length(parameter_names)){
+    filter_k <- paste(parameter_names[k], " >= ? ")
+    if(k > 1){
+      filter_k <- paste("AND ", parameter_names[k], " >= ?")
+    }
+    partial_queries <- paste(partial_queries, filter_k)
+  }
+  final_paste <- paste(base, " WHERE", partial_queries)
+  print(final_paste)
+  values <- unlist(search_parameters, use.names = FALSE)
+  result <- dbGetQuery(conn, final_paste, params = values)
+  return(result)
+}
+
+base <- "SELECT car_names, mpg, hp, wt FROM cars_data"
+search_parameters <- list("mpg" = 16, "hp" = 150, "wt" = 2.1)
+result <- assembleQuery(conn, base, search_parameters)
 result
 
-# 단계 5: 레코드 수정 - name이 '강감찬'인 데이터의 age를 40으로 수정
-query = "update test_table set age = 40 where name = '강감찬'"
-dbSendUpdate(conn, query)
-# 수정된 레코드 조회
-query = "select * from test_table where name = '강감찬'"
-dbGetQuery(conn, query)
-
-# 단계 6: 레코드 삭제 - name이 '홍길동'인 레코드 삭제
-query = "delete from test_table where name = '홍길동'"
-dbSendUpdate(conn, query)
-
-# 전체 레코드 조회 
-query = "select * from test_table"
-dbGetQuery(conn, query)
-
-
-
-# 실습: MariaDB 드라이벼 로딩과 데이터베이스 연동
-# 단계 1: Driver 설정
-drv <- JDBC(driverClass = "com.mysql.cj.jdbc.Driver", 
-            "C:\\Program Files (x86)\\MySQL\\Connector J 8.0\\mysql-connector-java-8.0.19.jar")
-
-# 단계 2: MariaDB 데이터베이스 연결
-conn <- dbConnect(drv, "jdbc:mysql://127.0.0.1:3306/work", "scott", "tiger")
-
-
-# 실습: 데이터베이스롷부터 레코드 검색, 추가, 수정, 삭제하기 
-# 단계 1: 모든 레코드 조회
-query = "select * from goods"
-goodsAll <- dbGetQuery(conn, query)
-goodsAll
-
-# 단계 2: 조건 검색 - 수량(su)이 3이상인 데이터 
-query = "select * from goods where su >= 3"
-goodsOne <- dbGetQuery(conn, query)
-goodsOne
-
-# 단계 3: 정렬 ㄱ머색 - 단가(dan)를 내림차순으로 정렬
-query = "select * from goods order by dan desc"
-dbGetQuery(conn, query)
-
-
-# 실습: 데이터프레임 자료를 테이블에 저장하기 
-# 단계 1: 데이터프레임 자료를 테이블에 저장
-insert.df <- data.frame(code = 6, name = '식기세척기', su = 1, dan = 250000)
-dbWriteTable(conn, "goods1", insert.df)
-
-# 단계 2: 테이블 조회
-query = "select * from goods1"
-goodsAll <- dbGetQuery(conn, query)
-goodsAll
-
-
-# 실습: csv 파일의 자료를 테이블에 저장하기 
-# 단계 1: 파일 자료를 테이블에 저장하기 
-recode <- read.csv("C:/Rwork/Part-II/recode.csv")
-dbWriteTable(conn, "goods", recode)
-dbWriteTable(conn, "goods2", recode)
-
-# 단계 2: 테이블 조회
-query = "select * from goods2"
-goodsAll <- dbGetQuery(conn, query)
-goodsAll
-
-
-
-# 실습: 테이블에 자료 추가, 수정, 삭제하기 
-# 단계 1: 테이블에 레코드 추가하기
-query = "insert into goods2 values (6, 'test', 1, 10000)"
-
-dbSendUpdate(conn, query)
-query = "select * from goods2"
-goodsAll <- dbGetQuery(conn, query)
-goodsAll
-
-# 단계 2: 테이블의 레코드 수정
-query = "update goods2 set name = '테스트' where code = 6"
-dbSendUpdate(conn, query)
-query = "select * from goods2"
-goodsAll <- dbGetQuery(conn, query)
-goodsAll
-
-# 단계 3: 테이블의 레코드 삭제
-delquery = "delete from goods2 where code = 6"
-dbSendUpdate(conn, delquery)
-query = "select * from goods2"
-goodsAll <- dbGetQuery(conn, query)
-goodsAll
-
-
-# 실습: MariaDB 연결 종료
+dbGetQuery(conn, "SELECT * FROM cars_data LIMIT 10")
+dbExecute(conn, "DELETE FROM cars_data WHERE car_names = 'Mazda RX4'")
+dbGetQuery(conn, "SELECT * FROM cars_data LIMIT 10")
+dbExecute(conn, "INSERT INTO cars_data VALUES (21.0,6,160.0,110,3.90,2.620,16.46,0,1,4,4,'Mazda RX4')")
+dbGetQuery(conn, "SELECT * FROM cars_data")
 dbDisconnect(conn)
 
 
-# 실습: 형태소 분석을 위한 KoNLP 패키지 설치 
-install.packages("https://cran.rstudio.com/bin/windows/contrib/3.4/KoNLP_0.80.1.zip",
-                 repos = NULL)
+# 실습: 형태소 분석을 위한 한국어 NLP 패키지 설치
+#install.packages("remotes")
+#remotes::install_github("bit2r/bitTA")
+#bitTA::install_mecab_ko()
+#install.packages("RcppMeCab")
+library(bitTA)
+library(tidyverse)
+library(tidytext)
 
-# 실습: 한글 사전과 텍스트 마이닝 관련 패키지 설치
-install.packages("Sejong")
-install.packages("wordcloud")
-install.packages("tm")
+# 실습: 한국어 띄어쓰기
+get_spacing("최근음성인식정확도가높아짐에따라많은음성데이터가텍스트로변환되고분석되기시작했는데,이를위해잘동작하는띄어쓰기엔진은거의필수적인게되어버렸다")
+str <- "글쓰기에서맞춤법과띄어쓰기를올바르게하는것은좋은글이될수있는요건중하나이다.하지만요즘학생들은부족한어문규정지식으로인해맞춤법과띄어쓰기에서많은오류를범하기도한다.본연구는그중띄어쓰기가글을인식하는데중요한역할을하는것으로판단하여,대학생들이띄어쓰기에대해서어느정도정확하게인식하고있는지,실제오류실태는어떠한지에대해살펴서그오류를개선할수있는교육방안을마련할필요가있다고판단하였다."
+get_spacing(str)
+
+# 실습: 형태소 분석
+## 형태소 관련은 http://kkma.snu.ac.kr/을 참고
+## https://r2bit.com/bitTA/articles/morphology.html
+docs <- c("님은 갔습니다. 아아, 사랑하는 나의 님은 갔습니다.",
+          "푸른 산빛을 깨치고 단풍나무 숲을 향하여 난 작은 길을 걸어서, 차마 떨치고 갔습니다.")
+morpho_mecab(docs,  type = "morpheme")
+morpho_mecab(docs)
+morpho_mecab(docs, indiv = FALSE)
+
+# 실습: 워드 클라우드
+#install.packages("wordcloud2")
+president_speech$doc[1:100] %>% 
+  morpho_mecab(indiv = FALSE) %>% 
+  table() %>% 
+  wordcloud2::wordcloud2()
 
 
-# 실습: 패키지 로딩
-#library(KoNLP)
-install.packages("hash")
-install.packages("tau")
-install.packages("devtools")
-install.packages("RSQLite")
+# 실습: 감성분석
+url_v <- "https://github.com/park1200656/KnuSentiLex/archive/refs/heads/master.zip"
+dest_v <- "data/knusenti.zip"
+download.file(url = url_v, 
+              destfile = dest_v,
+              mode = "wb")
+unzip("data/knusenti.zip", exdir = "data")
+list.files("data/KnuSentiLex-master/")
 
-library(KoNLP)
-library(tm)
+senti_file_list <- list.files("data/KnuSentiLex-master/",
+                              full.names = TRUE)
+read_lines(senti_file_list[9]) %>% 
+  head(10)
+
+read_lines(senti_file_list[9]) %>% 
+  head(10) %>% 
+  str_extract("\t|\n| ")
+
+read_tsv(senti_file_list[9]) %>% 
+  head(10)
+
+read_tsv(senti_file_list[9], col_names = FALSE) %>% 
+  head(10)
+
+senti_dic_df <- read_tsv(senti_file_list[9], col_names = FALSE)
+
+glimpse(senti_dic_df)
+
+senti_dic_df %>% 
+  slice(1:5)
+
+senti_dic_df <- senti_dic_df %>% 
+  rename(word = X1, sScore = X2)
+
+glimpse(senti_dic_df)
+
+senti_dic_df %>% filter(sScore == 2) %>% arrange(word)
+senti_dic_df %>% filter(sScore == -2) %>% arrange(word)
+
+knu_dic_df <- senti_dic_df %>% 
+  mutate(word   = ifelse( is.na(sScore), "갈등", word),
+         sScore = ifelse( is.na(sScore), -1, sScore) )
+
+knu_dic_df %>%   
+  count(sScore)
+
+knu_dic_df %>% 
+  mutate(emotion = case_when( sScore >= 1 ~ "positive",
+                              sScore <= -1 ~ "negative", 
+                              TRUE         ~ "neutral")) %>% 
+  count(emotion)
+
+# 실습: 소설을 활용한 감정 분석
+# install.packages("epubr")
+# 단계1: 데이터 불러오기
+library(epubr)
+epub("data/jikji.epub") %>% glimpse()
+
+jikji_epub <- epub("data/jikji.epub")
+jikji_epub %>% 
+  select(data) %>% 
+  unnest(data) %>% 
+  arrange( desc(nchar) )
+novel_raw <- jikji_epub %>% 
+  select(data) %>% 
+  unnest(data) %>% 
+  select(text) 
+novel_raw
+
+# 단계2: 전처리
+novel_tbl <- novel_raw %>% 
+  transmute(제목 = str_extract(text, ".*\\b"),
+            지은이 = str_extract(text, "지은이.*\\b") %>% str_remove("지은이: "),
+            출전 = str_extract(text, "출전.*\\b") %>% 
+              str_remove(":") %>% str_remove("\\)") %>% str_remove("출전 "),
+            본문 = str_squish(text) %>% 
+              str_extract("본문.*") %>%
+              str_remove("본문|:"))
+
+novel_tbl
+
+sosul_df <- novel_tbl %>% 
+  rename(title = 제목, 
+         author = 지은이,
+         source = 출전,
+         main = 본문) %>%
+  slice(1:89)
+
+sosul_df %>% glimpse()
+
+sosul2_df <- sosul_df %>% 
+  slice(c(9:10))
+
+sosul2_df
+
+# 단계3: 데이터 확인
+sosul2_senti_df <- sosul2_df %>% 
+  unnest_tokens(word, main) %>% 
+  inner_join(knu_dic_df) %>% 
+  group_by(author) %>% 
+  count(word, sScore, sort = TRUE) %>% 
+  filter(str_length(word) > 1) %>% 
+  mutate(word = reorder(word, n)) %>% 
+  slice_head(n = 20) %>% 
+  mutate(sScore = as.factor(sScore))
+
+sosul2_senti_df
+
+sosul2_senti_df %>% 
+  ggplot(aes(n, reorder_within(word, n, author), fill = sScore)) + 
+  geom_col() +
+  scale_y_reordered() +
+  scale_fill_brewer(type="div", palette = "RdBu") +
+  facet_wrap( ~ author, scales = "free")
+
+sosul2_senti_tk <- sosul2_df %>% 
+  unnest_tokens(word, main, token = RcppMeCab::pos) %>% 
+  separate(col = word, 
+           into = c("word", "morph"), 
+           sep = "/" ) %>% 
+  inner_join(knu_dic_df) %>% 
+  group_by(author) %>% 
+  count(word, sScore, sort = T) %>% 
+  filter(str_length(word) > 1) %>% 
+  mutate(word = reorder(word, n)) %>% 
+  slice_head(n = 20) %>% 
+  mutate(sScore = as.factor(sScore))  
+
+sosul2_senti_tk %>% 
+  ggplot(aes(n, reorder_within(word, n, author), fill = sScore)) + 
+  geom_col() +
+  scale_y_reordered() +
+  scale_fill_brewer(type="div", palette = "RdBu") +
+  facet_wrap( ~ author, scales = "free")
+
+# 단계3: 감정분석
+sosul2_df %>% 
+  unnest_tokens(word, main) %>% 
+  left_join(knu_dic_df) %>% 
+  mutate(sScore = ifelse(is.na(sScore), 0, sScore)) %>% 
+  arrange(sScore)
+
+sosul2_df %>% 
+  unnest_tokens(word, main) %>% 
+  left_join(knu_dic_df) %>% 
+  mutate(sScore = case_when(sScore >= 1  ~ "긍정",
+                            sScore <= -1 ~ "부정", 
+                            is.na(sScore) ~ NA_character_,
+                            TRUE ~ "중립")) %>% 
+  count(sScore)
+
+sosul2_df %>% 
+  unnest_tokens(word, main) %>% 
+  left_join(knu_dic_df) %>% 
+  mutate(sScore = ifelse(is.na(sScore), 0, sScore)) %>% 
+  group_by(title) %>% 
+  summarise(emotion = sum(sScore))
+
+# 단계4: 시각화
+#install.packages("wordcloud")
 library(wordcloud)
+sosul2_df %>% 
+  unnest_tokens(word, main) %>% 
+  count(word) %>% 
+  filter(str_length(word) > 1) %>% 
+  with(wordcloud(word, n, max.words = 50))
+
+sosul2_df %>% 
+  unnest_tokens(word, main) %>% 
+  inner_join(knu_dic_df) %>% 
+  mutate(emotion = case_when(sScore > 0 ~ "긍정",
+                             sScore < 0 ~ "부정",
+                             TRUE       ~ "중립")) %>% 
+  filter(emotion != "중립") %>% 
+  count(word, emotion, sort = TRUE) %>% 
+  filter(str_length(word) > 1) %>% 
+  pivot_wider(names_from = emotion, values_from = n, values_fill = 0)  %>% 
+  column_to_rownames(var = "word") %>% 
+  as.matrix() %>% 
+  comparison.cloud(colors = c("red", "blue"), max.words = 50)
 
-
-
-# 실습: 텍스트 자료 가져오기 
-facebook <- file("C:/Rwork/Part-II/facebook_bigdata.txt", 
-                 encoding = "UTF-8")
-facebook_data <- readLines(facebook)
-head(facebook_data)
-
-
-# 실습: 세종 사전에 단어 추가하기 
-user_dic <- data.frame(term = c("R 프로그래밍", "페이스북", "김진성", "소셜네트워크"),
-                       tag = 'ncn')
-
-buildDictionary(ext_dic = "sejong", user_dic = user_dic)
-
-
-# 실습: R 제공 함수로 단어 추출하기  
-paste(extractNoun('김진성은 많은 사람과 소통을 위해서 소셜네트워크에 가입하였습니다.'),
-      collapse = " ")
-
-
-
-# 실습: 단어 추출을 위한 사용자 함수 정의하기 
-# 단계 1: 사용자 정의 함수 작성
-exNouns <- function(x) { paste(extractNoun(as.character(x)), collapse = " ") }
-
-
-# 단계 2: exNouns() 함수를 이용하여 단어 추출 
-facebook_nouns <- sapply(facebook_data, exNouns)
-facebook_nouns[1]
-
-
-# 실습: 추출된 단어를 대상으로 전처리하기 
-# 단계 1: 추출된 단어를 이용하여 말뭉치(Corpus) 생성
-myCorpus
-
-
-# 단계 2: 데이터 전처리 
-# 단계 2-1: 문장부호 제거 
-myCorpusPrepro <- tm_map(myCorpus, removePunctuation)
-# 단계 2-2: 수치 제거 
-myCorpusPrepro <- tm_map(myCorpusPrepro, removeNumbers)
-# 단계 2-3: 소문자 변경
-myCorpusPrepro <- tm_map(myCorpusPrepro, tolower)
-# 단계 2-4: 불용어 제거 
-myCorpusPrepro <- tm_map(myCorpusPrepro, removeWords, stopwords('english'))
-# 단계 2-5: 전처리 결과 확인
-inspect(myCorpusPrepro[1:5])
-
-
-
-# 실습: 단어 선별(2 ~ 8 음절 사이 단어 선택)하기 
-# 단계 1: 전처리된 단어집에서 2 ~ 8 음절 단어 대상 선정
-myCorpusPrepro_term <-
-  TermDocumentMatrix(myCorpusPrepro, 
-                     control = list(wordLengths = c(4, 16)))
-myCorpusPrepro_term
-
-# 단계 2: matrix 자료구조를 data.frame 자료구조로 변경
-myTerm_df <- as.data.frame(as.matrix(myCorpusPrepro_term))
-dim(myTerm_df)
-
-
-# 실습: 단어 출현 빈도수 구하기 
-wordResult <- sort(rowSums(myTerm_df), decreasing = TRUE)
-wordResult[1:10]
-
-
-# 실습: 불용어 제거하기 
-# 단계 1: 데이터 전처리
-# 단계 1-1: 문장부호 제거 
-myCorpusPrepro <- tm_map(myCorpus, removePunctuation)
-# 단계 1-2: 수치 제거 
-myCorpusPrepro <- tm_map(myCorpusPrepro, removeNumbers)
-# 단계 1-3: 소문자 변경
-myCorpusPrepro <- tm_map(myCorpusPrepro, tolower)
-# 단계 1-4: 제거할 단어 지정
-myStopwords = c(stopwords('english'), "사용", "하기")
-# 단계 1-5: 불용어 제거 
-myCorpusPrepro <- tm_map(myCorpusPrepro, removeWords, myStopwords)
-
-#단계 2: 단어 선별과 평서문 변환
-myCorpusPrepro_term <-
-  TermDocumentMatrix(myCorpusPrepro,
-                     control = list(wordLengths = c(4, 16)))
-myTerm_df <- as.data.frame(as.matrix(myCorpusPrepro_term))
-
-
-# 단계 3: 단어 출현 빈도수 구하기 
-wordResult <- sort(rowSums(myTerm_df), decreasing = TRUE)
-wordResult[1:10]
-
-
-
-# 실습: 단어 구름에 디자인(빈도수, 색상, 위치, 회전 등) 적용하기 
-# 단계 1: 단어 이름과 빈도수로 data.frame 생성
-myName <- names(wordResult)
-word.df <- data.frame(word = myName, freq = wordResult)
-str(word.df)
-
-# 단계 2: 단어 색상과 글꼴 지정
-pal <- brewer.pal(12, "Paired")
-
-# 단계 3: 단어 구름 시각화 
-wordcloud(word.df$word, word.df$freq, scale = c(5, 1), 
-          min.freq = 3, random.order = F, 
-          rot.per = .1, colors = pal, family = "malgun")
-
-
-
-# 실습: 한글 연관어 분석을 위한 패킺 설치와 메모리 로딩 
-# 단계 1: 텍슽 파일 가져오기 
-marketing <- file("C:/Rwork/Part-II/marketing.txt", encoding = "UTF-8")
-marketing2 <- readLines(marketing)
-close(marketing)
-head(marketing2)
-
-# 단계 2: 줄 단위 단어 추출
-lword <- Map(extractNoun, marketing2)
-length(lword)
-lword <- unique(lword)
-length(lword)
-
-
-# 단계 3: 중복 단어 제거와 추출 단어 확인
-lword <- sapply(lword, unique)
-length(lword)
-lword
-
-
-# 실습: 연관어 분석을 위한 전처리하기 
-# 단계 1: 단어 필터링 함수 정의
-filter1 <- function(x) {
-  nchar(x) <= 4 && nchar(x) >= 2 && is.hangul(x)
-}
-
-filter2 <- function(x) { Filter(filter1, x) }
-
-# 단계 2: 줄 단위로 추출된 단어 전처리
-lword <- sapply(lword, filter2)
-lword
-
-
-# 실습: 필터링 간단 예문 살펴보기 
-# 단계 1: vector 이용 list 객체 생성
-word <- list(c("홍길동", "이순", "만기", "김"),
-             c("대한민국", "우리나라대한민구", "한국", "resu"))
-class(word)
-
-# 단계 2: 단어 필터링 함수 정의(길이 2 ~ 4 사이 한글 단어 추출) 
-filter1 <- function(x) {
-  nchar(x) <= 4 && nchar(x) >= 2 && is.hangul(x)
-}
-
-filter2 <- function(x) {
-  Filter(filter1, x)
-}
-
-# 단계 3: 함수 적용 list 객체 필터링
-filterword <- sapply(word, filter2)
-filterword
-
-
-
-
-# 실습: 트랜잭션 생성하기 
-# 단계 1: 연관분석을 위한 패키지 설치와 로딩
-install.packages("arules")
-library(arules)
-
-# 단계 2: 트랜잭션 생성
-wordtran <- as(lword, "transactions")
-wordtran
-
-
-
-# 싨브: 단어 간 연관규칙 발견하기 
-# 단계 1: 연관규칙 발견
-tranrules <- apriori(wordtran, 
-                     parameter = list(supp = 0.25, conf = 0.05))
-
-# 단계 2: 연관규칙 생성 결과보기 
-inspect(tranrules)
-
-
-# 실습: 연관규칙을 생성하는 간단한 예문 살펴보기 
-# 단계 1: Adult 데이터 셋 메모리 로딩
-data("Adult")
-Adult
-str(Adult)
-dim(Adult)
-inspect(Adult)
-
-# 단계 2: 특정 항목의 내용을 제외한 itermsets 수 발견
-apr1 <- apriori(Adult,
-                parameter = list(support = 0.1, target = "frequent"),
-                appearance = list(none = 
-                                    c("income=small", "income=large"),
-                                  default = "both"))
-
-apr1
-
-inspect(apr1)
-
-
-# 단계 3: 특정 항목의 내용을 제외한 rules 수 발견
-apr2 <- apriori(Adult, 
-                parameter = list(support = 0.1, target = "rules"), 
-                appearance = list(none = 
-                                    c("income=small", "income=large"),
-                                  default = "both"))
-apr2
-
-
-# 단계 4: 지지도와 신뢰도 비율을 높일 경우
-apr3 <- apriori(Adult, 
-                parameter = list(supp = 0.5, conf = 0.9, target = "rules"),
-                appearance = list(none =
-                                    c("income=small", "income=large"),
-                                  default = "both"))
-apr3
-
-
-
-# 실습: inspect() 함수를 사용하는 간단 예문 보기 
-data(Adult)
-rules <- apriori(Adult)
-inspect(rules[10])
-
-
-
-# 연관어 시각화하기
-# 단계 1: 연관단어 시각화를 위해서 자료구조 변경 
-rules <- labels(tranrules, ruleSep = " ")
-
-rules
-
-
-# 단계 2: 문자열로 묶인 연관 단어를 행렬구조로 변경 
-rules <- sapply(rules, strsplit, " ", USE.NAMES = F)
-rules
-
-# 단계 3: 행 단위로 묶어서 matrix로 변환
-rulemat <- do.call("rbind", rules)
-
-class(rulemat)
-
-# 단계 4: 연관어 시각화를 위한 igraph 패키지 설치와 로딩
-install.packages("igraph")
-library(igraph)
-
-# 단계 5: edgelist 보기 
-ruleg <- graph.edgelist(rulemat[c(12:59), ], directed = F)
-ruleg
-
-
-# 단계 6: edgelist 시각화 
-plot.igraph(ruleg, vertex.label = V(ruleg)$name, 
-            vertex.label.cex = 1.2, vertext.label.color = 'black',
-            vertex.size = 20, vertext.color = 'green',
-            vertex.frame.co.or = 'blue')
-
-
-
-# 실습: 웹 문서 요청과 파싱 관련 패키지 설치 및 로딩
-install.packages("httr")
-library(httr)
-install.packages("XML")
-library(XML)
-
-
-# 실습: 웹 문서 요청
-url <- "http://media.daum.net"
-web <- GET(url)
-web
-
-# 실습: HTML 파싱하기 
-html <- htmlTreeParse(web, useInternalNodes = T, trim = T, encoding = "utf-8")
-rootNode <- xmlRoot(html)
-
-
-# 실습: 태그 자료 수집하기 
-news <- xpathSApply(rootNode, "//a[@class = 'link_txt']", xmlValue)
-news
-
-
-# 실습: 자료 전처리하기 
-# 단계 1: 자료 전처리 - 수집한 문서를 대상으로 불용어 제거
-news_pre <- gsub("[\r\n\t]", ' ', news)
-news_pre <- gsub('[[:punct:]]', ' ', news_pre)
-news_pre <- gsub('[[:cntrl:]]', ' ', news_pre)
-# news_pre <- gsub('\\d+', ' ', news_pre)   # corona19(covid19) 때문에 숫자 제거 생략
-news_pre <- gsub('[a-z]+', ' ', news_pre)
-news_pre <- gsub('[A-Z]+', ' ', news_pre)
-news_pre <- gsub('\\s+', ' ', news_pre)
-
-news_pre
-
-# 단계 2: 기사와 관계 없는 'TODAY', '검색어 순위' 등의 내용은 제거 
-news_data <- news_pre[1:59]
-news_data
-
-
-# 실습: 수집한 자료를 파일로 저장하고 읽기
-setwd("C:/Rwork/output")
-write.csv(news_data, "nes_data.csv", quote = F)
-
-news_data <- read.csv("news_data.csv", header = T, stringsAsFactors = F)
-str(news_data)
-
-names(news_data) <- c("no", "news_text")
-head(news_data)
-
-news_text <- news_data$news_text
-news_text
-
-
-# 실습: 세종 사전에 단어 추가 
-user_dic <- data.frame(term = c("펜데믹", "코로나19", "타다"), tag = 'ncn')
-buildDictionary(ext_dic = 'sejong', user_dic = user_dic)
-
-
-# 실습: 단어 추출 사용자 함수 정의하기 
-# 단계 1: 사용자 정의 함수 작성
-exNouns <- function(x) { paste(extractNoun(x), collapse = " ")}
-
-# 단계 2: exNouns()  함수를 이용하어 단어 추출
-news_nouns <- sapply(news_text, exNouns)
-news_nouns
-
-# 단계 3: 추출 결과 확인
-str(news_nouns)
-
-
-
-# 실습: 말뭉치 생성과 집계 행렬 만들기 
-# 단계 1: 추출된 단어를 이용한 말뭉치(corpus) 생성
-newsCorpus <- Corpus(VectorSource(news_nouns))
-newsCorpus
-
-inspect(newsCorpus[1:5]) 
-
-# 단계 2: 단어 vs 문서 집계 행렬 만들기 
-TDM <- TermDocumentMatrix(newsCorpus, control = list(wordLengths = c(4, 16)))
-TDM
-
-# 단계 3: matrix 자료구조를 data.frame 자료구조로 변경
-tdm.df <- as.data.frame(as.matrix(TDM))
-dim(tdm.df)
-
-
-
-# 실습: 단어 출현 빈도수 구하기 
-wordResult <- sort(rowSums(tdm.df), decreasing = TRUE)
-wordResult[1:10]
-
-
-
-
-# 실습: 단어 구름 생성
-# 단계 1: 패키지 로딩과 단어 이름 추출
-library(wordcloud)
-myNames <- names(wordResult)
-myNames
-
-
-# 단계 2: 단어와 단어 빈도수 구하기 
-df <- data.frame(word = myNames, freq = wordResult)
-head(df)
-
-# 단계 3: 단어 구름 생성
-pal <- brewer.pas(12, "Paired")
-wordcloud(df$word, df$freq, min.freq = 2,
-          random.order = F, scale = c(4, 0.7),
-          rot.per = .1, colors = pas, family = "malgun")
 
