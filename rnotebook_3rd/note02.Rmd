@@ -1,0 +1,435 @@
+---
+title: "R 프로그래밍 기초 XGBoost"
+author: "한상곤(sangkon@pusan.ac.kr)"
+date: "2023.06.30(화)"
+output:
+  pdf_document:
+    extra_dependencies: kotex
+    fig_height: 6
+    fig_width: 10
+    toc: yes
+    fig_caption: yes
+    number_sections: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
+```
+
+# Palmer Penguins과 Tidymodels을 활용한 분류
+
+이 프로젝트를 진행하기 위해선 아래 패키지를 설치해주세요.
+
+`tidyverse`, `tidymodels`, `tictoc`, `doParallel`, `furrr`, `ranger`,`glmnet`, `palmerpenguins`와 `hrbrthemes` 입니다. 해당 프로젝트는 가능하면 `tidyverse`를 기반으로 진행될 예정입니다. 머신러닝 알고리즘의 특성상 계산속도 향상을 위한 패키지도 부가적으로 활용하도록 하겠습니다.
+
+```
+install.packages("tidyverse")
+install.packages("tidymodels")
+install.packages("tictoc")
+install.packages("doParallel")
+install.packages("furrr")
+install.packages("ranger")
+install.packages("glmnet")
+install.packages("palmerpenguins")
+install.packages("hrbrthemes")
+```
+
+## 패키지 불러오기
+```{R}
+library(tidyverse)
+library(tidymodels)
+library(tictoc)
+library(doParallel)
+library(furrr)
+library(palmerpenguins)
+library(ranger)
+library(hrbrthemes)
+hrbrthemes::import_roboto_condensed()
+```
+## 테마 설정 및 계산 속도 향상을 위한 설정
+```{R}
+theme_set(hrbrthemes::theme_ipsum_rc())
+plan(multicore, workers = availableCores())
+#plan(multiprocess, workers = availableCores())
+cores <- parallel::detectCores(logical = FALSE)
+cl <- makePSOCKcluster(cores)
+registerDoParallel(cores = cl)
+set.seed(42)
+```
+
+## Data Wrangling
+### 데이터 불러오기
+```{R}
+penguins_data <- palmerpenguins::penguins
+```
+
+### NA값 확인
+```{R}
+glimpse(penguins_data)
+t(map_df(penguins_data, ~sum(is.na(.))))
+```
+### 데이터 전처리
+
+```{R}
+penguins_df <-
+  penguins_data %>%
+  filter(!is.na(sex)) %>%
+  select(-year, -island)
+head(penguins_df)
+glimpse(penguins_df)
+t(map_df(penguins_df, ~sum(is.na(.))))
+```
+
+### 학습 데이터 및 검증 데이터
+
+```{R}
+penguins_split <-
+  rsample::initial_split(
+    penguins_df,
+    prop = 0.7,
+    strata = species
+  )
+```
+
+## 기준(BaselineExperiment) 설정
+
+```{R}
+tic(" Baseline XGBoost training duration ")
+xgboost_fit <-
+  boost_tree() %>%
+  set_engine("xgboost") %>%
+  set_mode("classification") %>%
+  fit(species ~ ., data = training(penguins_split))
+toc(log = TRUE)
+```
+
+```{R}
+preds <- predict(xgboost_fit, new_data = testing(penguins_split))
+actual <- testing(penguins_split) %>% select(species)
+yardstick::f_meas_vec(truth = actual$species, estimate = preds$.pred_class)
+```
+
+## 모델 설정
+
+```{R}
+ranger_model <-
+  parsnip::rand_forest(mtry = tune(), min_n = tune()) %>%
+  set_engine("ranger") %>%
+  set_mode("classification")
+
+glm_model <-
+  parsnip::multinom_reg(penalty = tune(), mixture = tune()) %>%
+  set_engine("glmnet") %>%
+  set_mode("classification")
+
+xgboost_model <-
+  parsnip::boost_tree(mtry = tune(), learn_rate = tune()) %>%
+  set_engine("xgboost") %>%
+  set_mode("classification")
+
+hardhat::extract_parameter_dials(glm_model, "mixture")
+```
+## Grid 검색
+
+```{R}
+ranger_grid <-
+  hardhat::extract_parameter_set_dials(ranger_model) %>%
+  finalize(select(training(penguins_split), -species)) %>%
+  grid_regular(levels = 4)
+ranger_grid
+```
+```{R}
+ranger_grid %>% ggplot(aes(mtry, min_n)) +
+  geom_point(size = 4, alpha = 0.6) +
+  labs(title = "Ranger: Regular grid for min_n & mtry combinations")
+```
+
+```{R}
+glm_grid <-
+  parameters(glm_model) %>%
+  grid_random(size = 20)
+glm_grid
+```
+
+
+```{R}
+glm_grid %>% ggplot(aes(penalty, mixture)) +
+  geom_point(size = 4, alpha = 0.6) +
+  labs(title = "GLM: Random grid for penalty & mixture combinations")
+```
+
+```{R}
+xgboost_grid <-
+  parameters(xgboost_model) %>%
+  finalize(select(training(penguins_split), -species)) %>%
+  grid_max_entropy(size = 20)
+xgboost_grid
+```
+
+```{R}
+xgboost_grid %>% ggplot(aes(mtry, learn_rate)) +
+  geom_point(size = 4, alpha = 0.6) +
+  labs(title = "XGBoost: Max Entropy grid for LR & mtry combinations")
+```
+
+## 데이터 전처리
+
+```{R}
+recipe_base <-
+  recipe(species ~ ., data = training(penguins_split)) %>%
+  step_dummy(all_nominal(), -all_outcomes(), one_hot = TRUE) # Create dummy variables (which glmnet needs)
+
+recipe_1 <-
+  recipe_base %>%
+  step_YeoJohnson(all_numeric())
+
+recipe_1 %>%
+  prep() %>%
+  juice() %>%
+  summary()
+```
+
+```{R}
+recipe_2 <-
+  recipe_base %>%
+  step_normalize(all_numeric())
+
+recipe_2 %>%
+  prep() %>%
+  juice() %>%
+  summary()
+```
+## Metrics
+
+```{R}
+model_metrics <- yardstick::metric_set(f_meas, pr_auc)
+```
+
+## K-Fold CV
+
+```{R}
+data_penguins_3_cv_folds <-
+  rsample::vfold_cv(
+    v = 5,
+    data = training(penguins_split),
+    strata = species
+  )
+```
+
+## 모델 학습(Model Training)
+
+### 일괄 작업 작성
+
+```{R}
+ranger_r1_workflow <-
+  workflows::workflow() %>%
+  add_model(ranger_model) %>%
+  add_recipe(recipe_1)
+
+glm_r2_workflow <-
+  workflows::workflow() %>%
+  add_model(glm_model) %>%
+  add_recipe(recipe_2)
+
+xgboost_r2_workflow <-
+  workflows::workflow() %>%
+  add_model(xgboost_model) %>%
+  add_recipe(recipe_2)
+```
+
+### Gridsearch를 활용한 학습
+
+```{R}
+tic("Ranger tune grid training duration ")
+ranger_tuned <-
+  tune::tune_grid(
+    object = ranger_r1_workflow,
+    resamples = data_penguins_3_cv_folds,
+    grid = ranger_grid,
+    metrics = model_metrics,
+    control = tune::control_grid(save_pred = TRUE)
+  )
+toc(log = TRUE)
+```
+
+```{R}
+tic("GLM tune grid training duration ")
+glm_tuned <-
+  tune::tune_grid(
+    object = glm_r2_workflow,
+    resamples = data_penguins_3_cv_folds,
+    grid = glm_grid,
+    metrics = model_metrics,
+    control = tune::control_grid(save_pred = TRUE)
+  )
+toc(log = TRUE)
+```
+
+```{R}
+tic("XGBoost tune grid training duration ")
+xgboost_tuned <-
+  tune::tune_grid(
+    object = xgboost_r2_workflow,
+    resamples = data_penguins_3_cv_folds,
+    grid = xgboost_grid,
+    metrics = model_metrics,
+    control = tune::control_grid(save_pred = TRUE)
+  )
+toc(log = TRUE)
+```
+
+### 학습 결과 확인
+
+```{R}
+# install.packages("finetune")
+library(finetune)
+```
+
+```{R}
+tic("Tune race training duration ")
+ft_xgboost_tuned <-
+  finetune::tune_race_anova(
+    object = xgboost_r2_workflow,
+    resamples = data_penguins_3_cv_folds,
+    grid = xgboost_grid,
+    metrics = model_metrics,
+    control = control_race(verbose_elim = TRUE) # 66
+  )
+toc(log = TRUE)
+```
+### 시각화를 통한 확인
+
+```{R}
+plot_race(ft_xgboost_tuned) + labs(title = "Parameters Race by Fold")
+```
+### 결과
+
+```{R}
+bind_cols(
+  tibble(model = c("Ranger", "GLM", "XGBoost")),
+  bind_rows(
+    ranger_tuned %>%
+      collect_metrics() %>% group_by(.metric) %>% summarise(best_va = max(mean, na.rm = TRUE)) %>% arrange(.metric) %>% pivot_wider(names_from = .metric, values_from = best_va),
+    glm_tuned %>%
+      collect_metrics() %>% group_by(.metric) %>% summarise(best_va = max(mean, na.rm = TRUE)) %>% arrange(.metric) %>% pivot_wider(names_from = .metric, values_from = best_va),
+    xgboost_tuned %>%
+      collect_metrics() %>% group_by(.metric) %>% summarise(best_va = max(mean, na.rm = TRUE)) %>% arrange(.metric) %>% pivot_wider(names_from = .metric, values_from = best_va)
+  )
+)
+```
+## 전체 모델 확인
+
+```{R}
+glm_tuned %>% collect_metrics() # 20 models and 2 metrics
+```
+```{R}
+glm_tuned %>%
+  collect_metrics() %>%
+  group_by(.metric) %>%
+  summarise(best_va = max(mean, na.rm = TRUE)) %>%
+  arrange(.metric)
+```
+
+```{R}
+glm_tuned %>%
+  collect_metrics() %>%
+  group_by(.metric) %>%
+  summarise(best_va = max(mean, na.rm = TRUE)) %>%
+  arrange(.metric)
+```
+
+```{R}
+glm_tuned %>% select_best(metric = "f_meas")
+```
+
+
+## F1값 확인
+
+```{R}
+glm_tuned %>%
+  collect_metrics() %>%
+  filter(.metric == "f_meas") %>%
+  select(mean, penalty, mixture) %>%
+  pivot_longer(penalty:mixture,
+    values_to = "value",
+    names_to = "parameter"
+  ) %>%
+  ggplot(aes(value, mean, color = parameter)) +
+  geom_point(show.legend = FALSE) +
+  facet_wrap(~parameter, scales = "free_x") +
+  labs(x = NULL, y = "F1", title = "F1 MetricEvolution")
+```
+
+## 모델 계선
+
+```{R}
+best_f1 <-
+  select_best(xgboost_tuned, metric = "f_meas")
+
+final_model_op1 <-
+  finalize_workflow(
+    x = xgboost_r2_workflow,
+    parameters = best_f1
+  )
+
+final_model_op1
+```
+
+## Last Fit Tune Model
+
+```{R}
+tic("Train final model Tune")
+penguins_last_fit <-
+  last_fit(final_model_op1,
+    penguins_split,
+    metrics = model_metrics
+  )
+toc(log = TRUE)
+```
+
+```{R}
+collect_metrics(penguins_last_fit) %>%
+  arrange(.metric)
+```
+
+```{R}
+penguins_last_fit %>%
+  collect_predictions() %>%
+  conf_mat(truth = species, estimate = .pred_class)
+```
+
+```{R}
+penguins_last_fit %>%
+  pull(.predictions) %>%
+  as.data.frame() %>%
+  filter(.pred_class != species)
+```
+
+## 주요 특징 분석
+```{R}
+#install.packages("vip")
+library(vip)
+```
+
+
+```{R}
+final_model_op1 %>%
+  fit(data = penguins_df) %>%
+  pull_workflow_fit() %>%
+  vip(
+    geom = "col",
+    aesthetics = list(fill = "steelblue")
+  ) +
+  labs(title = "Feature Importance")
+```
+
+## 모델별 지표 확인
+```{R}
+tic.log() %>%
+  unlist() %>%
+  tibble()
+```
+
+
