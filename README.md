@@ -15,9 +15,9 @@
 - [prophet](https://facebook.github.io/prophet/)
 
 ## RStudio 관련 개인적인 추천
-- Tools > Global Options > Code > Editing > Highlight selected line
-- Tools > Global Options > Code > Editing > Highlight R function calls
-- Tools > Global Options > Code > Display > Indentation guides > Rainbow fills
-- Tools > Global Options > Console > Show syntax highlighting in console input
-- Tools > Global Options > Appearance > Editor font > D2Coding ligature > 14
-- Tools > Global Options > Panel Layout > Environment, ... -> Console
+- Tools > Global Options > Code > Display > `Highlight selected line`
+- Tools > Global Options > Code > Display > `Highlight R function calls`
+- Tools > Global Options > Code > Display > `Indentation guides > Rainbow fills`
+- Tools > Global Options > Console > `Show syntax highlighting in console input`
+- Tools > Global Options > Appearance > `Editor font` > D2Coding ligature > 18
+- Tools > Global Options > Panel Layout > `Environment, ...` -> `Console`
