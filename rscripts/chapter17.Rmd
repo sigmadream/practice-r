@@ -1,5 +1,5 @@
 ---
-title: "Chapter 17 시계열분석"
+title: "Chapter 17 시계열분석 v1.1"
 author: Sangkon Han(sangkon@pusan.ac.kr)
 date: "`r format(Sys.Date())`" 
 output:
@@ -22,6 +22,17 @@ output:
     fig_width: 10
     toc: yes
 ---
+
+```{R setup, include=FALSE}
+knitr::opts_chunk$set(echo=T,
+                      fig.align="center",
+                      message=F,
+                      warning=F,
+                      fig.height = 8,
+                      cache=T,
+                      dpi=300, 
+                      dev="pdf")
+```
 
 # 비정상성 시계열을 정상성 시계열로 변경
 ## 단계 1: AirPassengers 데이터 셋 가져오기 
@@ -50,14 +61,11 @@ plot(log)
 ```{r}
 data("WWWusage")
 str(WWWusage)
-```
-```{r}
 WWWusage
 ```
 
 ## 단계 2: 시계열 자료 추세선 시각화 
 ```{r}
-X11()
 ts.plot(WWWusage, type = "l", col = "red")
 ```
 
@@ -76,7 +84,6 @@ head(EuStock)
 
 ## 단계 3: 단일 시계열 자료 추세선 시각화(1,000개 데이터 대상)
 ```{r}
-X11()
 plot(EuStock$DAX[1:1000], type = "l", col = "red")
 ```
 
@@ -92,7 +99,6 @@ data <- c(45, 56, 45, 43, 69, 75, 58, 59, 66, 64, 62, 65,
           55, 49, 67, 55, 71, 78, 71, 65, 69, 43, 70, 75, 
           56, 56, 65, 55, 82, 85, 75, 77, 77, 69, 79, 89)
 length(data)
-
 ```
 
 ## 단계 2: 시계열 자료 생성 - 시계열 자료 형식으로 객체 생성
@@ -121,7 +127,6 @@ plot(m)
 par(mfrow = c(1, 1))
 plot(tsdata - m$seasonal)
 ```
-
 
 ## 단계 6: 추세요인과 불규칙요인 제거
 ```{r}
@@ -183,7 +188,7 @@ tsdata <- ts(data, start = c(2016, 1), frequency = 12)
 tsdata
 ```
 
-## 단계 2: 평화 ㄹ관련 패키지 설치
+## 단계 2: 평활 관련 패키지 설치
 ```{r}
 library(TTR)
 ```
@@ -258,7 +263,6 @@ model2 <- forecast(model, h = 6)
 plot(model2)
 ```
 
-
 # 실습: 계절성을 갖는 정상성 시계열분석
 ## 단계 1: 시계열 자로 특성 분석
 ### 단계 1-1: 데이터 준비
@@ -276,7 +280,7 @@ tsdata <- ts(data, start = c(2020, 1), frequency = 12)
 tsdata
 ```
 
-### 단게 1-3: 시계열 요소 분해 시각화
+### 단계 1-3: 시계열 요소 분해 시각화
 ```{r}
 ts_feature <- stl(tsdata, s.window = "periodic")
 plot(ts_feature)
@@ -321,4 +325,3 @@ plot(fore)
 fore2 <- forecast(model, h = 6)
 plot(fore2)
 ```
-

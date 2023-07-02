@@ -1,5 +1,5 @@
 ---
-title: "tidyverse"
+title: "tidyverse tutorial v1.1"
 author: "한상곤(sangkon@pusan.ac.kr)"
 date: "2023.06.13(화)"
 output:
@@ -13,6 +13,10 @@ output:
   word_document:
     toc: yes
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
+```
 
 # tidyverse
 

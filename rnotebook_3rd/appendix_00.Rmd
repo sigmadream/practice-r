@@ -14,6 +14,10 @@ output:
     toc: yes
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=T, fig.align = "center", message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
+```
+
 # tidyverse
 
 `tidyverse`는 R에서 데이터분석에 필수적으로 사용되는 패키지입니다. RStudio의 해들리 위캠(Hadley Wickham) 박사 팀이 주도적으로 이끌고 있으며 대표적으로 `ggplot2`, `dplyr`, `tidyr`, `readr`, `purrr`, `tibble`, `stringr`, `forcats` 등이 포함되어 있습니다. 단일 패키지가 아니라 통합 패키지 형태로 되어 있이서, 한번에 설치가 가능합니다. 
