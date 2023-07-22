@@ -1,0 +1,332 @@
+---
+title: "Titanic - Machine Learning from Disaster"
+author: Sangkon Han(sangkon@pusan.ac.kr)
+date: "`r format(Sys.Date())`" 
+output:
+  pdf_document:
+    extra_dependencies: ["kotex"]
+    fig_height: 6
+    fig_width: 10
+    toc: yes
+    toc_depth: 3
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    theme: cosmo
+    toc: yes
+    toc_depth: 3
+    toc_float: yes    
+  word_document:
+    fig_height: 6
+    fig_width: 10
+    toc: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=T, message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
+library(tidyverse)
+library(tidymodels)
+library(mice)
+```
+
+> `Kaggle`의 대표적인 `Competition` 중 하나인 `Titanic 생존자 예측`에 관한 내용을 다루고 있습니다. 처음 `Kaggle`에 도전하시는 분들이 참고하실만한 자료가 되었으면 합니다.
+
+# 데이터 불러오기
+
+`titanic competition`에서는 `Model`을 생성하는데 사용하는 `train` data와 실제 예측(추정)에 사용하는 `test` data가 분리되어 있습니다. 여기서는 저 2개 data들을 불러와서 하나로 묶을 것 입니다. 따로 분리되어 있는 데이터들을 하나로 묶는 이유는 모델링에 사용되는 입력변수들을 Feature engineering, Pre-processing 할 때 동일하게 작업하기 위해서 입니다.
+
+```{r}
+df_titanic <-
+  read_csv("data/titanic_train.csv") %>% 
+  rename_all(tolower) 
+df_titanic
+df_titanic_competition <- 
+  read_csv("data/titanic_test.csv") %>% 
+  rename_all(tolower) 
+df_titanic_competition
+```
+
+## 데이터 확인 및 변환
+
+```{r}
+head(df_titanic)
+```
+
+##  변수 의미 설명
+```{r}
+summary(df_titanic)
+```
+
+| 변수명        | 해석(의미)                       | Type      | 
+|:-------------:|:---------------------------------|:----------|
+|**PassengerID**|승객을 구별하는 고유 ID number    |Int        |
+|**Survived**   |승객의 생존 여부를 나타내며 생존은 1, 사망은 0 입니다.|Factor|
+|**Pclass**     |선실의 등급으로서 1등급(1)부터 3등급(3)까지 3개 범주입니다.|Ord.Factor|
+|**Name**       |승객의 이름                       |Factor|
+|**Sex**        |승객의 성별                       |Factor|
+|**Age**        |승객의 나이                       |Numeric|
+|**SibSp**      |각 승객과 동반하는 형제 또는 배우자의 수를 설명하는 변수이며 0부터 8까지 존재합니다.                            |Integer|
+|**Parch**      |각 승객과 동반하는 부모님 또는 자녀의 수를 설명하는 변수이며 0부터 9까지 존재합니다.                            |Integer|
+|**Ticket**     |승객이 탑승한 티켓에 대한 문자열 변수|Factor|
+|**Fare**       |승객이 지금까지 여행하면서 지불한 금액에 대한 변수|Numeric|
+|**Cabin**      |각 승객의 선실을 구분하는 변수이며 범주와 결측치가 너무 많습니다.                                          |Factor|
+|**Embarked**   |승선항, 출항지를 나타내며 C, Q, S 3개 범주이다.|Factor|
+
+# EDA
+
+## Age
+
+아이들이 다른 연령대에 비해 생존율이 높은 것을 알 수 있습니다. 
+
+```{r}
+df_titanic %>% 
+  group_by(survived) %>% 
+  summarise(mean_age = mean(age, na.rm = TRUE), min_age = min(age, na.rm = TRUE), max_age = max(age, na.rm = TRUE))
+```
+```{r}
+df_titanic %>% 
+  mutate(age_group =  ifelse(age<15, "Children", ifelse(age>=15 & age <=64, "Working-age", "Elderly"))) %>%
+  filter(!is.na(age_group)) %>% 
+  ggplot()+
+  geom_bar(mapping = aes(x = factor(age_group, level = c("Children", "Working-age", "Elderly")), fill = factor(survived)), position = "dodge")+
+  labs(x = "age_group")
+```
+
+## Sex
+
+```{r}
+df_titanic %>% 
+  group_by(survived) %>% 
+  count(sex)
+```
+```{r}
+df_titanic %>% 
+  ggplot()+
+  geom_bar(mapping = aes(x = sex, fill = factor(survived)), position = "dodge")
+```
+
+## Fare
+
+운임이 높을수록 생존율이 높다는 것을 알 수 있습니다. 
+
+```{r}
+df_titanic %>% 
+  group_by(survived) %>% 
+  summarise(mean_fare = mean(fare, na.rm = TRUE), min_fare = min(fare, na.rm = TRUE), max_fare = max(fare, na.rm = TRUE))
+```
+
+```{r}
+df_titanic %>% 
+  mutate(fare_category =  ifelse(fare<20, "Low", ifelse(fare>=20 & fare <=60, "Medium", "High"))) %>% 
+  ggplot()+
+  geom_bar(mapping = aes(x = factor(fare_category, level = c("Low", "Medium", "High")), fill = factor(survived)), position = "dodge")+
+  labs(x = "fare_category")
+```
+## Class
+
+상위 클래스는 다른 클래스에 비해 생존율이 높은 것을 알 수 있습니다. 
+
+```{r}
+df_titanic %>% 
+  group_by(survived) %>% 
+  count(pclass)
+```
+
+```{r}
+df_titanic %>% 
+  ggplot()+
+  geom_bar(mapping = aes(x = factor(pclass), fill = factor(survived)), position = "dodge")+
+  labs(x = "class")
+```
+
+## Family on board
+
+가족 규모가 3-4명에 이르는 경우 생존율이 가장 높은 것을 알 수 있습니다.
+
+```{r}
+df_titanic %>%
+  mutate(family_on_board = sibsp + parch + 1) %>% 
+  group_by(survived) %>% 
+  count(family_on_board)
+```
+
+```{r}
+df_titanic <- df_titanic %>%
+  mutate(family_on_board = sibsp + parch + 1)
+
+df_titanic %>%
+  group_by(family_on_board) %>% 
+  mutate(survival_rate = sum(survived)/n()) %>% 
+  ggplot(mapping = aes(x = factor(family_on_board), y = survival_rate, group = 1 ))+
+  geom_point()+
+  geom_line()
+```
+## Embarkation
+
+C 승선은 다른 승선에 비해 생존율이 높은 것 같습니다.
+
+```{r}
+df_titanic %>% 
+  group_by(survived) %>% 
+  count(embarked)
+```
+
+```{r}
+df_titanic %>% 
+  filter(!is.na(embarked)) %>% 
+  ggplot()+
+  geom_bar(mapping = aes(x = embarked, fill = factor(survived)), position = "dodge")
+```
+
+```{r}
+df_titanic %>% 
+  filter(!is.na(embarked)) %>% 
+  ggplot()+
+  geom_col(mapping = aes(x = sex, y = fare, fill = factor(survived)), position = "dodge")+
+  facet_wrap(~embarked)
+```
+
+# 전처리
+
+```{r}
+mice_mod <- mice(df_titanic[, c("age","fare", "sex", "pclass", "embarked")], method='cart')
+mice_complete <- complete(mice_mod)
+df_titanic$age <- mice_complete$age
+df_titanic$age <- mice_complete$age
+df_titanic$fare <- mice_complete$fare
+df_titanic$sex <- mice_complete$sex
+df_titanic$pclass <- mice_complete$pclass
+df_titanic$embarked <- mice_complete$embarked
+```
+
+```{r}
+df_titanic <- 
+  df_titanic %>% 
+  mutate(age_group =  ifelse(age<15, "1", ifelse(age>=15 & age <=64, "2", "3"))) %>% 
+  mutate(fare_category =  ifelse(fare<20, "1", ifelse(fare>=20 & fare <=60, "2", "3"))) 
+```
+
+# 모델링
+
+```{r}
+set.seed(42)
+df_titanic_xg <- df_titanic %>% 
+              mutate(survived = as.factor(survived),
+                     age_group = as.numeric(age_group),
+                     fare_category = as.numeric(fare_category),
+                     sex = as.numeric(ifelse(sex == "male", 1, 0)),
+                     pclass = as.numeric(pclass),
+                     family_on_board = as.numeric(family_on_board))
+```
+
+## XGBoost
+
+```{r}
+df_split_xg <- initial_split(df_titanic_xg)
+df_train_xg <- training(df_split_xg)
+df_test_xg <- testing(df_split_xg)
+
+xgb_spec <- boost_tree(
+  trees = 1000,
+  tree_depth = tune(), min_n = tune(),
+  loss_reduction = tune(),
+  sample_size = tune(), mtry = tune(),
+  learn_rate = tune()
+) %>% 
+  set_engine("xgboost") %>% 
+  set_mode("classification")
+
+xgb_grid <- grid_latin_hypercube(
+  tree_depth(),
+  min_n(),
+  loss_reduction(),
+  sample_size = sample_prop(),
+  finalize(mtry(), df_train_xg),
+  learn_rate(),
+  size = 10
+)
+
+xgb_grid
+```
+
+```{r}
+recipe_xg <- 
+  recipe(survived ~ age_group + fare_category + sex + pclass + family_on_board, data = df_train_xg) 
+
+xgb_wf <- workflow() %>% 
+  add_recipe(recipe_xg) %>% 
+  add_model(xgb_spec)
+
+dfa_folds <- vfold_cv(df_train_xg)
+
+doParallel::registerDoParallel()
+
+xgb_res <- tune_grid(
+  xgb_wf,
+  resamples = dfa_folds,
+  grid = xgb_grid,
+  control = control_grid(save_pred = TRUE)
+)
+
+best_auc <- select_best(xgb_res, "roc_auc")
+best_auc
+
+final_xgb <- finalize_workflow(
+  xgb_wf,
+  best_auc
+)
+
+fitxgb <-fit(final_xgb, data = df_train_xg)
+
+results_xg <- 
+  predict(fitxgb, df_test_xg, type = 'prob') %>% 
+  pluck(2) %>% 
+  bind_cols(df_test_xg, Predicted_Probability = .) %>% 
+  mutate(predictedClass = as.factor(ifelse(Predicted_Probability > 0.5, 2, 1)))
+
+roc_auc(results_xg, truth = survived, Predicted_Probability, event_level = 'second')
+
+roc_curve(results_xg, truth = survived,
+          Predicted_Probability,
+          event_level = 'second') %>% 
+  ggplot(aes(x = 1 - specificity,
+             y = sensitivity)) +
+  geom_path() +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
+```
+
+# 예측과 정답지
+
+```{r}
+mice_mod_competition <- mice(df_titanic_competition[, c("age","fare", "sex", "pclass", "embarked")], method='cart')
+mice_complete_competition <- complete(mice_mod_competition)
+df_titanic_competition$age <- mice_complete_competition$age
+df_titanic_competition$fare <- mice_complete_competition$fare
+df_titanic_competition$sex <- mice_complete_competition$sex
+df_titanic_competition$pclass <- mice_complete_competition$pclass
+df_titanic_competition$embarked <- mice_complete_competition$embarked
+df_titanic_competition <- df_titanic_competition %>%
+  mutate(family_on_board = sibsp + parch + 1) %>% 
+  mutate(age_group =  ifelse(age<15, "1", ifelse(age>=15 & age <=64, "2", "3"))) %>% 
+  mutate(fare_category =  ifelse(fare<20, "1", ifelse(fare>=20 & fare <=60, "2", "3"))) 
+df_titanic_competition_xg <- 
+  df_titanic_competition %>% 
+  mutate(age_group = as.numeric(age_group),
+                     fare_category = as.numeric(fare_category),
+                     sex = as.numeric(ifelse(sex == "male", 1, 0)),
+                     pclass = as.numeric(pclass),
+                     family_on_board = as.numeric(family_on_board))
+Prediction <- 
+  predict(fitxgb, df_titanic_competition_xg) %>% 
+  pluck(1) %>% 
+  bind_cols(df_titanic_competition_xg$passengerid, Predicted_Class = .)
+Prediction_xg <- 
+  Prediction %>% 
+  mutate(Survived = Predicted_Class, PassengerId = ...1) %>% 
+  select(PassengerId, Survived)
+write.csv(Prediction_xg, file = "Titanic_XGBoost.csv", row.names = FALSE)
+```
