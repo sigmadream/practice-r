@@ -28,15 +28,17 @@ knitr::opts_chunk$set(echo=T, message=F, warning=F, fig.height = 8, cache=T, dpi
 library(tidyverse)
 library(tidymodels)
 library(ggplot2)
+library(hflights)
 ```
+
+# dplyr & tidyr
+
 
 ```{r}
 df <- mpg
 str(df)
 nrow(df); ncol(df)
 ```
-
-# dplyr & tidyr
 
 ## Manipulate variables(columns)
 
@@ -379,15 +381,300 @@ table.unite_ <- table.sep %>%
 table.unite_
 ```
 
+## dplyr and tidyr in action
+
+### pull() - extract column as vector
+
+```{r}
+df %>% pull(hwy)
+df %>% pull(hwy) %>% class()
+df %>% select(hwy) %>% class()
+```
+
+### group_by() + mutate()
+```{r}
+df <- df %>% 
+  group_by(manufacturer, model) %>% 
+  mutate(`mean hwy` = mean(hwy)) %>% 
+  ungroup()
+df
+```
 
 
+### case_when() - case when statements
+```{r}
+df <- df %>% 
+  mutate(trans_ = str_sub(string = trans, 
+                          start = 1, 
+                          end = 1)) %>%  # extract first letter from trans
+  mutate(`transmission type` = case_when(trans_ == "a" ~ "automatic",
+                                         trans_ == "m" ~ "manual",
+                                         TRUE ~ "NA")) %>% 
+  select(-trans_)
+df %>% count(`transmission type`, trans)  # check car count
+```
 
+### row_number() - add ranks
+```{r}
+df <- df %>% 
+  mutate(`car id` = row_number())
+df
+```
 
+```{r}
+df <- df %>% 
+  group_by(manufacturer) %>% 
+  mutate(`car id1` = row_number()) %>% 
+  ungroup()
 
+```
 
+## Transform table holding flights data
 
+```{r}
+df <- hflights
+```
 
+### count number of rows/columns, different flights
 
+```{r}
+nrow(df); ncol(df)
+df %>% 
+  count(UniqueCarrier, FlightNum, TailNum, Year, Month, DayofMonth) %>% 
+  arrange(desc(n))
+# one flight is represented with!: UniqueCarrier, FlightNum, TailNum, Year, Month, DayofMonth
+```
 
+### how many columns begin with word "Taxi"?
+```{r}
+df %>% 
+  select(starts_with("Taxi")) %>% 
+  head()
+```
+### how many flights were flown less than 1000 miles / greater or equal than 1000 miles
+```{r}
+df %>% 
+  mutate(dist1000 = case_when(Distance < 1000  ~ "< 1000 miles",
+                              Distance >= 1000 ~ ">= 1000 miles")) %>% 
+  count(dist1000)
+```
+### flights per carrier - sort by top to bottom
+```{r}
+df %>% 
+  group_by(UniqueCarrier) %>% 
+  count() %>% 
+  ungroup() %>% 
+  arrange(desc(n))
+```
+### number of cancelled flights per carrier
+```{r}
+df %>% count(Cancelled) # 1 for cancelled
+df %>% 
+  filter(Cancelled == 1) %>% 
+  group_by(UniqueCarrier) %>% 
+  count() %>% 
+  ungroup() %>% 
+  arrange(desc(n))
+```
+### percentage of cancelled flights per carrier
+```{r}
+df %>% 
+  # count flights break down by cancellation
+  group_by(UniqueCarrier, Cancelled) %>% 
+  count() %>% 
+  ungroup() %>% 
+  # calculate total flights
+  group_by(UniqueCarrier) %>% 
+  mutate(`n tot` = sum(n)) %>% 
+  ungroup() %>% 
+  # calculate percentages
+  mutate(`n percent %` = (n / `n tot`) * 100) %>% 
+  # keep only cancelled flights - arrange top to bottom
+  filter(Cancelled == 1) %>% 
+  arrange(desc(`n percent %`))
+```
 
+### create column date by combining year + month + dayofmonth (remove this columns)
+```{r}
+df <- df %>% 
+  # add leading zeros to month and dayofmonth
+  mutate_at(.vars = c("Month", "DayofMonth"), 
+            .funs = str_pad, 2, "left", "0") %>% 
+  unite(col = "Date", 
+        Year, Month, DayofMonth, 
+        sep = "-") 
+```
+### check date range
+```{r}
+df %>% 
+  summarise(min = min(Date),
+            max = max(Date),
+            n_distinct = n_distinct(Date))
+```
+```{r}
+# count flights per cancellation codes (codes in columns)
+# and per carrirs (carriers in rows)
+# pivoting required!!!
+df %>% count(CancellationCode) # cancellation code "" must have some name other than empty string!
+```
+```{r}
+df %>% 
+  mutate(CancellationCode = case_when(CancellationCode == "" ~ "0",  # this is not cancelled flight!!!
+                                      TRUE ~ CancellationCode)) %>% 
+  group_by(UniqueCarrier, CancellationCode) %>% 
+  count() %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = CancellationCode, 
+              values_from = n)
+```
+## Column-wise operations: across()
+
+```{r}
+mpg <- ggplot2::mpg # mpg data
+```
+
+### summarise() & across()
+
+```{r}
+#  count distinct values in each column
+mpg %>% 
+  summarise(across(.cols = everything(), # which columns:   all columns
+                   .fns = n_distinct))   # which function:  count distinct/unique values
+mpg %>% 
+  summarise(across(everything(),
+                   n_distinct))
+```
+
+```{r}
+#  calculate mean values for selected columns (list of columns)
+mpg %>% 
+  summarise(across(c(displ, cty, hwy), 
+                   mean))
+```
+```{r}
+#  calculate median value for all numeric columns
+mpg %>% 
+  summarise(across(where(is.numeric),   # "where" clause supports conditions for columns selection!
+                   median))
+```
+```{r}
+#  calculate distinct values of character columns
+mpg %>% 
+  summarise(across(where(is.character), 
+                   n_distinct))
+```
+```{r}
+#  apply more than one function across multiple columns
+#   - calculate mean and median of all numeric columns
+mpg %>% 
+  summarise(across(where(is.numeric), 
+                   list(avg = ~mean(.x, na.rm = T),     # multiple functions: provided as a list of functions!
+                        med = ~median(.x, na.rm = T))))
+```
+
+```{r}
+avgmed <- list(avg = ~mean(.x, na.rm = T),   
+               med = ~median(.x, na.rm = T))
+mpg %>% 
+  summarise(across(where(is.numeric), 
+                   avgmed)) 
+```
+```{r}
+#  control names of output columns
+mpg %>% 
+  summarise(across(where(is.numeric), 
+                   avgmed, 
+                   .names = "{.fn}:{.col}")) # argument used for column name control
+```
+```{r}
+#  use multiple conditions for column selection 
+mpg %>% 
+  summarise(across(where(is.numeric) & ends_with("y"),
+                   median))
+```
+
+### summarise() ~ group_by() & across()
+```{r}
+#  calculate sum of all numeric columns break down by car model
+mpg %>% 
+  group_by(model) %>% 
+  summarise(across(where(is.numeric), 
+                   sum)) %>% 
+  ungroup()
+```
+```{r}
+# calculate mean value for selected columns break down by car manufacturer & model
+mpg %>% 
+  group_by(manufacturer, model) %>% 
+  summarise(across(c(displ, cty, hwy),
+                   mean)) %>% 
+  ungroup()
+```
+
+### mutate() & across()
+
+```{r}
+#  round up (ceiling) all numeric columns
+mpg %>% 
+  mutate(across(where(is.numeric),
+                ~ceiling(.x)))
+```
+```{r}
+#  convert all character columns to upper case
+mpg %>% 
+  mutate(across(where(is.character),
+                ~str_to_upper(.x)))
+```
+
+### mutate() ~ group_by() & across()
+
+```{r}
+#  calculate mean value for all numeric columns break down by car manufacturer
+#   - aggregate mean value of numeric columns for each manufacturer
+#   - keep all the rows!
+mpg %>% 
+  group_by(manufacturer) %>% 
+  mutate(across(where(is.numeric) & -year, # column "year" is removed from calculation!
+                ~mean(.x, na.rm = T), 
+                .names = "{.col}_avg_manufacturer")) %>% 
+  ungroup()
+```
+
+```{r}
+# if_any() / if_all() with filter()
+#
+# if_any() : keeps the rows where the predicate is true for at least one selected column
+#
+# if_all() : keeps the rows where the predicate is true for all selected columns
+starwars <- dplyr::starwars # star wars data set
+?starwars
+```
+
+```{r}
+#  filter rows where at least one column doesn't have NA value
+starwars %>% 
+  filter(if_any(.cols = everything(), 
+                .fns = ~ !is.na(.x)))
+```
+
+```{r}
+#  filter rows where all columns don't have NA value
+starwars %>% 
+  filter(if_all(.cols = everything(), 
+                .fns = ~ !is.na(.x)))
+```
+
+```{r}
+#  filter rows where column "cty" or "hwy" have values greater than 20
+mpg %>% 
+  filter(if_any(c(cty, hwy), 
+                ~ . > 20)) # condition written as function
+```
+
+```{r}
+#  filter rows where column "cty" and "hwy" have values greater than 20
+mpg %>% 
+  filter(if_all(c(cty, hwy), 
+                ~ . > 20)) 
+```
 
