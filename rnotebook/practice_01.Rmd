@@ -1,5 +1,5 @@
 ---
-title: "R - Practice 01"
+title: "R - Practice 01 - v1.1"
 author: Sangkon Han(sangkon@pusan.ac.kr)
 date: "`r format(Sys.Date())`" 
 output:
@@ -24,7 +24,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=T, message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
+knitr::opts_chunk$set(echo=T, message=F, warning=F, cache=T, fig.height = 8, dpi = 300, dev = "png")
 library(tidyverse)
 library(tidymodels)
 library(ggplot2)
@@ -32,7 +32,6 @@ library(hflights)
 ```
 
 # dplyr & tidyr
-
 
 ```{r}
 df <- mpg
@@ -46,50 +45,50 @@ nrow(df); ncol(df)
 
 ```{r}
 df.car.info <- select(df, manufacturer, model, year)
+head(df.car.info)
 ```
 
 ```{r}
-select(df, starts_with(match = "m"))
-select(df, contains(match = "r"))
-select(df, ends_with(match = "y"))
+select(df, starts_with(match = "m")) %>% head()
+select(df, contains(match = "r")) %>% head()
+select(df, ends_with(match = "y")) %>% head()
 ```
 
 ```{r}
-select(df, 1:3)
-select(df, c(2,5,7))
-select(df, 9:11) 
-select(df, (ncol(df)-2):ncol(df))
+select(df, 1:3) %>% head()
+select(df, c(2,5,7)) %>% head()
+select(df, 9:11) %>% head()
+select(df, (ncol(df)-2):ncol(df)) %>% head()
 ```
 
 ```{r}
 df1 <- rename(df, mnfc = manufacturer, mod = model)
+head(df1)
 df1 <- select(df, mnfc = manufacturer, mod = model, everything())
+head(df1)
 ```
 
 ### mutate() / transmute()
 
 ```{r}
 df <- mutate(df, `avg miles per gallon` = (cty + hwy) / 2)
-df <- mutate(df,
-             car = paste(manufacturer, model, sep = " "),
+head(df)
+df <- mutate(df, car = paste(manufacturer, model, sep = " "),
              `cyl / trans` = paste(cyl, " cylinders", " / ", trans, " transmission", sep = ""))
-
+head(df)
 ```
 
 ```{r}
-df1 <- transmute(df,
-                 `avg miles per gallon` = (cty + hwy) / 2)
-df1
+df1 <- transmute(df, `avg miles per gallon` = (cty + hwy) / 2)
+head(df1)
 
-df2 <- mutate(df,
-             car = paste(manufacturer, model, sep = " "),
+df2 <- mutate(df, car = paste(manufacturer, model, sep = " "),
              `cyl / trans` = paste(cyl, " cylinders", " / ", trans, " transmission", sep = ""))
-df2
+head(df2)
 
-df2 <- transmute(df,
-             car = paste(manufacturer, model, sep = " "),
+df2 <- transmute(df, car = paste(manufacturer, model, sep = " "),
              `cyl / trans` = paste(cyl, " cylinders", " / ", trans, " transmission", sep = ""))
-df2
+head(df2)
 ```
 
 ## Manipulate variables(row)
@@ -97,33 +96,35 @@ df2
 ### filter(), slice()
 
 ```{r}
-filter(df, manufacturer == "audi") 
+filter(df, manufacturer == "audi") %>% head()
 ```
 
 ```{r}
-filter(df, manufacturer == "audi" & year == 1999) 
+filter(df, manufacturer == "audi" & year == 1999) %>% head()
 ```
 
 ```{r}
 df1 <- filter(df, manufacturer == "audi" | manufacturer == "dodge")
+head(df1)
 df2 <- filter(df, manufacturer %in% c("audi", "dodge")) 
+head(df2)
 ```
 
 ```{r}
-filter(df, hwy >= 30)
+filter(df, hwy >= 30) %>% head()
 ```
 ```{r}
-filter(df, year != 1999)
+filter(df, year != 1999) %>% head()
 ```
 ```{r}
-slice(df, 1:5)
+slice(df, 1:5) %>% head()
 ```
 
 ```{r}
-slice(df, 20:30)
+slice(df, 20:30) %>% head()
 ```
 ```{r}
-slice(df, (nrow(df)-9):nrow(df))
+slice(df, (nrow(df)-9):nrow(df)) %>% head()
 ```
 
 
@@ -131,18 +132,18 @@ slice(df, (nrow(df)-9):nrow(df))
 
 ```{r}
 # Sort rows by year (ascending order)
-arrange(df, year)
+arrange(df, year) %>% head()
 ```
 
 ```{r}
 # Sort rows by year (descending order)
-arrange(df, desc(year))
+arrange(df, desc(year)) %>% head()
 ```
 
 ```{r}
 # Sort rows by year (ascending order), cyl and displ
 df.sort <- arrange(df, year, cyl, displ)
-df.sort
+head(df.sort)
 ```
 
 
@@ -151,24 +152,24 @@ df.sort
 df.example <- data.frame(id = 1:3, name = c("John", "Max", "Julia"))
 df.example <- bind_rows(df.example, slice(df.example, 2)) # create duplicate of 2nd row
 df.example <- arrange(df.example, id)
-df.example
+head(df.example)
 ```
 
 
 ```{r}
 # show table without duplicates
-distinct(df.example)
+distinct(df.example) %>% head()
 ```
 
 ```{r}
 #  Back to mpg example - lets create a table with duplicates
 df.dupl <- select(df, manufacturer, model)
-df.dupl
+head(df.dupl)
 ```
 ```{r}
 #   Keep only unique rows without duplicates
 df.nodupl <- distinct(df.dupl)
-df.nodupl
+head(df.nodupl)
 ```
 ### Sample rows
 
@@ -179,35 +180,34 @@ set.seed(42)
 
 ```{r}
 # 10 randomly selected rows without replacement
-sample_n(df, size = 10, replace = F)
+sample_n(df, size = 10, replace = F) %>% head()
 ```
 
 ```{r}
 # 10 randomly selected rows with replacement
-sample_n(df, size = 10, replace = T)
+sample_n(df, size = 10, replace = T) %>% head()
 ```
 
 ```{r}
 # sample_frac() - Filter a fraction of randomly selected rows 
 # 10% of table rows randomly selected
-sample_frac(df, size = 0.1, replace = F)
+sample_frac(df, size = 0.1, replace = F) %>% head()
 ```
 
 ### summarise
 ```{r}
 # Calculate average hwy
-summarise(df, `mean hwy` = mean(hwy))
+summarise(df, `mean hwy` = mean(hwy)) %>% head()
 ```
 
 ```{r}
 # Count table rows, and count distinct car models
-summarise(df, rows = n(), `nr models` = n_distinct(model))
+summarise(df, rows = n(), `nr models` = n_distinct(model)) %>% head()
 ```
 
 ```{r}
 # Calculate min / max hwy & cty
-summarise(df, 
-          `min hwy` = min(hwy),
+summarise(df, `min hwy` = min(hwy),
           `min cty` = min(cty),
           `max hwy` = max(hwy),
           `max cty` = max(cty))
@@ -217,20 +217,20 @@ summarise(df,
 
 ```{r}
 # Group cars by manufacturer
-group_by(df, manufacturer)
+group_by(df, manufacturer) %>% head()
 ```
 
 ```{r}
 # Combine summarise() & group_by() - summary statistics for grouped data
 # Count number of cars for each manufacturer
-summarise(group_by(df, manufacturer), cars = n())
+summarise(group_by(df, manufacturer), cars = n()) %>% head()
 ```
 ```{r}
 # Calculate mean / min / max hwy for each model
 summarise(group_by(df, model),
           `mean hwy` = mean(hwy),
           `min hwy` = min(hwy),
-          `max hwy` = max(hwy))
+          `max hwy` = max(hwy)) %>% head()
 ```
 
 ### count()
@@ -241,7 +241,7 @@ count(df)
 
 ```{r}
 # Count number of cars per model
-count(group_by(df, model))
+count(group_by(df, model)) %>% head()
 ```
 
 ## pipe operator `%>%`
@@ -255,7 +255,8 @@ df %>%
 ```{r}
 df %>% 
   filter(manufacturer %in% c("dodge", "chevrolet")) %>% 
-  select(manufacturer, model, year, class)
+  select(manufacturer, model, year, class) %>% 
+  head()
 ```
 ```{r}
 df %>% 
@@ -263,7 +264,8 @@ df %>%
   summarise(`mean hwy` = mean(hwy), cars = n()) %>% 
   ungroup() %>%
   filter(`mean hwy` > 30) %>% 
-  arrange(desc(`mean hwy`))
+  arrange(desc(`mean hwy`)) %>% 
+  head()
 ```
 
 ## pivoting()
@@ -272,14 +274,14 @@ df %>%
 table.long <- data.frame(id = 1:6,
                          type = c("a", "b", "a", "c", "c", "a"),
                          count = c(20, 50, 45, 15, 12, 5))
-table.long
+head(table.long)
 ```
 
 ```{r}
 table.wide <- pivot_wider(table.long, 
                           names_from = type, 
                           values_from = count)
-table.wide
+head(table.wide)
 ```
 
 ```{r}
@@ -288,7 +290,7 @@ table.long1 <- pivot_longer(table.wide,
                             names_to = "type", 
                             values_to = "count", 
                             values_drop_na = T)
-table.long1
+head(table.long1)
 ```
 
 ```{r}
@@ -298,14 +300,14 @@ df.long <- df %>%
   group_by(model, trans) %>% 
   summarise(`mean hwy` = mean(hwy)) %>% 
   ungroup()
-df.long
+head(df.long)
 ```
 
 ```{r}
 df.wide <- df.long %>% 
   pivot_wider(names_from = trans, 
               values_from = `mean hwy`)
-df.wide
+head(df.wide)
 ```
 
 ```{r}
@@ -314,7 +316,7 @@ df.long1 <- df.wide %>%
                names_to = "trans", 
                values_to = "mean hwy", 
                values_drop_na = T)
-df.long1
+head(df.long1)
 ```
 
 
@@ -323,7 +325,8 @@ df.long1
 ```{r}
 dates <- seq.Date(from = as.Date("2021-01-01"), to = as.Date("2021-12-31"), by = "day") # generate dates
 table <- data.frame(date = dates)
-table %>% head(); table %>% tail()
+table %>% head()
+table %>% tail()
 ```
 
 ### separate()
@@ -336,7 +339,7 @@ table.sep <- table %>%
   mutate(month = as.numeric(month),
          dayofmonth = as.numeric(dayofmonth)) %>% 
   arrange(year, month, dayofmonth)
-table.sep
+head(table.sep)
 ```
 
 ```{r}
@@ -349,7 +352,7 @@ table.sep_ <- table %>%
             .vars = c("month", "dayofmonth"), # which variables are mutated?
             .funs = as.numeric) %>%           # which functions is applied?
   arrange(year, month, dayofmonth)
-table.sep_
+head(table.sep_)
 ```
 
 ### unite()
@@ -364,7 +367,7 @@ table.unite <- table.sep %>%
         year, month, dayofmonth, 
         sep = "-") %>% 
   arrange(date)
-table.unite
+head(table.unite)
 ```
 
 ```{r}
@@ -378,7 +381,7 @@ table.unite_ <- table.sep %>%
         year, month, dayofmonth, 
         sep = "-") %>% 
   arrange(date)
-table.unite_
+head(table.unite_)
 ```
 
 ## dplyr and tidyr in action
@@ -386,9 +389,9 @@ table.unite_
 ### pull() - extract column as vector
 
 ```{r}
-df %>% pull(hwy)
-df %>% pull(hwy) %>% class()
-df %>% select(hwy) %>% class()
+df %>% pull(hwy) %>% head()
+df %>% pull(hwy) %>% class() %>% head()
+df %>% select(hwy) %>% class() %>% head()
 ```
 
 ### group_by() + mutate()
@@ -397,7 +400,7 @@ df <- df %>%
   group_by(manufacturer, model) %>% 
   mutate(`mean hwy` = mean(hwy)) %>% 
   ungroup()
-df
+head(df)
 ```
 
 
@@ -418,7 +421,7 @@ df %>% count(`transmission type`, trans)  # check car count
 ```{r}
 df <- df %>% 
   mutate(`car id` = row_number())
-df
+head(df)
 ```
 
 ```{r}
@@ -426,23 +429,25 @@ df <- df %>%
   group_by(manufacturer) %>% 
   mutate(`car id1` = row_number()) %>% 
   ungroup()
-
+head(df)
 ```
 
 ## Transform table holding flights data
 
 ```{r}
 df <- hflights
+head(df)
 ```
 
 ### count number of rows/columns, different flights
 
 ```{r}
+# one flight is represented with!: UniqueCarrier, FlightNum, TailNum, Year, Month, DayofMonth
 nrow(df); ncol(df)
 df %>% 
   count(UniqueCarrier, FlightNum, TailNum, Year, Month, DayofMonth) %>% 
-  arrange(desc(n))
-# one flight is represented with!: UniqueCarrier, FlightNum, TailNum, Year, Month, DayofMonth
+  arrange(desc(n)) %>% 
+  head()
 ```
 
 ### how many columns begin with word "Taxi"?
@@ -464,7 +469,8 @@ df %>%
   group_by(UniqueCarrier) %>% 
   count() %>% 
   ungroup() %>% 
-  arrange(desc(n))
+  arrange(desc(n)) %>% 
+  head()
 ```
 ### number of cancelled flights per carrier
 ```{r}
@@ -474,7 +480,8 @@ df %>%
   group_by(UniqueCarrier) %>% 
   count() %>% 
   ungroup() %>% 
-  arrange(desc(n))
+  arrange(desc(n)) %>% 
+  head()
 ```
 ### percentage of cancelled flights per carrier
 ```{r}
@@ -491,7 +498,8 @@ df %>%
   mutate(`n percent %` = (n / `n tot`) * 100) %>% 
   # keep only cancelled flights - arrange top to bottom
   filter(Cancelled == 1) %>% 
-  arrange(desc(`n percent %`))
+  arrange(desc(`n percent %`)) %>% 
+  head()
 ```
 
 ### create column date by combining year + month + dayofmonth (remove this columns)
@@ -500,16 +508,13 @@ df <- df %>%
   # add leading zeros to month and dayofmonth
   mutate_at(.vars = c("Month", "DayofMonth"), 
             .funs = str_pad, 2, "left", "0") %>% 
-  unite(col = "Date", 
-        Year, Month, DayofMonth, 
-        sep = "-") 
+  unite(col = "Date", Year, Month, DayofMonth, sep = "-") %>% 
+  head()
 ```
 ### check date range
 ```{r}
 df %>% 
-  summarise(min = min(Date),
-            max = max(Date),
-            n_distinct = n_distinct(Date))
+  summarise(min = min(Date), max = max(Date), n_distinct = n_distinct(Date))
 ```
 ```{r}
 # count flights per cancellation codes (codes in columns)
@@ -525,7 +530,8 @@ df %>%
   count() %>% 
   ungroup() %>% 
   pivot_wider(names_from = CancellationCode, 
-              values_from = n)
+              values_from = n) %>% 
+  head()
 ```
 ## Column-wise operations: across()
 
@@ -560,8 +566,7 @@ mpg %>%
 ```{r}
 #  calculate distinct values of character columns
 mpg %>% 
-  summarise(across(where(is.character), 
-                   n_distinct))
+  summarise(across(where(is.character), n_distinct))
 ```
 ```{r}
 #  apply more than one function across multiple columns
@@ -573,24 +578,19 @@ mpg %>%
 ```
 
 ```{r}
-avgmed <- list(avg = ~mean(.x, na.rm = T),   
-               med = ~median(.x, na.rm = T))
+avgmed <- list(avg = ~mean(.x, na.rm = T), med = ~median(.x, na.rm = T))
 mpg %>% 
-  summarise(across(where(is.numeric), 
-                   avgmed)) 
+  summarise(across(where(is.numeric), avgmed))
 ```
 ```{r}
 #  control names of output columns
 mpg %>% 
-  summarise(across(where(is.numeric), 
-                   avgmed, 
-                   .names = "{.fn}:{.col}")) # argument used for column name control
+  summarise(across(where(is.numeric), avgmed, .names = "{.fn}:{.col}")) # argument used for column name control
 ```
 ```{r}
 #  use multiple conditions for column selection 
 mpg %>% 
-  summarise(across(where(is.numeric) & ends_with("y"),
-                   median))
+  summarise(across(where(is.numeric) & ends_with("y"), median))
 ```
 
 ### summarise() ~ group_by() & across()
@@ -600,15 +600,16 @@ mpg %>%
   group_by(model) %>% 
   summarise(across(where(is.numeric), 
                    sum)) %>% 
-  ungroup()
+  ungroup() %>% 
+  head()
 ```
 ```{r}
 # calculate mean value for selected columns break down by car manufacturer & model
 mpg %>% 
   group_by(manufacturer, model) %>% 
-  summarise(across(c(displ, cty, hwy),
-                   mean)) %>% 
-  ungroup()
+  summarise(across(c(displ, cty, hwy), mean)) %>% 
+  ungroup() %>% 
+  head()
 ```
 
 ### mutate() & across()
@@ -616,14 +617,14 @@ mpg %>%
 ```{r}
 #  round up (ceiling) all numeric columns
 mpg %>% 
-  mutate(across(where(is.numeric),
-                ~ceiling(.x)))
+  mutate(across(where(is.numeric), ~ceiling(.x))) %>% 
+  head()
 ```
 ```{r}
 #  convert all character columns to upper case
 mpg %>% 
-  mutate(across(where(is.character),
-                ~str_to_upper(.x)))
+  mutate(across(where(is.character),~str_to_upper(.x))) %>% 
+  head()
 ```
 
 ### mutate() ~ group_by() & across()
@@ -637,14 +638,13 @@ mpg %>%
   mutate(across(where(is.numeric) & -year, # column "year" is removed from calculation!
                 ~mean(.x, na.rm = T), 
                 .names = "{.col}_avg_manufacturer")) %>% 
-  ungroup()
+  ungroup() %>% 
+  head()
 ```
 
-```{r}
+```
 # if_any() / if_all() with filter()
-#
 # if_any() : keeps the rows where the predicate is true for at least one selected column
-#
 # if_all() : keeps the rows where the predicate is true for all selected columns
 starwars <- dplyr::starwars # star wars data set
 ?starwars
@@ -653,28 +653,28 @@ starwars <- dplyr::starwars # star wars data set
 ```{r}
 #  filter rows where at least one column doesn't have NA value
 starwars %>% 
-  filter(if_any(.cols = everything(), 
-                .fns = ~ !is.na(.x)))
+  filter(if_any(.cols = everything(), .fns = ~ !is.na(.x))) %>% 
+  head()
 ```
 
 ```{r}
 #  filter rows where all columns don't have NA value
 starwars %>% 
-  filter(if_all(.cols = everything(), 
-                .fns = ~ !is.na(.x)))
+  filter(if_all(.cols = everything(), .fns = ~ !is.na(.x))) %>% 
+  head()
 ```
 
 ```{r}
 #  filter rows where column "cty" or "hwy" have values greater than 20
 mpg %>% 
-  filter(if_any(c(cty, hwy), 
-                ~ . > 20)) # condition written as function
+  filter(if_any(c(cty, hwy), ~ . > 20)) %>%  # condition written as function 
+  head()
 ```
 
 ```{r}
 #  filter rows where column "cty" and "hwy" have values greater than 20
 mpg %>% 
-  filter(if_all(c(cty, hwy), 
-                ~ . > 20)) 
+  filter(if_all(c(cty, hwy), ~ . > 20)) %>% 
+  head()
 ```
 

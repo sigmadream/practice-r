@@ -1,5 +1,5 @@
 ---
-title: "R - Practice 04"
+title: "R - Practice 04 - v1.1"
 author: Sangkon Han(sangkon@pusan.ac.kr)
 date: "`r format(Sys.Date())`" 
 output:
@@ -26,10 +26,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=T, message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
 library(tidyverse)
-library(readxl)
-library(rio)
-library(data.table)
-library(feather)
 library(nycflights13)
 library(hms)
 ```
@@ -78,13 +74,14 @@ parse_date_time("2021-12-31 12:00:00", "ymd HMS")
 
 ```{r}
 # Create date/time from individual components
-flights
+flights %>% head()
 
 # Create datetime and date column using other components
 flights %>% 
   select(year, month, day, hour, minute) %>%  # components
   mutate(datetime = make_datetime(year, month, day, hour, minute), # datetime create
-         date = make_date(year, month, day))  # date create
+         date = make_date(year, month, day)) %>%  # date create
+  head()
 ```
 
 ```{r}
@@ -158,7 +155,8 @@ flights %>%
   # extract week day, week and quarter
   mutate(wday = wday(datetime),
          week = week(datetime),
-         Q = quarter(datetime))
+         Q = quarter(datetime)) %>% 
+  head()
 ```
 
 ## Rounding values & setting component
@@ -197,7 +195,6 @@ update(dt, year = 2022, month = 12, day = 31, hour = 23, minute = 59, second = 5
 update(dt, month = 13) # 12 + 1 months = 1 year + 1 month
 update(dt, hour = 25)  # 24 + 1 hour = 1 day  + 1 hour
 ```
-
 
 ## Date-times arithmetics and durations
 
@@ -327,7 +324,7 @@ int_overlaps(i1, ymd("2021-12-28") %--% ymd("2021-12-29"))
 ```{r}
 # Create intervals form vector of dates
 dates <- now() + days(1:365) # one year of dates
-int_diff(dates) # daily intervals
+int_diff(dates) %>% head()# daily intervals
 ```
 
 ```{r}
@@ -344,12 +341,12 @@ int_length(i1)
 Sys.timezone()
 
 # Different time zones
-OlsonNames()
+OlsonNames() %>% head()
 
 # How many different time zones
 OlsonNames() %>% length()
 
 # "US" ~ "Europe" included in TZ
-OlsonNames() %>% str_subset(pattern = "US")
-OlsonNames() %>% str_subset(pattern = "Europe")
+OlsonNames() %>% str_subset(pattern = "US") %>% head()
+OlsonNames() %>% str_subset(pattern = "Europe") %>% head()
 ```

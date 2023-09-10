@@ -26,12 +26,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=T, message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
 library(tidyverse)
-library(readxl)
-library(rio)
-library(data.table)
-library(feather)
 ```
-
 
 # Data Wrangle: strings - factors (stringr & forcats)
 
@@ -96,30 +91,31 @@ load("./data/strings.RData")
 # str_detect() - Detect s pattern
 # similar base R: grepl()
 # Find a fruit containing letter "a" (anywhere in word)
-fruit
+fruit %>% head()
 ind <- str_detect(string = fruit, pattern = "a") # returns TRUE / FALSE
-fruit[ind]
+fruit[ind] %>% head()
 
 # grepl
-fruit[grepl(pattern = "a", x = fruit)]
+fruit[grepl(pattern = "a", x = fruit)] %>% head()
 ```
 ```{r}
 # Find a fruit not containing any letter "a" !
 
 # we use negation
-fruit[str_detect(fruit, "a", negate = T)]
-fruit[!str_detect(fruit, "a")]
+fruit[str_detect(fruit, "a", negate = T)] %>% head()
+fruit[!str_detect(fruit, "a")] %>% head()
 
 # Inside tibble add flag if fruit contains letter "a" or if it doesn't contain letter "a"
 fruit.df %>% 
-  mutate(flag = case_when(str_detect(fruit, pattern = "a") ~ "contains 'a'", T ~ "does not contain 'a'"))
+  mutate(flag = case_when(str_detect(fruit, pattern = "a") ~ "contains 'a'", T ~ "does not contain 'a'")) %>% 
+  head()
 
 # Find fruits starting or ending with letter "a"
 ind.start.a <- str_detect(fruit, pattern = "^a")
-fruit[ind.start.a]
+fruit[ind.start.a] %>% head()
 
 ind.end.a <- str_detect(fruit, pattern = "a$")
-fruit[ind.end.a]
+fruit[ind.end.a] %>% head()
 ```
 
 ```{r}
@@ -127,9 +123,9 @@ fruit[ind.end.a]
 # similar base R: grep()
 #   Find a fruit containing letter "a" (anywhere in word)
 ind <- str_which(string = fruit, pattern = "a") # returns index position
-fruit[ind]
+fruit[ind] %>% head()
 
-fruit[grep(pattern = "a", x = fruit)]
+fruit[grep(pattern = "a", x = fruit)] %>% head()
 ```
 
 ```{r}
@@ -145,14 +141,15 @@ fruit.df1 %>%
 
 # Show fruit with 3 "a" letters
 fruit.df1 %>% 
-  filter(`count a` == 3)
+  filter(`count a` == 3) %>% 
+  head()
 ```
 
 ```{r}
 # str_locate() / str_locate_all() - Locate position(s) of pattern match in string
 
 # Locate position of first letter "a" in each fruit (matrix is returned)
-str_locate(fruit, pattern = "a") 
+str_locate(fruit, pattern = "a") %>% head()
 
 fruit.df1 <- str_locate(fruit, pattern = "a") %>% 
   as_tibble() %>% # convert matrix of positions to tibble
@@ -160,7 +157,7 @@ fruit.df1 <- str_locate(fruit, pattern = "a") %>%
   select(fruit, start, end) # re-arrange columns
 
 # Locate position of all letters "a" in each fruit (list is returned)
-str_locate_all(fruit, pattern = "a") 
+str_locate_all(fruit, pattern = "a") %>% head()
 ```
 
 
@@ -171,47 +168,49 @@ str_locate_all(fruit, pattern = "a")
 # similar base R: substr()
 
 # Extract first 3 letters of a fruit
-str_sub(string = fruit, start = 1, end = 3)
-substr(x = fruit, start = 1, stop = 3)
+str_sub(string = fruit, start = 1, end = 3) %>% head()
+substr(x = fruit, start = 1, stop = 3) %>% head()
 
 # Extract first letter of common word and count word frequency by first word letter
 words.df %>% 
   mutate(`first letter` = str_sub(word, 1, 1)) %>% # extract first letter
   count(`first letter`) %>% # count frequencies
-  arrange(desc(n)) # sort from high to low frequency
+  arrange(desc(n)) %>% # sort from high to low frequency
+  head()
 
 # Extract middle part of the word
-str_sub(fruit, start = 3, end = 5) # from 3rd to 5th letter
+str_sub(fruit, start = 3, end = 5) %>% head() # from 3rd to 5th letter
 
 # Extract last letter / last 3 letters (use negative counters - for counting backward)
-str_sub(fruit, start = -1, end = -1) # last letter
-str_sub(fruit, start = -3, end = -1) # last 3 letters
+str_sub(fruit, start = -1, end = -1) %>% head() # last letter
+str_sub(fruit, start = -3, end = -1) %>% head() # last 3 letters
 ```
 
 ```{r}
 # str_subset() - Return only strings that match pattern
 # Return fruit containing letter "c"
-str_subset(string = fruit, pattern = "c")
+str_subset(string = fruit, pattern = "c") %>% head()
 
 # Return fruit starting with letter "c"
-str_subset(string = fruit, pattern = "^c")
+str_subset(string = fruit, pattern = "^c") %>% head()
 ```
 
 ```{r}
 # str_extract() / str_extract_all() - Return first or every pattern match
 # Return fruit containing "a" first occurence
-str_extract(string = fruit, pattern = "a")  # vector is returned
+str_extract(string = fruit, pattern = "a") %>% head()  # vector is returned
 
 # Return fruit containing "a" all occurences
-str_extract_all(string = fruit, pattern = "a") #  list is returned
+str_extract_all(string = fruit, pattern = "a") %>% head() #  list is returned
 ```
 
 ```{r}
 # str_match() / str_match_all() - Return first or every pattern match (as a matrx)
 # Return fruit containing "a" first occurence
-str_match(string = fruit, pattern = "a")  # matrix is returned
+str_match(string = fruit, pattern = "a") %>% head()  # matrix is returned
+
 # Return fruit containing "a" all occurences
-str_match_all(string = fruit, pattern = "a") #  matrix inside list is returned
+str_match_all(string = fruit, pattern = "a") %>% head() #  matrix inside list is returned
 ```
 
 ## String lengths
@@ -223,29 +222,29 @@ str_length("word")
 nchar("word")
 
 # Find all fruits with length 10 or more characters
-fruit[str_length(fruit) >= 10]
+fruit[str_length(fruit) >= 10] %>% head()
 ```
 
 ```{r}
 # str_pad() - String padding
 # Pad fruit names with symbol "X" to get a string with width = 20
-str_pad(string = fruit, width = 20, side = "left", pad = "X")  # left side padding
-str_pad(string = fruit, width = 20, side = "right", pad = "X") # right side padding
-str_pad(string = fruit, width = 20, side = "both", pad = "X")  # both side padding
+str_pad(string = fruit, width = 20, side = "left", pad = "X") %>% head()  # left side padding
+str_pad(string = fruit, width = 20, side = "right", pad = "X") %>% head() # right side padding
+str_pad(string = fruit, width = 20, side = "both", pad = "X") %>% head()  # both side padding
 
 # Where padding is very useful in practice (ID numbers)
 set.seed(123)
 id.numbers <- sample(x = 1:1000, size = 25, replace = F) # generate some ID numbers
-id.numbers
-str_pad(id.numbers, width = 5, side = "left", pad = "0") # add leading zeros
+id.numbers %>% head()
+str_pad(id.numbers, width = 5, side = "left", pad = "0") %>% head() # add leading zeros
 ```
 
 ```{r}
 # str_trunc() - String truncating
 # Truncate fruit names with symbol "..." to get a string with width = 5
-str_trunc(string = fruit, width = 5, side = "left", ellipsis = "...")   # left side truncating
-str_trunc(string = fruit, width = 5, side = "right", ellipsis = "...")  # right side truncating
-str_trunc(string = fruit, width = 5, side = "center", ellipsis = "...") # center side truncating
+str_trunc(string = fruit, width = 5, side = "left", ellipsis = "...") %>% head()   # left side truncating
+str_trunc(string = fruit, width = 5, side = "right", ellipsis = "...") %>% head()  # right side truncating
+str_trunc(string = fruit, width = 5, side = "center", ellipsis = "...") %>% head() # center side truncating
 ```
 
 ```{r}
@@ -260,56 +259,56 @@ whitespace <- c("nospaces",
                 "   bothspaces   ",
                 "middle space",
                 " mix space ")
-whitespace
+whitespace %>% head()
 
 # Trim left white space(s)
 whitespace.trim.left <- str_trim(string = whitespace, side = "left")
-whitespace
-whitespace.trim.left
+whitespace %>% head()
+whitespace.trim.left %>% head()
 
 # Trim right white space(s)
 whitespace.trim.right <- str_trim(string = whitespace, side = "right")
-whitespace
-whitespace.trim.right
+whitespace %>% head()
+whitespace.trim.right %>% head()
 
 # Trim both side white space(s)
 whitespace.trim.both <- str_trim(string = whitespace, side = "both")
-whitespace
-whitespace.trim.both
+whitespace %>% head()
+whitespace.trim.both %>% head()
 ```
 
 ## Strings mutating
 ```{r}
 # str_sub() - Replace a part of given string
 # Replace first 3 letters of each fruit with string "FRU"
-fruit
+fruit %>% head()
 fruit.sub <- fruit
-fruit.sub
+fruit.sub %>% head()
 str_sub(fruit.sub, start = 1, end = 3) <- "FRU"
-fruit.sub
+fruit.sub %>% head()
 ```
 
 ```{r}
 # str_replace() - Replace the first matched pattern in a string
 # Replace first occurence of letter "a" with "A" in each fruit
-str_replace(string = fruit, pattern = "a", replacement = "A")
+str_replace(string = fruit, pattern = "a", replacement = "A") %>% head()
 
 # str_replace_all() - Replace all matched patterns in a string
 # Replace all occurences of letter "a" with "A" in each fruit
-str_replace_all(string = fruit, pattern = "a", replacement = "A")
+str_replace_all(string = fruit, pattern = "a", replacement = "A") %>% head()
 
 # str_to_lower() - Convert string to lower case
 string.upper <- "THIS IS A STRING"
 string.lower <- str_to_lower(string = string.upper)
-string.lower
+string.lower %>% head()
 
 # str_to_upper() - Convert string to upper case
 string.upper <- str_to_lower(string = string.lower)
-string.upper
+string.upper %>% head()
 
 # str_to_title() - Convert string to "upper"title" case
 string.title <- str_to_title(string = string.lower)
-string.title
+string.title %>% head()
 ```
 
 ## Joining and splitting strings
@@ -322,48 +321,48 @@ fruit3 <- fruit[41:60]
 fruit4 <- fruit[61:80]
 
 # Create one vector of strings using all 4 smaller vectors
-str_c(fruit1, fruit2, fruit3, fruit4, sep = "-")
+str_c(fruit1, fruit2, fruit3, fruit4, sep = "-") %>% head()
 
 # Create vector of alphabet letters: one lower and one upper case
-letters
-Letters
-str_c(letters, Letters)
+letters %>% head()
+Letters %>% head()
+str_c(letters, Letters) %>% head()
 
 # str_c() - Colapse a vector of strings into  single string
 # Collapse a vector of letters into a single string containing all letters
-str_c(letters, collapse = "")
-str_c(letters, collapse = " ")
+str_c(letters, collapse = "") %>% head()
+str_c(letters, collapse = " ") %>% head()
 ```
 
 ```{r}
 # str_dup() - Repeat a string multiple times
 # Repeat one string 5 times
-str_dup(string = "string", times = 5)
+str_dup(string = "string", times = 5) %>% head()
 
 # Repeat a vector of strings 2 times
-str_dup(string = fruit1, times = 2)
+str_dup(string = fruit1, times = 2) %>% head()
 ```
 
 ```{r}
 # str_split_fixed() - Split a vector of strings into a matrix of substrings base on pattern
 # Split fruit by " " white space
-str_split_fixed(string = fruit, pattern = " ", n = 2) # n - number of pieces to return!
+str_split_fixed(string = fruit, pattern = " ", n = 2) %>% head() # n - number of pieces to return!
 
 # Split first 5 sentences by " " white space - increase n
-str_split_fixed(sentences[1:5], pattern = " ", n = 10) 
+str_split_fixed(sentences[1:5], pattern = " ", n = 10) %>% head() 
 ```
 
 ```{r}
 # str_split() - Split a vector of strings into a list / matrix of substrings base on pattern
 # Split first 5 sentences by " " white space
-str_split(sentences[1:5], pattern = " ") # return a list
-str_split(sentences[1:5], pattern = " ", simplify = T) # return a matrix
+str_split(sentences[1:5], pattern = " ") %>% head() # return a list
+str_split(sentences[1:5], pattern = " ", simplify = T) %>% head() # return a matrix
 ```
 
 ```{r}
 # str_glue() - Glue/merge together string and expression
 # Merge string and evaluated mathematical symbol   
-str_glue("What is the value of sqrt(2), it is {sqrt(2)}.")
+str_glue("What is the value of sqrt(2), it is {sqrt(2)}.") %>% head()
 
 # Merge fixed string and assigned string to a variable
 name <- "Marko"
@@ -373,8 +372,8 @@ str_glue("Hi my name is {name}")
 ```{r}
 # str_glue_data() - Use data.frame / list or environment to create strings from string and expression
 # Merge string and values from a data.frame
-mtcars
-str_glue_data(mtcars, "The car {rownames(mtcars)}: {hp} horsepower, {cyl} number of cylinders and consumption {mpg} miles per gallon")
+mtcars %>% head()
+str_glue_data(mtcars, "The car {rownames(mtcars)}: {hp} horsepower, {cyl} number of cylinders and consumption {mpg} miles per gallon") %>% head()
 ```
 
 ## Other string helper functions
@@ -382,26 +381,26 @@ str_glue_data(mtcars, "The car {rownames(mtcars)}: {hp} horsepower, {cyl} number
 ```{r}
 # str_order() - Return a vector of indexes after character vector is sorted.
 # Let's first shuffle fruits (to get random order)
-set.seed(456)
+set.seed(42)
 fruit.shuf <- sample(x = fruit, size = length(fruit), replace = F)
-fruit.shuf
+fruit.shuf %>% head()
 
 # Now get order index and use to sort shuffled fruits
 str_order(x = fruit.shuf) # get index
-fruit.shuf[str_order(x = fruit.shuf)] # use it for sort
+fruit.shuf[str_order(x = fruit.shuf)] %>% head() # use it for sort
 ```
 
 ```{r}
 # str_sort() - Sort character vector
 # Let' sort shuffled fruits
-str_sort(x = fruit.shuf)
-str_sort(x = fruit.shuf, decreasing = T)
+str_sort(x = fruit.shuf) %>% head()
+str_sort(x = fruit.shuf, decreasing = T) %>% head()
 
 # Sorting numbers stored as strings!
 set.seed(567)
 numbers.s <- sample(1:250, size = 20, replace = F) # generate some numbers
 numbers.s <- as.character(numbers.s) # conver numbers to charatcer
-numbers.s
+numbers.s %>% head()
 
 str_sort(numbers.s) # not sorted as numbers but as strings
 str_sort(numbers.s, numeric = T) # sorted as numbers 
@@ -412,21 +411,21 @@ str_sort(numbers.s, numeric = T) # sorted as numbers
 # very useful in the context of regular expressions 
 # (given context will be shown later)
 # View first match
-str_view(string = fruit, pattern = "a") # displays all
-str_view(string = fruit, pattern = "a", match = T) # display only matched
-str_view(string = fruit, pattern = "^a", match = T)
+str_view(string = fruit, pattern = "a")  %>% head() # displays all
+str_view(string = fruit, pattern = "a", match = T) %>% head() # display only matched
+str_view(string = fruit, pattern = "^a", match = T) %>% head() 
 ```
 
 ```{r}
 # View all matches
-str_view_all(string = fruit, pattern = "a", match = T) 
+str_view_all(string = fruit, pattern = "a", match = T) %>% head()
 ```
 
 ## Regular expressions (regex)
 
 ```{r}
 # Get list of some special characters
-?"'"
+# ?"'"
 
 # Escaping paradox
 string <- c("string", "word", "letter", "word.letter", "character/letter") 
@@ -440,87 +439,87 @@ str_view_all(string, ".t.")
 
 # Match "." as a dot not as a metacharacter meaning:
 # 1) wrong way: since . is interpreted as metacharater ~ any charatcer
-#str_view(string, ".")
+# str_view(string, ".")
 
 # 2) wrong way (single backslash \ ): escaping is applied on . but \ is not escaped!
-#str_view(string, "\.")
+# str_view(string, "\.")
 
 # 3) correct way (double backslash \\ ): escaping is applied on . and \ !
-#str_view(string, "\\.")
+# str_view(string, "\\.")
 
 # Match "\" as a backslash character not as a metacharacter meaning:
-#writeLines("\\") # \ must be escaped when written as a string
-#str_view("\\", "\\\\") # double escaping is applied int he pattern ~ four \ in total at the end!
+# writeLines("\\") # \ must be escaped when written as a string
+# str_view("\\", "\\\\") # double escaping is applied int he pattern ~ four \ in total at the end!
 ```
 
 ## Regex: Special characters & Classes
 ```{r}
 # Digits VS non-digits
 string <- c(letters, "123", "1-5-6", "598642")
-string
+string %>% head()
 
 # Find strings with digits
-str_subset(string, "\\d")
-str_view_all(string, "\\d", match = T)
+str_subset(string, "\\d") %>% head()
+str_view_all(string, "\\d", match = T) %>% head()
 
 # Find strings without digits
-str_subset(string, "\\D")
-str_view_all(string, "\\D", match = T)
+str_subset(string, "\\D") %>% head()
+str_view_all(string, "\\D", match = T) %>% head()
 
 # Strings with pattern "digit-digit-digit"
-str_subset(string, "\\d-\\d-\\d")
-str_view_all(string, "\\d-\\d-\\d", match = T)
+str_subset(string, "\\d-\\d-\\d") %>% head()
+str_view_all(string, "\\d-\\d-\\d", match = T) %>% head()
 
 # Locate whitespace(s)
-set.seed(123)
+set.seed(42)
 string <- c(sample(sentences, 5), 
             sample(fruit, 5),
             sample(words, 5),
             "This is \nnewline",
             "String with a tab \t")
-string
-writeLines(string)
+string %>% head()
+writeLines(string) %>% head()
 
-str_subset(string, "\\s") # only strings with white spaces
-str_view_all(string, "\\s")
+str_subset(string, "\\s") %>% head() # only strings with white spaces
+str_view_all(string, "\\s") %>% head()
 
 # Locate string with new lines or tabs
-str_subset(string, "\\n") # only strings with new lines
-str_subset(string, "\\t") # only strings with tabs
+str_subset(string, "\\n") %>% head() # only strings with new lines
+str_subset(string, "\\t") %>% head() # only strings with tabs
 
 # Different classes
 string <- c("123abc", "abc", "123", ".,?", "ABC", "\nABC", "\tabc")
-string
+string %>% head()
 
 # Strings with digits
-str_subset(string, "[:digit:]")
-str_view_all(string, "[:digit:]", match = T)
+str_subset(string, "[:digit:]") %>% head()
+str_view_all(string, "[:digit:]", match = T) %>% head()
 
 # Strings with letters
-str_subset(string, "[:alpha:]")
-str_view_all(string, "[:alpha:]", match = T)
+str_subset(string, "[:alpha:]") %>% head()
+str_view_all(string, "[:alpha:]", match = T) %>% head()
 
 # Strings with upper / lower case letters
-str_subset(string, "[:lower:]")
-str_view_all(string, "[:lower:]", match = T)
-str_subset(string, "[:upper:]")
-str_view_all(string, "[:upper:]", match = T)
+str_subset(string, "[:lower:]") %>% head()
+str_view_all(string, "[:lower:]", match = T) %>% head()
+str_subset(string, "[:upper:]") %>% head()
+str_view_all(string, "[:upper:]", match = T) %>% head()
 
 # Strings with letters or numbers
-str_subset(string, "[:alnum:]")
-str_view_all(string, "[:alnum:]", match = T)
+str_subset(string, "[:alnum:]") %>% head()
+str_view_all(string, "[:alnum:]", match = T) %>% head()
 
 # Strings with punctuation
-str_subset(string, "[:punct:]")
-str_view_all(string, "[:punct:]", match = T)
+str_subset(string, "[:punct:]") %>% head()
+str_view_all(string, "[:punct:]", match = T) %>% head()
 
 # Strings with letters, numbers or punctuation
-str_subset(string, "[:graph:]")
-str_view_all(string, "[:graph:]", match = T)
+str_subset(string, "[:graph:]") %>% head()
+str_view_all(string, "[:graph:]", match = T) %>% head()
 
 # Strings with space characters
-str_subset(string, "[:blank:]")
-str_view_all(string, "[:blank:]", match = T)
+str_subset(string, "[:blank:]") %>% head()
+str_view_all(string, "[:blank:]", match = T) %>% head()
 ```
 
 
@@ -529,58 +528,58 @@ str_view_all(string, "[:blank:]", match = T)
 ```{r}
 # Anchors
 # Find a word starting with letter "a"
-str_subset(words, "^a")
-str_view_all(words, "^a", match = T)
+str_subset(words, "^a") %>% head()
+str_view_all(words, "^a", match = T) %>% head()
 
 # Find a word ending with letter "a"
-str_subset(words, "a$")
-str_view_all(words, "a$", match = T)
+str_subset(words, "a$") %>% head()
+str_view_all(words, "a$", match = T) %>% head()
 
 # Find exact word using ^....$
-str_subset(words, "^actor$")
-str_view_all(words, "^actor$", match = T)
-str_subset(fruit, "^lemon$")
-str_view_all(fruit, "^lemon$", match = T)
+str_subset(words, "^actor$") %>% head()
+str_view_all(words, "^actor$", match = T) %>% head()
+str_subset(fruit, "^lemon$") %>% head()
+str_view_all(fruit, "^lemon$", match = T) %>% head()
 ```
 
 ```{r}
 # Alternates
 # Find words that starts with "af" or "ag"
-str_subset(words, "^af|^ag")
-str_view_all(words, "^af|^ag", match = T)
+str_subset(words, "^af|^ag") %>% head()
+str_view_all(words, "^af|^ag", match = T) %>% head()
 
 # Find words containing letters "x" or "y" or "z"
-str_subset(words, "[xyz]")
+str_subset(words, "[xyz]") %>% head()
 
 # Find words not containing letters from "a" to "x"
-str_subset(words %>% str_to_lower(), "[^[a-y]]")
-str_view_all(words %>% str_to_lower(), "[^[a-y]]", match = T)
+str_subset(words %>% str_to_lower(), "[^[a-y]]") %>% head()
+str_view_all(words %>% str_to_lower(), "[^[a-y]]", match = T) %>% head()
 
 # Find all country names beginning with letter "A" or "E"
-str_subset(countries, "^A|^E")
+str_subset(countries, "^A|^E") %>% head()
 
 # Find all country names ending with letter "a" or "e"
-str_subset(countries, "a$|e$")
+str_subset(countries, "a$|e$") %>% head()
 ```
 
 ```{r}
 # Groups
 # Find all sentences that include words: "the", "a" or "an"
-str_subset(sentences, "(\\sthe\\s|\\sa\\s|\\san\\s)")
-str_view_all(sentences, "(\\sthe\\s|\\sa\\s|\\san\\s)", match = T)
+str_subset(sentences, "(\\sthe\\s|\\sa\\s|\\san\\s)") %>% head()
+str_view_all(sentences, "(\\sthe\\s|\\sa\\s|\\san\\s)", match = T) %>% head()
 
 # Find words with repeated pair of letters (two letters must be repeated): use back references
-str_subset(words, "(..)\\1")   # \1 is a group reference 1st group, double backslash ~ escaping
-str_view_all(words, "(..)\\1", match = T)
+str_subset(words, "(..)\\1") %>% head()   # \1 is a group reference 1st group, double backslash ~ escaping
+str_view_all(words, "(..)\\1", match = T) %>% head()
 
-str_subset(fruit, "(..)\\1")   
-str_view_all(fruit, "(..)\\1", match = T)
+str_subset(fruit, "(..)\\1") %>% head()
+str_view_all(fruit, "(..)\\1", match = T) %>% head()
 ```
 
 ```{r}
 # Mor ethan one greoup in back reference
 string <- c("abc", "abcabc", "ababcc", "abababccc")
-string
+string %>% head()
 str_view_all(string, "(a)(b)", match = T)             # ab
 str_view_all(string, "(a)(b)\\1", match = T)          # aba
 str_view_all(string, "(a)(b)\\1\\2", match = T)       # abab
@@ -592,20 +591,20 @@ str_view_all(string, "(a)(b)\\1\\2\\1\\2", match = T) # ababab
 ```{r}
 # Look arounds
 # Find a word where letter "w" is followed by letter "a"
-str_subset(words, "w(?=a)")   
-str_view_all(words, "w(?=a)", match = T)
+str_subset(words, "w(?=a)") %>% head()
+str_view_all(words, "w(?=a)", match = T) %>% head()
 
 # Find a word where letter "w" is not followed by letter "a"
-str_subset(words, "w(?!a)")   
-str_view_all(words, "w(?!a)", match = T)
+str_subset(words, "w(?!a)") %>% head()
+str_view_all(words, "w(?!a)", match = T) %>% head()
 
 # Find a word where letter "a" is preceded by letter "w"
-str_subset(words, "(?<=w)a")   
-str_view_all(words, "(?<=w)a", match = T)
+str_subset(words, "(?<=w)a") %>% head()
+str_view_all(words, "(?<=w)a", match = T) %>% head()
 
 # Find a word where letter "a" is not preceded by letter "w"
-str_subset(words, "(?<!w)a")   
-str_view_all(words, "(?<!w)a", match = T)
+str_subset(words, "(?<!w)a") %>% head()
+str_view_all(words, "(?<!w)a", match = T) %>% head()
 ```
 
 ```{r}
@@ -613,22 +612,22 @@ str_view_all(words, "(?<!w)a", match = T)
 string <- " .A.AA.AAA.AAAA"
 
 # zero or one "A"
-str_view_all(string, "A?")
+str_view_all(string, "A?") %>% head()
 
 # zero or more "A"
-str_view_all(string, "A*")
+str_view_all(string, "A*") %>% head()
 
 # one or more "A"
-str_view_all(string, "A+")
+str_view_all(string, "A+") %>% head()
 
 # exactly 2 "A"
-str_view_all(string, "A{2}")
+str_view_all(string, "A{2}") %>% head()
 
 # 2 or more "A"
-str_view_all(string, "A{2,}")
+str_view_all(string, "A{2,}") %>% head()
 
 # between 2 and 3 "A"
-str_view_all(string, "A{2,3}")
+str_view_all(string, "A{2,3}") %>% head()
 ```
 
 ```{r}
@@ -646,7 +645,8 @@ sentences.df1 %>% count(`nr words`) # show frequencies
 # Countries with more than 3 words in a country name
 countries.df %>% 
   mutate(`nr words` = str_count(string = country, "\\s+") + 1) %>% 
-  filter(`nr words` > 3)
+  filter(`nr words` > 3) %>% 
+  head()
 ```
 
 ## Factors ~ forcats
@@ -655,19 +655,19 @@ countries.df %>%
 # First lets' create a factor variables
 df <- mpg %>% 
   mutate_at(.vars = c("manufacturer", "model", "trans", "class"), .funs = as_factor)
-str(df)
+str(df) %>% head()
 ```
 
 ```{r}
 # Check factor levels
-df$manufacturer %>% levels()
+df$manufacturer %>% levels() %>% head()
 ```
 
 ```{r}
 # fct_count() - Count factor values
 # Check car manufacturer (frequencies count)
-df %>% .$manufacturer %>%  fct_count()
-df %>% count(manufacturer)
+df %>% .$manufacturer %>%  fct_count() %>% head()
+df %>% count(manufacturer) %>% head()
 
 # Let's visualize frequencies (ggplot2 section is coming later!)
 df %>% 
@@ -678,8 +678,8 @@ df %>%
 
 # fct_unique() - Extract unique levels
 # Car manufacturer unique levels
-df %>% .$manufacturer %>% fct_unique() 
-df %>% .$manufacturer %>% fct_unique() %>% as.character()
+df %>% .$manufacturer %>% fct_unique() %>% head() 
+df %>% .$manufacturer %>% fct_unique() %>% as.character() %>% head()
 ```
 
 ## Factors combine and order levels
@@ -700,21 +700,22 @@ f1 <- df1 %>% pull(manufacturer)
 f2 <- df2 %>% pull(manufacturer)
 
 # Combine factors
-c(f1, f2)    # with classical vector bind we lose factor level labels!
-fct_c(f1,f2) # This way levels are preserved!
+c(f1, f2) %>% head()    # with classical vector bind we lose factor level labels!
+fct_c(f1,f2) %>% head() # This way levels are preserved!
 ```
 
 ```{r}
 # fct_relevel() - Manually reorder levels
 # Lets randomly shuffle levels - manufacturers
-set.seed(123)
+set.seed(42)
 
 manufacturers.rnd <- sample(manufacturers, size = length(manufacturers), replace = F)
 
 # Now count frequencies &  create another bar plot with manually reordered levels
 df %>% 
   mutate(manufacturer = fct_relevel(manufacturer, manufacturers.rnd)) %>% 
-  count(manufacturer)
+  count(manufacturer) %>% 
+  head()
 
 df %>% 
   mutate(manufacturer = fct_relevel(manufacturer, manufacturers.rnd)) %>% 
@@ -729,7 +730,8 @@ df %>%
 # Order manufacturers based on car count
 df %>% 
   mutate(manufacturer = fct_infreq(manufacturer)) %>% 
-  count(manufacturer)
+  count(manufacturer) %>% 
+  head()
 
 df %>% 
   mutate(manufacturer = fct_infreq(manufacturer)) %>% 
@@ -744,7 +746,8 @@ df %>%
 # Order manufacturers based how they appear in the data
 df %>% 
   mutate(manufacturer = fct_inorder(manufacturer)) %>% 
-  count(manufacturer)
+  count(manufacturer) %>% 
+  head()
 
 df %>% 
   mutate(manufacturer = fct_inorder(manufacturer)) %>% 
@@ -759,7 +762,8 @@ df %>%
 # Order manufacturers based on reverse appereance in the data
 df %>% 
   mutate(manufacturer = fct_rev(manufacturer)) %>% 
-  count(manufacturer)
+  count(manufacturer) %>% 
+  head()
 
 df %>% 
   mutate(manufacturer = fct_rev(manufacturer)) %>% 

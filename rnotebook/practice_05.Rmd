@@ -1,5 +1,5 @@
 ---
-title: "R - Practice 05"
+title: "R - Practice 05 - v1.1"
 author: Sangkon Han(sangkon@pusan.ac.kr)
 date: "`r format(Sys.Date())`" 
 output:
@@ -28,7 +28,6 @@ knitr::opts_chunk$set(echo=T, message=F, warning=F, fig.height = 8, cache=T, dpi
 library(tidyverse)
 library(ggwordcloud)
 library(nycflights13)
-library(hms)
 library(cowplot)
 ```
 
@@ -79,7 +78,6 @@ mpg %>%
   ylab("Number of cars (frequency)") +
   ggtitle("Distribution of variable - highway miles per gallon")
 ```
-
 
 ### Density plot
 
@@ -142,12 +140,11 @@ ggplot() +
 
 ### How to export a figure?
 
-```{r}
+```
 # ggsave(filename = "./data/density_plot_mpg.png", 
 #        plot = last_plot(),
 #        units = "cm", width = 29, height = 21, dpi = 300)
 ```
-
 
 ### Area plot
 

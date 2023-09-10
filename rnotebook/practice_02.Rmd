@@ -1,5 +1,5 @@
 ---
-title: "R - Practice 02"
+title: "R - Practice 02 - v1.1"
 author: Sangkon Han(sangkon@pusan.ac.kr)
 date: "`r format(Sys.Date())`" 
 output:
@@ -27,9 +27,10 @@ output:
 knitr::opts_chunk$set(echo=T, message=F, warning=F, fig.height = 8, cache=T, dpi = 300, dev = "png")
 library(tidyverse)
 library(readxl)
-library(rio)
 library(data.table)
+library(hflights)
 library(feather)
+library(rio)
 ```
 
 # Data import (tibble & readr)
@@ -48,13 +49,13 @@ class(ggplot2::diamonds)
 ```
 
 ```{r}
-ggplot2::faithfuld
+ggplot2::faithfuld %>% head()
 class(ggplot2::faithfuld)
 ```
 
 ```{r}
 # hflights data set  (not a tibble - can be converted, shown later)
-hflights::hflights
+hflights::hflights %>% head()
 class(hflights::hflights)
 ```
 
@@ -64,10 +65,8 @@ class(hflights::hflights)
 
 ```{r}
 # Convert hflights data frame
-library(hflights)
 class(hflights)
 dft <- as_tibble(hflights)
-dft
 class(dft)
 ```
 
@@ -77,10 +76,8 @@ df <- data.frame(x = 1:10,
                  y = seq.Date(from = as.Date("2021-01-01"), 
                               to = as.Date("2021-01-10"), 
                               by = "day"))
-df
 class(df)
 dft <- as_tibble(df)
-dft
 class(dft)
 ```
 
@@ -89,17 +86,13 @@ class(dft)
 tibble(v1 = seq(from = 1, to = 100, by = 1),
        v2 = pi,
        v3 = sqrt(v1),
-       v4 = seq.Date(from = as.Date("2021-01-01"), 
-                     length.out = 100, 
-                     by = "day"))
+       v4 = seq.Date(from = as.Date("2021-01-01"), length.out = 100, by = "day")) %>% 
+  head()
 ```
 
 ```{r}
 # Use strange non-syntactic column names
-tibble(`123` = 123,
-       `.` = "period",
-       `,` = "comma",
-       `,*/-+?!` = "strange name")
+tibble(`123` = 123, `.` = "period", `,` = "comma", `,*/-+?!` = "strange name")
 ```
 
 ```{r}
@@ -117,30 +110,30 @@ tribble(
 ```{r}
 # Print output
 hflights %>% as_tibble()
-hflights
+hflights %>% head()
 ```
 
 ### Subsetting
 
 ```{r}
 # Extract by name - $
-mpg$manufacturer
+mpg$manufacturer %>% head()
 ```
 
 ```{r}
 # Extract by name - [[]]
-mpg[["manufacturer"]]
+mpg[["manufacturer"]] %>% head()
 ```
 
 ```{r}
 # Extract by position - [[]]
-mpg[[1]]
+mpg[[1]] %>% head()
 ```
 
 ```{r}
 # Using with a pipe operator
-mpg %>% .$manufacturer
-mpg %>% .[["manufacturer"]]
+mpg %>% .$manufacturer %>% head()
+mpg %>% .[["manufacturer"]] %>% head()
 ```
 
 ## Read files
@@ -176,21 +169,25 @@ read_csv("c1,c2,c3 # comment
 ```{r}
 # Small mpg table
 df <- read_csv(file = "./data/mpg_mini.csv")
+head(df)
 ```
 
 ```{r}
 # Small mpg table (column separator = ";)
 df <- read_csv2(file = "./data/mpg_mini2.csv")
+head(df)
 ```
 
 ```{r}
 # Read tab separated files - .tsv from your disk
 df <- read_tsv(file = "./data/mpg.tsv")
+head(df)
 ```
 
 ```{r}
 # Read files with selected delimiter
 df <- read_delim(file = "./data/mpg_delim.txt", delim = "~")
+head(df)
 ```
 
 ```{r}
@@ -208,19 +205,20 @@ df <- read_delim(file = "./data/mpg.txt",
                  delim = " ", 
                  quote = "\"", 
                  na = "")
+head(df)
 ```
 
 ```{r}
 # Read log based file:
-read_log(file = "./data/example.log")
+read_log(file = "./data/example.log") %>% head()
 ```
 
 ```{r}
 # Read large .csv file
 #  - read.csv   VS   read_csv
 #  - execution times
-system.time(df <- read.csv(file = "./data/mpg_maxi.csv"))
-system.time(df <- read_csv(file = "./data/mpg_maxi.csv"))
+system.time(df <- read.csv(file = "./data/mpg_maxi.csv")) %>% head()
+system.time(df <- read_csv(file = "./data/mpg_maxi.csv")) %>% head()
 ```
 
 ## Vector parsing
@@ -247,7 +245,7 @@ parse_logical(c("TRUE", "FALSE", "T", "F", "NA"))
 ```{r}
 # check parsing problems
 x <- parse_logical(c("TRUE", "FALSE", "T", "F", "NA", "string"))
-problems(x) 
+problems(x)
 ```
 
 ```{r}
@@ -270,8 +268,7 @@ parse_double(c("11.7", "4.13"))
 ```{r}
 # Different decimal mark
 parse_double(c("11,7", "4,13"))
-parse_double(c("11,7", "4,13"), 
-             locale = locale(decimal_mark = ","))
+parse_double(c("11,7", "4,13"), locale = locale(decimal_mark = ","))
 ```
 
 ```{r}
@@ -286,7 +283,7 @@ parse_number(c("100,000.2"), locale = locale(grouping_mark = ","))
 
 ```{r}
 # Parse date
-parse_date("2021-12-31")
+parse_date("2021-12-31") %>% head()
 ```
 
 ```{r}
@@ -321,8 +318,8 @@ guess_parser(c("5", "10"))
 # Parse each column mpg table
 read_tsv(file = "./data/mpg.tsv",
          col_types = cols(
-           manufacturer = col_factor(),
-           model = col_factor(),
+           manufacturer = readr::col_factor(),
+           model = readr::col_factor(),
            displ = col_double(),
            year = col_integer(),
            cyl = col_integer(),
@@ -331,8 +328,7 @@ read_tsv(file = "./data/mpg.tsv",
            cty = col_number(),
            hwy = col_number(),
            fl = col_character(),
-           class = col_character()
-         ))
+           class = col_character())) %>% head()
 ```
 
 ```{r}
@@ -341,7 +337,8 @@ read_tsv(file = "./data/mpg.tsv",
 #  - change column types inside R
 read_tsv(file = "./data/mpg.tsv") %>% 
   mutate_at(.vars = c("year", "cyl"), .funs = as.integer) %>%       # integer conversion
-  mutate_at(.vars = c("manufacturer", "model"), .funs = as.factor)  # factor conversion
+  mutate_at(.vars = c("manufacturer", "model"), .funs = as.factor) %>%   # factor conversion
+  head()
 ```
 
 ## Other useful import libraries
@@ -356,15 +353,16 @@ read_excel(path = "./data/mpg.xlsx") %>% class()
 
 ```{r}
 # rio
-rio::import(file = "./data/mpg.xlsx")
-rio::import(file = "./data/mpg.xlsx") %>% class()
-rio::import(file = "./data/mpg.xlsx", sheet = "Sheet 1") # specify sheet
-rio::import(file = "./data/mpg.xlsx", range = "A1:C10")  # specify range
+rio::import(file = "./data/mpg.xlsx") %>% head()
+rio::import(file = "./data/mpg.xlsx") %>% class() %>% head()
+rio::import(file = "./data/mpg.xlsx", sheet = "Sheet 1") %>% head() # specify sheet
+rio::import(file = "./data/mpg.xlsx", range = "A1:C10") %>% head() # specify range
 ```
 
 ```{r}
 # Import large flat file with fread
 df.f <- fread(file = "./data/mpg_maxi.csv", sep = ",")
+head(df.f)
 ```
 
 ```{r}
@@ -372,13 +370,13 @@ df.f <- fread(file = "./data/mpg_maxi.csv", sep = ",")
 #  - compare execution times
 #  - read.csv VS read_csv VS fread
 print("Execution time read.csv():")
-system.time(df1 <- read.csv(file = "./data/mpg_maxi.csv"))
+system.time(df1 <- read.csv(file = "./data/mpg_maxi.csv")) %>% head()
 
 print("Execution time read_csv():")
-system.time(df2 <- read_csv(file = "./data/mpg_maxi.csv"))
+system.time(df2 <- read_csv(file = "./data/mpg_maxi.csv")) %>% head()
 
 print("Execution time fread():")
-system.time(df3 <- fread(file = "./data/mpg_maxi.csv"))
+system.time(df3 <- fread(file = "./data/mpg_maxi.csv")) %>% head()
 ```
 
 
@@ -386,27 +384,27 @@ system.time(df3 <- fread(file = "./data/mpg_maxi.csv"))
 
 ```{r}
 # Comma separated
-write_csv(x = mpg, file = "./output/mpg_w.csv", col_names = T)
+write_csv(x = mpg, file = "./output/mpg_w.csv", col_names = T) %>% head()
 ```
 
 ```{r}
 # Semicolon separated
-write_csv2(x = mpg, file = "./output/mpg_w2.csv", col_names = T)
+write_csv2(x = mpg, file = "./output/mpg_w2.csv", col_names = T) %>% head()
 ```
 
 ```{r}
 # write a xlsx file
-rio::export(x = mpg, file = "./output/mpg.xlsx")
+rio::export(x = mpg, file = "./output/mpg.xlsx") %>% head()
 ```
 
 ```{r}
 # write/read to/from a .rds file
-write_rds(x = mpg, file = "./output/mpg.rds")
-read_rds(file = "./output/mpg.rds")
+write_rds(x = mpg, file = "./output/mpg.rds") %>% head()
+read_rds(file = "./output/mpg.rds") %>% head()
 ```
 
 ```{r}
 # feather
-write_feather(x = mpg, path = "./output/mpg.feather")
-read_feather(path = "./output/mpg.feather")
+write_feather(x = mpg, path = "./output/mpg.feather") %>% head()
+read_feather(path = "./output/mpg.feather") %>% head()
 ```

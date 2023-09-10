@@ -1,0 +1,1463 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{kotex}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={R - Practice 05 - v1.1},
+  pdfauthor={Sangkon Han(sangkon@pusan.ac.kr)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{R - Practice 05 - v1.1}
+\author{Sangkon
+Han(\href{mailto:sangkon@pusan.ac.kr}{\nolinkurl{sangkon@pusan.ac.kr}})}
+\date{2023-09-11}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Data Visualize: ggplot2}\label{data-visualize-ggplot2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{42}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Visualize distribution of a continuous variable: histogram
+\& density
+plot}\label{visualize-distribution-of-a-continuous-variable-histogram-density-plot}
+
+\subsubsection{Histogram}\label{histogram}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Let\textquotesingle{}s first generate some data {-} uniform continuous distribution (random numbers)}
+\NormalTok{df.unif }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\AttributeTok{n =} \DecValTok{100000}\NormalTok{, }\AttributeTok{min =} \DecValTok{0}\NormalTok{, }\AttributeTok{max =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .)}
+\CommentTok{\#   Now visualize the distribution of random variable x}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ df.unif, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_histogram}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-2-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df.unif }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{45}\NormalTok{,  }
+                 \AttributeTok{color =} \StringTok{"black"}\NormalTok{,}
+                 \AttributeTok{fill =} \StringTok{"deepskyblue3"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-2-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Normal continuous distribution (random numbers)}
+\NormalTok{df.norm }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{100000}\NormalTok{, }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .)}
+
+\NormalTok{df.norm }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{45}\NormalTok{,  }
+                 \AttributeTok{color =} \StringTok{"black"}\NormalTok{,}
+                 \AttributeTok{fill =} \StringTok{"deepskyblue3"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-3-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Now use cars data set and check how values of variable hwy distribute}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{30}\NormalTok{,}
+                 \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Highway miles per gallon"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of cars (frequency)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Distribution of variable {-} highway miles per gallon"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-4-1.png}
+
+\subsubsection{Density plot}\label{density-plot}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Density plot of normally distributed variable}
+\NormalTok{df.norm }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{adjust =}\NormalTok{ .}\DecValTok{05}\NormalTok{,}
+               \AttributeTok{color =} \StringTok{"black"}\NormalTok{,}
+               \AttributeTok{fill =} \StringTok{"deepskyblue3"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-5-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Line parameters}
+\NormalTok{df.norm }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{size =} \FloatTok{1.2}\NormalTok{, }
+               \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }
+               \AttributeTok{adjust =}\NormalTok{ .}\DecValTok{25}\NormalTok{,}
+               \AttributeTok{color =} \StringTok{"black"}\NormalTok{,}
+               \AttributeTok{fill =} \StringTok{"deepskyblue3"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-6-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Visualize normally distributed variables (different distribution parameters)}
+\NormalTok{df.norm1 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{100000}\NormalTok{, }\AttributeTok{mean =} \DecValTok{0}\NormalTok{,  }\AttributeTok{sd =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .)}
+\NormalTok{df.norm2 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{100000}\NormalTok{, }\AttributeTok{mean =} \DecValTok{1}\NormalTok{,  }\AttributeTok{sd =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .)}
+\NormalTok{df.norm3 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{100000}\NormalTok{, }\AttributeTok{mean =} \SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\AttributeTok{sd =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .)}
+
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \CommentTok{\# first density}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{data =}\NormalTok{ df.norm1, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x), }
+               \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"blue"}\NormalTok{, }
+               \AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# second density}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{data =}\NormalTok{ df.norm2, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x), }
+               \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"red"}\NormalTok{, }
+               \AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# third density}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{data =}\NormalTok{ df.norm3, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x), }
+               \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"green"}\NormalTok{, }
+               \AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-7-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Now use cars data set and check how values of variables hwy and cty are distributed}
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{data =}\NormalTok{ mpg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hwy), }
+               \AttributeTok{adjust =}\NormalTok{ .}\DecValTok{75}\NormalTok{,}
+               \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"blue"}\NormalTok{, }
+               \AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{data =}\NormalTok{ mpg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty), }
+               \AttributeTok{adjust =}\NormalTok{ .}\DecValTok{75}\NormalTok{,}
+               \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"red"}\NormalTok{, }
+               \AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Miles per gallon"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Density"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Distribution of variable {-} highway miles per gallon (blue) \& city miles per gallon (red)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-8-1.png}
+
+\subsubsection{How to export a figure?}\label{how-to-export-a-figure}
+
+\begin{verbatim}
+# ggsave(filename = "./data/density_plot_mpg.png", 
+#        plot = last_plot(),
+#        units = "cm", width = 29, height = 21, dpi = 300)
+\end{verbatim}
+
+\subsubsection{Area plot}\label{area-plot}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Using "bins" {-} statistics}
+\NormalTok{df.norm }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_area}\NormalTok{(}\AttributeTok{stat =} \StringTok{"bin"}\NormalTok{, }
+            \AttributeTok{binwidth =} \FloatTok{0.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-9-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Using "density" {-} statistics}
+\NormalTok{df.norm }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_area}\NormalTok{(}\AttributeTok{stat =} \StringTok{"density"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-10-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Generate cumulative distribution and visualize it with area plot!}
+\CommentTok{\# {-} distribution where you show the probability that X \textless{}= x}
+\CommentTok{\# {-} X is a random variable | x is a fixed value}
+\NormalTok{df.norm }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{1000}\NormalTok{, }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .)}
+
+\NormalTok{df.norm }\OtherTok{\textless{}{-}}\NormalTok{ df.norm }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{arrange}\NormalTok{(x) }\SpecialCharTok{\%\textgreater{}\%}    \CommentTok{\# sort x values}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{count =} \DecValTok{1}\NormalTok{, }\CommentTok{\# add counts}
+         \AttributeTok{y =} \FunctionTok{cumsum}\NormalTok{(count),  }\CommentTok{\# running total or cumulative sum of counts}
+         \AttributeTok{y =}\NormalTok{ y }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(count)) }\CommentTok{\# normalize values to get density {-} probability }
+  
+\NormalTok{df.norm }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x,}
+             \AttributeTok{y =}\NormalTok{ y)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_area}\NormalTok{(}\AttributeTok{fill =} \StringTok{"deepskyblue3"}\NormalTok{, }
+            \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"x"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Probability   {-}   P(X\textless{}=x)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-11-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Let\textquotesingle{}s add some standard deviations}
+\NormalTok{df.norm }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x,}
+             \AttributeTok{y =}\NormalTok{ y)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_area}\NormalTok{(}\AttributeTok{fill =} \StringTok{"deepskyblue3"}\NormalTok{, }
+            \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"x"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Probability   {-}   P(X\textless{}=x)"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{1}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{2}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{3}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-12-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# What are theoretical probabilities {-} we will use R}
+\FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =} \FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+       \AttributeTok{probs =} \FunctionTok{pnorm}\NormalTok{(}\AttributeTok{q =}\NormalTok{ x, }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{, }\AttributeTok{lower.tail =}\NormalTok{ T))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 2
+##       x   probs
+##   <dbl>   <dbl>
+## 1    -3 0.00135
+## 2    -2 0.0228 
+## 3    -1 0.159  
+## 4     0 0.5    
+## 5     1 0.841  
+## 6     2 0.977  
+## 7     3 0.999
+\end{verbatim}
+
+\subsection{Visualize distribution of a categorical variable: bar
+plot}\label{visualize-distribution-of-a-categorical-variable-bar-plot}
+
+\subsubsection{Bar plot}\label{bar-plot}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   First generate some data}
+\NormalTok{groups }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"group"}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\AttributeTok{sep =} \StringTok{" "}\NormalTok{) }\CommentTok{\# group names}
+\NormalTok{probs }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(.}\DecValTok{2}\NormalTok{, .}\DecValTok{3}\NormalTok{, .}\DecValTok{4}\NormalTok{, .}\DecValTok{1}\NormalTok{) }\CommentTok{\# probability that unit from  each group is randomly chosen}
+\FunctionTok{sum}\NormalTok{(probs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df.data }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(groups, }
+                  \AttributeTok{size =} \DecValTok{1000}\NormalTok{, }
+                  \AttributeTok{replace =}\NormalTok{ T, }
+                  \AttributeTok{prob =}\NormalTok{ probs) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{tibble}\NormalTok{(}\AttributeTok{group =}\NormalTok{ .)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Draw bar plot {-} stat = "count"}
+\CommentTok{\# {-} ggplot2 calculates the frequencies / counts}
+\NormalTok{df.data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ group)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"count"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-15-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Draw bar plot {-} stat = "identity"}
+\CommentTok{\# {-} we calculates the frequencies / counts}
+\NormalTok{df.data }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# count frequencies}
+  \FunctionTok{group\_by}\NormalTok{(group) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# do the plotting}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ group,}
+             \AttributeTok{y =}\NormalTok{ freq)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-16-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Add fill colors}
+\NormalTok{df.data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ group,}
+             \AttributeTok{fill =}\NormalTok{ group)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"count"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-17-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Alter fill colors {-} scaling:}
+
+\CommentTok{\# a) manual colors}
+\NormalTok{df.data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ group,}
+             \AttributeTok{fill =}\NormalTok{ group)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"count"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"green"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"gray"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-18-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# b) brewer {-} pallete}
+\NormalTok{df.data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ group,}
+             \AttributeTok{fill =}\NormalTok{ group)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"count"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_brewer}\NormalTok{(}\AttributeTok{palette =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-18-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# c) viridis {-} pallete}
+\NormalTok{df.data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ group,}
+             \AttributeTok{fill =}\NormalTok{ group)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"count"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{(}\AttributeTok{option =} \StringTok{"inferno"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-18-3.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Add labels on top of each column}
+\NormalTok{df.data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(group) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ group,}
+             \AttributeTok{y =}\NormalTok{ freq,}
+             \AttributeTok{fill =}\NormalTok{ group)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# add labels {-} with geom\_text}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ freq,   }\CommentTok{\# map label variable}
+                \AttributeTok{y =}\NormalTok{ freq }\SpecialCharTok{+} \DecValTok{10}\NormalTok{), }\CommentTok{\# shift label position up to avoid overlap!}
+            \AttributeTok{size =} \DecValTok{12}\NormalTok{)          }\CommentTok{\# size of }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-19-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Now use car dataset and:}
+\CommentTok{\#  {-} count number of cars for each manufacturer}
+\CommentTok{\#  {-} calculate counts and percentages \%}
+\CommentTok{\#  {-} create a bar plot: showing number of cars per manufacturer}
+\CommentTok{\#  {-} each manufacturer must have its own fill color}
+\CommentTok{\#  {-} add column labels: [number of cars]  | [percentage] \%}
+\CommentTok{\#  {-} columns must be sorted {-} from highest to lowest!}
+\CommentTok{\#  {-} do not show legend!}
+\NormalTok{figure }\OtherTok{\textless{}{-}}\NormalTok{ mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# number of cars per manufacturer}
+  \FunctionTok{group\_by}\NormalTok{(manufacturer) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# add percentages and create labels}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{percentage =} \FunctionTok{round}\NormalTok{(n }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(n) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+         \AttributeTok{label =} \FunctionTok{paste}\NormalTok{(n, }\StringTok{" | "}\NormalTok{, percentage, }\StringTok{"\%"}\NormalTok{, }\AttributeTok{sep =} \StringTok{""}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# order manufacturer variable {-} as factor variable}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(n)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{manufacturer =} \FunctionTok{as.factor}\NormalTok{(manufacturer),}
+         \AttributeTok{manufacturer =} \FunctionTok{fct\_inorder}\NormalTok{(manufacturer)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# create plot}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ manufacturer,}
+             \AttributeTok{y =}\NormalTok{ n,}
+             \AttributeTok{fill =}\NormalTok{ manufacturer)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }
+           \AttributeTok{show.legend =}\NormalTok{ F,    }\CommentTok{\# legend turned off}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ label, }\CommentTok{\# add labels}
+                \AttributeTok{y =}\NormalTok{ n }\SpecialCharTok{+} \DecValTok{1}\NormalTok{),}
+            \AttributeTok{size =} \DecValTok{6}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{(}\AttributeTok{option =} \StringTok{"inferno"}\NormalTok{, }\CommentTok{\# scale fill colors}
+                       \AttributeTok{direction =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Car manufacturer"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Car count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Number of cars per each manufacturer"}\NormalTok{)}
+\NormalTok{figure}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-20-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# export final plot}
+\CommentTok{\# ggsave(filename = "./data/cars\_per\_manufacturer.png", }
+\CommentTok{\#        plot = figure, }
+\CommentTok{\#        units = "cm", }
+\CommentTok{\#        width = 40, height = 21, }
+\CommentTok{\#        dpi = 500)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Visualize relation of 2 continuous variables: scatter
+plot}\label{visualize-relation-of-2-continuous-variables-scatter-plot}
+
+\subsubsection{Scatter plot}\label{scatter-plot}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Can we show some relation between hwy \& cty in cars dataset?}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-22-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Change color, shape \& size of points}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{,}
+             \AttributeTok{size =} \DecValTok{5}\NormalTok{,}
+             \AttributeTok{shape =} \DecValTok{17}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-22-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Add statistic layer {-} regression line}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }
+              \AttributeTok{se =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-22-3.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Alter axis variables scales}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{, }\FloatTok{2.5}\NormalTok{), }
+                     \AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{5}\NormalTok{), }
+                     \AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-22-4.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Diamonds dataset }
+\CommentTok{\#  {-} aprox. 50k different diamonds prices}
+\CommentTok{\#  {-} we will randomly select 10k diamonds}
+\CommentTok{\#  {-} Are diamond carat and diamond related?}
+\NormalTok{df.diamonds }\OtherTok{\textless{}{-}}\NormalTok{ diamonds }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{sample\_n}\NormalTok{(}\AttributeTok{size =} \DecValTok{10000}\NormalTok{, }\AttributeTok{replace =}\NormalTok{ F)}
+
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ carat,}
+             \AttributeTok{y =}\NormalTok{ price)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-23-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Include point transparency }
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ carat,}
+             \AttributeTok{y =}\NormalTok{ price)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \DecValTok{3}\NormalTok{,}
+             \AttributeTok{alpha =} \DecValTok{1}\SpecialCharTok{/}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-23-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Alter y{-}axis scale to transform nonlinear trend to linear trend}
+\CommentTok{\# {-} we can try square root or logarithmic (base 10) transformation}
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ carat,}
+             \AttributeTok{y =}\NormalTok{ price)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_sqrt}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-23-3.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ carat,}
+             \AttributeTok{y =}\NormalTok{ price)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_log10}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_log10}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-23-4.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Adding smoothing line {-} auto detect }
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ carat,}
+             \AttributeTok{y =}\NormalTok{ price)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-23-5.png}
+
+\subsection{Visualize relation of 2 categorical variables: bar plot \&
+scatter
+plot}\label{visualize-relation-of-2-categorical-variables-bar-plot-scatter-plot}
+
+\subsubsection{Bar plot}\label{bar-plot-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Use car dataset and:}
+\CommentTok{\#  {-} With bar plot show the distribution of cars}
+\CommentTok{\#  {-} break down by car manufacturer and car class}
+\CommentTok{\#  {-} use "stacked" bar plot}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ manufacturer,}
+             \AttributeTok{fill =}\NormalTok{ class)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{"stack"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Car manufacturer"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Car count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Number of cars per each manufacturer break down by class"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-24-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Bar plot with position = "dodge"}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ manufacturer,}
+             \AttributeTok{fill =}\NormalTok{ class)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Car manufacturer"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Car count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Number of cars per each manufacturer break down by class"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-24-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Bar plot with position = "fill"}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ manufacturer,}
+             \AttributeTok{fill =}\NormalTok{ class)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{"fill"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Car manufacturer"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Relative car count (\%)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Cars per each manufacturer break down by class"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-24-3.png}
+
+\subsubsection{Scatter plot}\label{scatter-plot-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   No colors altered}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ manufacturer,}
+             \AttributeTok{y =}\NormalTok{ class)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{position =} \StringTok{"jitter"}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Car manufacturer"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Car class"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Cars per each manufacturer and class"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-25-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Colors altered}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ manufacturer,}
+             \AttributeTok{y =}\NormalTok{ class,}
+             \AttributeTok{color =}\NormalTok{ class)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{position =} \StringTok{"jitter"}\NormalTok{,}
+             \AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{scale\_color\_viridis\_d}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Car manufacturer"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Car class"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Cars per each manufacturer and class"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-25-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   alternative {-} geom\_jitter}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ manufacturer,}
+             \AttributeTok{y =}\NormalTok{ class,}
+             \AttributeTok{color =}\NormalTok{ class)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{(}\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{scale\_color\_viridis\_d}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Car manufacturer"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Car class"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Cars per each manufacturer and class"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-25-3.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Diamonds data set}
+\CommentTok{\# {-} visualize distribution of diamonds}
+\CommentTok{\# {-} considering diamond cut \& diamond color}
+\CommentTok{\# {-} use bar plot \& scatter plot}
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ color,}
+             \AttributeTok{fill =}\NormalTok{ cut)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{"stack"}\NormalTok{,}
+           \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Diamond color"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of diamonds"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Number of diamonds per each diamond color break down by diamond cut"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-26-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ color,}
+             \AttributeTok{y =}\NormalTok{ cut,}
+             \AttributeTok{color =}\NormalTok{ cut)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{(}\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{scale\_color\_viridis\_d}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Diamond color"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Diamond cut"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Diamonds per each diamond color and diamond cut"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-26-2.png}
+
+\subsection{Combine continuous and categorical variable: box plot \&
+violin
+plot}\label{combine-continuous-and-categorical-variable-box-plot-violin-plot}
+
+\subsubsection{Box plot}\label{box-plot}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# If we would like to answer a question: are there great differences in highway consumption for different classes of cars?}
+\CommentTok{\# We can use box plot to show us the underlying truth in the data.}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-27-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Are there differences in diamond prices, if we compare different diamond colors?}
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ color,}
+             \AttributeTok{y =}\NormalTok{ price,}
+             \AttributeTok{fill =}\NormalTok{ color)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-27-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{scale\_y\_log10}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## <ScaleContinuousPosition>
+##  Range:  
+##  Limits:    0 --    1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Tweaking parameters of box plot}
+\NormalTok{  mpg }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class,}
+               \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{fill =} \StringTok{"brown1"}\NormalTok{, }
+                 \AttributeTok{outlier.colour =} \StringTok{"blue"}\NormalTok{, }
+                 \AttributeTok{outlier.size =} \DecValTok{5}\NormalTok{,}
+                 \AttributeTok{size =} \FloatTok{1.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-27-3.png}
+
+\subsubsection{Violin plot}\label{violin-plot}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cars data set  }
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_violin}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-28-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Diamonds data set}
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ color,}
+             \AttributeTok{y =}\NormalTok{ price,}
+             \AttributeTok{fill =}\NormalTok{ color)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_violin}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-28-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Tweaking parameters of violin plot}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_violin}\NormalTok{(}\AttributeTok{fill =} \StringTok{"deepskyblue2"}\NormalTok{, }
+              \CommentTok{\#scale = "area"        \# all violins with the same area}
+              \AttributeTok{scale =} \StringTok{"count"}        \CommentTok{\# areas proportional to number of observations}
+\NormalTok{              )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-28-3.png}
+
+\subsubsection{Modify theme layer}\label{modify-theme-layer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Built in themes}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
+  \CommentTok{\#theme\_bw()}
+  \CommentTok{\#theme\_classic()}
+  \CommentTok{\#theme\_dark()}
+  \CommentTok{\#theme\_minimal()}
+  \FunctionTok{theme\_void}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-29-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Custom theme modifications}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class,}
+             \AttributeTok{y =}\NormalTok{ hwy,}
+             \AttributeTok{fill =}\NormalTok{ class)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Car class"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Highway miles per gallon (MPG)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Car fuel consumption by class"}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# theme layer:}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{),}
+        \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{18}\NormalTok{),}
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{0}\NormalTok{, }\AttributeTok{r =} \DecValTok{20}\NormalTok{, }\AttributeTok{b =} \DecValTok{0}\NormalTok{, }\AttributeTok{l =} \DecValTok{0}\NormalTok{)),}
+        \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{20}\NormalTok{, }\AttributeTok{r =} \DecValTok{0}\NormalTok{, }\AttributeTok{b =} \DecValTok{0}\NormalTok{, }\AttributeTok{l =} \DecValTok{0}\NormalTok{)),}
+        \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{25}\NormalTok{, }
+                                  \AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }
+                                  \AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{,}
+                                  \AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{0}\NormalTok{, }\AttributeTok{r =} \DecValTok{0}\NormalTok{, }\AttributeTok{b =} \DecValTok{20}\NormalTok{, }\AttributeTok{l =} \DecValTok{0}\NormalTok{)), }
+        \AttributeTok{legend.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"grey"}\NormalTok{, }
+                                         \AttributeTok{colour =} \StringTok{"black"}\NormalTok{, }
+                                         \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{),}
+        \AttributeTok{legend.key =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"white"}\NormalTok{),}
+        \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }
+                                   \AttributeTok{face =} \StringTok{"italic"}\NormalTok{),}
+        \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{20}\NormalTok{, }
+                                    \AttributeTok{face =} \StringTok{"bold"}\NormalTok{)}
+\NormalTok{        )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-29-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ggsave(filename = "./data/cars\_box\_plot.png", }
+\CommentTok{\#        plot = last\_plot(), }
+\CommentTok{\#        width = 29, height = 21, units = "cm", }
+\CommentTok{\#        dpi = 300)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Visualize multiple variables using only one
+plot}\label{visualize-multiple-variables-using-only-one-plot}
+
+\subsubsection{facet\_wrap - wrap 1D ribbon of panels into 2D (sequence
+of
+panels)}\label{facet_wrap---wrap-1d-ribbon-of-panels-into-2d-sequence-of-panels}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Split hwy VS cty by car class}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\FunctionTok{vars}\NormalTok{(class),}
+             \AttributeTok{scales =} \StringTok{"free"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-30-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{\#facet\_wrap(. \textasciitilde{} class)}
+
+\DocumentationTok{\#\# Split hwy VS cty by car class and drive type}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(class }\SpecialCharTok{\textasciitilde{}}\NormalTok{ drv)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-30-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{\#facet\_wrap(drv \textasciitilde{} class)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{facet\_grid - layout panels in a grid (matrix of
+panels)}\label{facet_grid---layout-panels-in-a-grid-matrix-of-panels}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Split hwy VS cty by car class {-} rows}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{rows =} \FunctionTok{vars}\NormalTok{(class))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-31-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{\#facet\_grid(class \textasciitilde{} .)}
+
+\DocumentationTok{\#\# Split hwy VS cty by car class {-} columns}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{cols =} \FunctionTok{vars}\NormalTok{(class))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-31-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{\#facet\_grid(. \textasciitilde{} class)}
+  
+\DocumentationTok{\#\# Split hwy VS cty by car class and drive type}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(class }\SpecialCharTok{\textasciitilde{}}\NormalTok{ drv)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-31-3.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{\#facet\_grid(drv \textasciitilde{} class)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Adding multiple features}\label{adding-multiple-features}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 2 continuous vars + point size = continuous}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy,}
+             \AttributeTok{size =}\NormalTok{ cyl)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_size}\NormalTok{(}\AttributeTok{range =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{)) }\CommentTok{\# scale point size}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-32-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 2 continuous vars + point color = continuous}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy,}
+             \AttributeTok{color =}\NormalTok{ cyl)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_viridis\_c}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-32-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 2 continuous vars + point color = categorical}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy,}
+             \AttributeTok{color =}\NormalTok{ class)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_viridis\_d}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-32-3.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 2 continuous vars + point shape = categorical}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty,}
+             \AttributeTok{y =}\NormalTok{ hwy,}
+             \AttributeTok{shape =}\NormalTok{ drv,}
+             \AttributeTok{color =}\NormalTok{ drv)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{(}\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_viridis\_d}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-32-4.png}
+
+\subsubsection{Final plot - multiple features \textasciitilde{}
+diamonds}\label{final-plot---multiple-features-diamonds}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df.diamonds }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ carat, }
+             \AttributeTok{y =}\NormalTok{ price, }
+             \AttributeTok{color =}\NormalTok{ cut)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{position =} \StringTok{"jitter"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(color }\SpecialCharTok{\textasciitilde{}}\NormalTok{ clarity, }
+             \AttributeTok{scales =} \StringTok{"free"}\NormalTok{, }
+             \AttributeTok{labeller =} \StringTok{"label\_both"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{20000}\NormalTok{,}\DecValTok{5000}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_viridis\_d}\NormalTok{(}\AttributeTok{option =} \StringTok{"viridis"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Carat"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Price (in USD)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Diamond price \textasciitilde{} carat \textasciitilde{} cut \textasciitilde{} clarity \textasciitilde{} color {-} scatter plot"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{),}
+        \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{16}\NormalTok{),}
+        \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{16}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{),}
+        \AttributeTok{strip.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{colour =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{),}
+        \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{),}
+        \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{),}
+        \AttributeTok{strip.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),}
+        \AttributeTok{panel.border =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{size =} \FloatTok{1.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-33-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ggsave(filename = "./data/scatterplot\_diamonds\_multiple\_elements.png", }
+\CommentTok{\#        plot = last\_plot(),}
+\CommentTok{\#        units = "cm", width = 40, height = 25, dpi = 600) }
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Visualize time series}\label{visualize-time-series}
+
+\subsubsection{Line chart}\label{line-chart}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualize yearly unemployment}
+\NormalTok{economics }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ date,}
+             \AttributeTok{y =}\NormalTok{ unemploy)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-34-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualize multiple time series {-} wide format of table}
+\NormalTok{economics }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ date)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ unemploy), }\AttributeTok{color =} \StringTok{"brown1"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ pce),      }\AttributeTok{color =} \StringTok{"deepskyblue2"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ psavert),  }\AttributeTok{color =} \StringTok{"green"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-34-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Changing parameters}
+\NormalTok{economics }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ date)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ unemploy), }\AttributeTok{color =} \StringTok{"brown1"}\NormalTok{, }\AttributeTok{size =} \FloatTok{1.2}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ pce),      }\AttributeTok{color =} \StringTok{"deepskyblue2"}\NormalTok{, }\AttributeTok{size =} \FloatTok{1.2}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"longdash"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ psavert),  }\AttributeTok{color =} \StringTok{"green"}\NormalTok{, }\AttributeTok{size =} \FloatTok{1.2}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dotdash"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_log10}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-34-3.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualize multiple time series {-} long format of table}
+\NormalTok{economics\_long }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ date,}
+             \AttributeTok{y =}\NormalTok{ value,}
+             \AttributeTok{group =}\NormalTok{ variable,}
+             \AttributeTok{color =}\NormalTok{ variable)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-34-4.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# x {-} labels (date) changes}
+\NormalTok{economics\_long }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(variable }\SpecialCharTok{!=} \StringTok{"pop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ date,}
+             \AttributeTok{y =}\NormalTok{ value,}
+             \AttributeTok{group =}\NormalTok{ variable,}
+             \AttributeTok{color =}\NormalTok{ variable)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \CommentTok{\# scale\_x\_date(date\_breaks = "year")}
+  \CommentTok{\# scale\_x\_date(date\_breaks = "5 years")}
+  \CommentTok{\# scale\_x\_date(date\_breaks = "10 years")}
+  \CommentTok{\# scale\_x\_date(date\_breaks = "month")}
+  \CommentTok{\# scale\_x\_date(date\_breaks = "10 years", date\_labels = "\%Y") \# show only year}
+  \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{date\_breaks =} \StringTok{"5 years"}\NormalTok{, }\AttributeTok{date\_labels =} \StringTok{"\%Y"}\NormalTok{) }\CommentTok{\# show only year}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-35-1.png}
+
+\subsection{Create heatmaps maps word
+clouds}\label{create-heatmaps-maps-word-clouds}
+
+\subsubsection{Heat map}\label{heat-map}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Let\textquotesingle{}s create heat map for cars data set}
+\CommentTok{\#   {-} manufacturer VS car class and number of cars}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(manufacturer, class) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{cars =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class,}
+             \AttributeTok{y =}\NormalTok{ manufacturer,}
+             \AttributeTok{fill =}\NormalTok{ cars)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_tile}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_viridis\_c}\NormalTok{(}\AttributeTok{option =} \StringTok{"magma"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-36-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   {-} manufacturer VS car class and max hwy}
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(manufacturer, class) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{hwy mean}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(hwy)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class,}
+             \AttributeTok{y =}\NormalTok{ manufacturer,}
+             \AttributeTok{fill =} \StringTok{\textasciigrave{}}\AttributeTok{hwy mean}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_tile}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_viridis\_c}\NormalTok{(}\AttributeTok{option =} \StringTok{"magma"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-36-2.png}
+
+\subsubsection{Word clouds}\label{word-clouds}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# create word cloud for car model from the cars dataset}
+\NormalTok{df.cars }\OtherTok{\textless{}{-}}\NormalTok{ mpg }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(model, manufacturer) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{count}\NormalTok{()}
+
+\CommentTok{\# create word cloud}
+\CommentTok{\#   add text size {-} number of cars}
+\CommentTok{\#   determine max text size}
+\NormalTok{df.cars }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ model, }
+             \AttributeTok{size =}\NormalTok{ n)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text\_wordcloud}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_size\_area}\NormalTok{(}\AttributeTok{max\_size =} \DecValTok{20}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-37-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   include word rotation }
+\NormalTok{df.cars }\OtherTok{\textless{}{-}}\NormalTok{ df.cars }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90} \SpecialCharTok{*} \FunctionTok{sample}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\FunctionTok{n}\NormalTok{(), }\AttributeTok{replace =}\NormalTok{ T, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.3}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{angle1 =} \DecValTok{45} \SpecialCharTok{*} \FunctionTok{sample}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\SpecialCharTok{:}\DecValTok{2}\NormalTok{), }\FunctionTok{n}\NormalTok{(), }\AttributeTok{replace =}\NormalTok{ T, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)))}
+
+\CommentTok{\#   final word cloud}
+\NormalTok{df.cars }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ model, }
+             \AttributeTok{size =}\NormalTok{ n, }
+             \AttributeTok{angle =}\NormalTok{ angle1,}
+             \AttributeTok{color =}\NormalTok{ manufacturer)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text\_wordcloud}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_size\_area}\NormalTok{(}\AttributeTok{max\_size =} \DecValTok{20}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_viridis\_d}\NormalTok{(}\AttributeTok{option =} \StringTok{"magma"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-37-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ggsave(filename = "./data/word\_cloud.png", }
+\CommentTok{\#       plot = last\_plot(),}
+\CommentTok{\#       units = "cm", width = 29.7, height = 21, dpi = 600) }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Map}\label{map}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Create crime map data}
+\NormalTok{df.crime }\OtherTok{\textless{}{-}}\NormalTok{ USArrests }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{region =} \FunctionTok{tolower}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(.))) }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# left and other join will be covered in the following lessons!!!}
+  \FunctionTok{left\_join}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .,  }\CommentTok{\# merge crime data set with map information}
+            \AttributeTok{y =} \FunctionTok{map\_data}\NormalTok{(}\StringTok{"state"}\NormalTok{),}
+            \AttributeTok{by =} \StringTok{"region"}\NormalTok{)}
+
+\CommentTok{\#   Draw the map}
+\NormalTok{df.crime }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ long, }
+           \AttributeTok{y=}\NormalTok{ lat, }
+           \AttributeTok{group =}\NormalTok{ group))}\SpecialCharTok{+}
+  \FunctionTok{geom\_polygon}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =}\NormalTok{ Assault), }
+               \AttributeTok{color =} \StringTok{"white"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_viridis\_c}\NormalTok{(}\AttributeTok{option =} \StringTok{"viridis"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-38-1.png}
+
+\subsection{Create subplots}\label{create-subplots}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# First create some smaller plots {-} cars data set}
+\NormalTok{p1 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(mpg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cty, }\AttributeTok{y =}\NormalTok{ hwy))   }\SpecialCharTok{+} \FunctionTok{geom\_jitter}\NormalTok{()}
+\NormalTok{p2 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(mpg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ displ, }\AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+} \FunctionTok{geom\_jitter}\NormalTok{()}
+\NormalTok{p3 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(mpg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cyl, }\AttributeTok{y =}\NormalTok{ hwy))   }\SpecialCharTok{+} \FunctionTok{geom\_jitter}\NormalTok{()}
+\NormalTok{p4 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(mpg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ drv, }\AttributeTok{y =}\NormalTok{ cty))   }\SpecialCharTok{+} \FunctionTok{geom\_jitter}\NormalTok{()}
+\NormalTok{p5 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(mpg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ trans, }\AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+} \FunctionTok{geom\_jitter}\NormalTok{()}
+\NormalTok{p6 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(mpg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ class, }\AttributeTok{y =}\NormalTok{ hwy)) }\SpecialCharTok{+} \FunctionTok{geom\_jitter}\NormalTok{()}
+
+\CommentTok{\# Create subplots}
+\FunctionTok{plot\_grid}\NormalTok{(p1, p2, p3, p4)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-39-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Add labels }
+\FunctionTok{plot\_grid}\NormalTok{(p1, p2, p3, p4, }\AttributeTok{labels =} \StringTok{"AUTO"}\NormalTok{) }\CommentTok{\# automatic labels}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-39-2.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot\_grid}\NormalTok{(p1, p2, p3, p4, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"p1"}\NormalTok{, }\StringTok{"p2"}\NormalTok{, }\StringTok{"p3"}\NormalTok{, }\StringTok{"p4"}\NormalTok{)) }\CommentTok{\# custom labels}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-39-3.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#   Change subplot configuration}
+\FunctionTok{plot\_grid}\NormalTok{(p1, p2, p3, p4, p5, p6, }\AttributeTok{nrow =} \DecValTok{3}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-39-4.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot\_grid}\NormalTok{(p1, p2, p3, p4, p5, p6, }\AttributeTok{nrow =} \DecValTok{2}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-39-5.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot\_grid}\NormalTok{(p1, p2, p3, p4, p5, p6, }\AttributeTok{nrow =} \DecValTok{6}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-39-6.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot\_grid}\NormalTok{(p1, p2, p3, p4, p5, p6, }\AttributeTok{nrow =} \DecValTok{1}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{practice_05_files/figure-latex/unnamed-chunk-39-7.png}
+
+\end{document}
