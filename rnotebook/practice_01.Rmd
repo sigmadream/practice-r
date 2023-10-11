@@ -1,7 +1,7 @@
 ---
 title: "R - Practice 01 - v1.1"
-author: Sangkon Han(sangkon@pusan.ac.kr)
-date: "`r format(Sys.Date())`" 
+author: "한상곤(sangkon@pusan.ac.kr / sigmadream@gmail.com)"
+date: "2023.06.13, updated: `r format(Sys.time(), '%Y.%m.%d')`"
 output:
   pdf_document:
     extra_dependencies: ["kotex"]
@@ -24,11 +24,47 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=T, message=F, warning=F, cache=T, fig.height = 8, dpi = 300, dev = "png")
+
+library(knitr)
 library(tidyverse)
 library(tidymodels)
 library(ggplot2)
 library(hflights)
+
+knitr::opts_chunk$set(
+  error=TRUE,
+  cache=TRUE,
+  echo=TRUE,
+  message=FALSE,
+  warning=FALSE,
+  output.lines=4,
+  fig.height = 8, 
+  dpi = 1200, 
+  dev = "pdf")
+
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(if (abs(lines[1])>1) more else NULL, 
+            x[lines], 
+            if (length(x)>lines[abs(length(lines))]) more else NULL
+           )
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
 ```
 
 # dplyr & tidyr
