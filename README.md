@@ -21,3 +21,6 @@
 - Tools > Global Options > Console > `Show syntax highlighting in console input`
 - Tools > Global Options > Appearance > `Editor font` > D2Coding ligature > 18
 - Tools > Global Options > Panel Layout > `Environment, ...` -> `Console`
+
+## R
+- [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
