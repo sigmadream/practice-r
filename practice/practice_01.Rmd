@@ -69,6 +69,16 @@ knit_hooks$set(output = function(x, options) {
 
 # dplyr & tidyr
 
+`dplyr` 패키지는 `Hadley Wickham`이 기존에 사용하던 `plyr`이라는 패키지를 개선한 것 입니다. dplyr 패키지는 데이터 프레임(`data.frame`)을 다룰 수 있는 함수들로 구성되어 있습니다. 해당 패키지는 아래 5가지 주요 함수를 활용하는 방법을 학습한다고 가정하셔도 됩니다.
+- `filter()`, 행 추출
+- `select()`, 열 추출
+- `mutate()`,	열 추가
+- `arrange()`, 정렬
+- `summarise()`, 집계
+
+간단한 예제를 통해서 `dplyr`를 학습해보도록 하겠습니다. 널리 사용되는 데이터 중 하나인 `mpg(Mile Per Gallon)`를 활용하도록 하겠습니다. mpg 데이터는 미국 환경 보호국(US Environmental Protection Agency)에서 공개한 자료로, 1999~2008년 사이 미국에서 출시된 자동차 234종의 연비 관련 정보를 담고 있습니다.
+
+
 ```{r}
 df <- mpg
 str(df)
