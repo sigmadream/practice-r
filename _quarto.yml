@@ -1,0 +1,59 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "*.ipynb"
+    - "!slides/"
+    - "!_ing"
+
+website:
+  page-navigation: true
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - index.qmd
+      - section: "R 기초"
+        contents:
+          - intro.qmd
+          # - notes/ds-camp02.qmd
+          # - notes/ds-camp03.qmd
+          # - notes/ds-camp04.qmd
+          # - python_syntax05.ipynb
+          # - python_syntax06.ipynb
+          # - python_syntax07.ipynb
+          # - python_syntax08.ipynb
+          # - python_syntax09(a).ipynb
+          # - python_syntax09(b).ipynb
+          # - python_syntax10.ipynb
+          # - python_syntax11.ipynb
+          # - python_syntax12.ipynb
+          # - python_syntax13.ipynb
+          # - references.qmd
+
+bibliography: references.bib
+link-citations: true
+csl: apa-single-spaced.csl
+
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+  # pdf:
+  #   documentclass: scrreprt
+  #   papersize: a4
+  #   toc: true
+  #   toc-depth: 2
+  #   number-sections: true
+  #   colorlinks: true
+  #   include-in-header: 
+  #     text: |
+  #       \usepackage{kotex}
