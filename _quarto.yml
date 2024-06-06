@@ -23,20 +23,7 @@ website:
       - section: "R 기초"
         contents:
           - intro.qmd
-          # - notes/ds-camp02.qmd
-          # - notes/ds-camp03.qmd
-          # - notes/ds-camp04.qmd
-          # - python_syntax05.ipynb
-          # - python_syntax06.ipynb
-          # - python_syntax07.ipynb
-          # - python_syntax08.ipynb
-          # - python_syntax09(a).ipynb
-          # - python_syntax09(b).ipynb
-          # - python_syntax10.ipynb
-          # - python_syntax11.ipynb
-          # - python_syntax12.ipynb
-          # - python_syntax13.ipynb
-          # - references.qmd
+      # - references.qmd
 
 bibliography: references.bib
 link-citations: true
