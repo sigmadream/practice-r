@@ -1,0 +1,204 @@
+# ggplot2
+
+> R 패키지를 활용하여 다양한 작업을 할 수 있지만, 저는 그 중에서 데이터 분석과 통계 분석 및 모델을 기반으로 많은 업무를 진행하였습니다. 따라서 제가 생각하기 R 패키지 중에서 가장 활용 용도가 높다고 생각하는 `ggplot2`을 사용해서 간단한 R 코드를 연습하고, 데이터 시각화를 진행해보겠습니다.
+
+제가 지금까지 사용했던 모든 그래프 도구 중에서 가장 멋진 라이브러리 입니다. 모든 그래프 도구가 나름의 멋짐을 가지고 있지만, ggplot2가 가져다 주는 조합의 묘미가 굉장히 흥미롭게 재미있습니다. 그리고 `R`을 사용함에 있어서 ggplot2를 잘 활용하면 좋은 데이터를 기반으로 더 나은 의사소통을 할 수 있습니다.
+
+## 준비
+
+ggplot2 패키지를 사용하기 위해서는 아래와 같은 패키지를 설치하고 불러와야 합니다. 패키지 설치는 `install.packages()`를 사용하시면 됩니다. ggplot2, dplyr, readr은 [`tidyverse`](https://www.tidyverse.org/) 패키지에 포함되어 있기 때문에, 일반적으로 tidyverse를 설치하실 때 대부분 설치되었있습니다. 만약 설치되어 있지 않다면 `install.packages("tidyverse")`로 설치를 진행하시면 됩니다. [`ggthemes`](https://github.com/jrnold/ggthemes)는 ggplot2의 테마를 추가 할 수 있는 패키지입니다. 
+
+```{r}
+#| output: false
+
+library(ggplot2)
+library(ggthemes) 
+library(dplyr) 
+library(readr)
+library(extrafont)
+loadfonts(device = 'win')
+```
+
+## 데이터
+
+간단한 데이터를 생성하고, 이를 시각화하는 방법을 알아보겠습니다. 이 데이터는 [@hitchhikerggplot2]에서 가져왔습니다. 
+
+```{r}
+chilean_exports <- "year,product,export,percentage
+2006,copper,4335009500,81
+2006,others,1016726518,19
+2007,copper,9005361914,86
+2007,others,1523085299,14
+2008,copper,6907056354,80
+2008,others,1762684216,20
+2009,copper,10529811075,81
+2009,others,2464094241,19
+2010,copper,14828284450,85
+2010,others,2543015596,15
+2011,copper,15291679086,82
+2011,others,3447972354,18
+2012,copper,14630686732,80
+2012,others,3583968218,20
+2013,copper,15244038840,79
+2013,others,4051281128,21
+2014,copper,14703374241,78
+2014,others,4251484600,22
+2015,copper,13155922363,78
+2015,others,3667286912,22
+"
+exports_data <- read_csv(chilean_exports)
+
+```
+
+## 선 그래프
+
+먼저 간단한 선(line) 그래프를 그려보겠습니다. 그래프를 초기화하기 위해 ggplot에 exports_data를 데이터로 지정하고 각 축에 변수(x, y)를 지정합니다. 그런 다음 `geom_line` 명령을 추가하여 선 그래프 화면에 출력하도록 합니다. 선 그래프의 두께를 조절하기 위해서 `linewidth`를 `1.5`로 설정합니다. 산점도(geom_point), 박스(geom_boxplot), 히스토그램(geom_histogram), 막대(geom_bar) 등과 같은 그래프 등을 많이 활용합니다.
+
+
+```{r}
+p1 <- ggplot(data = exports_data, mapping = aes(x = year, y = export, colour = product)) +
+  geom_line(linewidth = 1.5)
+p1
+```
+
+그래프에 몇가지 정보를 추가해보도록 하겠습니다. 특히 범례를 중점적으로 수정하도록 하겠습니다.
+
+```{r}
+exports_data <- exports_data %>%
+  mutate(product = factor(product, levels = c("copper","others"),
+                          labels = c("Copper ","Pulp wood, Fruit, Salmon & Others")))
+
+p1 <- ggplot(aes(y = export, x = year, colour = product), data = exports_data) +
+  geom_line(linewidth = 1.5) +
+  theme(text=element_text(family="MaruBuri Regular"),
+        legend.position = "bottom", 
+        legend.direction = "horizontal",
+        legend.title = element_blank())
+p1
+```
+
+축(x,y)의 데이터와 제목을 추가하도록 하겠습니다.
+
+```{r}
+p1 <- p1 + scale_x_continuous(breaks = seq(2006,2015,1)) + 
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") +
+  labs(x = "Year", y = "USD million")
+p1
+```
+약간의 색을 변경할 수도 있습니다.
+```{r}
+colour <- c("#5F9EA0", "#E1B378")
+p1 <- p1 + scale_colour_manual(values = colour)
+p1
+```
+해당 그래프에 테마(theme_bw)를 적용해보도록 하겠습니다.
+
+```{r}
+p1 <- ggplot(aes(y = export, x = year, colour = product), data = exports_data) +
+  geom_line(linewidth = 1.5) +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") +
+  labs(x = "Year", y = "USD million") +
+  scale_colour_manual(values = colour) +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.title = element_blank())
+p1
+```
+테마를 조금 수정해보도록 하겠습니다. 세부적인 사항들은 [ggplot2 theme](https://ggplot2.tidyverse.org/reference/theme.html)에서 확인하실 수 있습니다.
+
+```{r}
+fill <- c("#40b8d0","#b2d183")
+
+p1 <- ggplot(data = exports_data, mapping = aes(y = export, x = year, colour = product)) +
+  geom_line(linewidth = 1.5) +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") +
+  labs(x = "Year", y = "USD million") +
+  scale_fill_manual(values = fill) +
+  theme(axis.line.x = element_line(linewidth = .5, colour = "black"),
+      axis.line.y = element_line(linewidth = .5, colour = "black"),
+      axis.text.x = element_text(colour = "black", size = 10),
+      axis.text.y = element_text(colour = "black", size = 10),
+      legend.key = element_rect(fill = "white", colour = "white"),
+      legend.position = "bottom", legend.direction = "horizontal",
+      legend.title = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(), panel.border = element_blank(),
+      panel.background = element_blank())
+p1
+```
+테마(theme_economist)를 적용하고, 필요한 부분만 수정해보도록 하겠습니다.
+
+```{r}
+p1 <- ggplot(aes(y = export, x = year, colour = product),
+  data = exports_data) +
+  geom_line(linewidth = 1.5) +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") +
+  labs(x = "Year", y = "USD million") +
+  theme_economist() + scale_colour_economist() +
+  theme(axis.line.x = element_line(linewidth = .5, colour = "black"),
+        legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.title = element_blank(),
+        plot.title = element_text(family = "MaruBuri Regular"),
+        text = element_text(family = "MaruBuri Regular"))
+p1
+```
+
+선 그래프의 가독성을 고려해서 아래와 같이 자신만의 테마로 구성하는 방법도 존재합니다.
+
+```{r}
+colour <- c("#40b8d0", "#b2d183")
+
+p1 <- ggplot(aes(y = export, x = year, colour = product), data = exports_data) +
+  geom_line(linewidth = 1.5) +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") +
+  labs(x = "Year", y = "USD million") +
+  scale_colour_manual(values = colour) +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+        axis.text.x = element_text(colour = "black", size = 10),
+        axis.text.y = element_text(colour = "black", size = 10),
+        legend.key = element_rect(fill = "white", colour = "white"),
+        legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.title = element_blank(),
+        panel.grid.major = element_line(colour = "#d3d3d3"),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        plot.title = element_text(family = "MaruBuri Regular", face = "bold"),
+        text = element_text(family = "MaruBuri Regular"),
+        legend.key.size = unit(2, "lines")) +
+  geom_point(size = 3)
+p1
+```
+
+## Area
+
+## Bar
+
+## Stacked bar
+
+## Weighted Scatter
+
+## Histograms
+
+## Denstiy
+
+## Function
+
+## Boxplot
+
+## Linear Regression
+
+## LOWESS
+
+

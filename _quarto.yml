@@ -23,6 +23,7 @@ website:
       - section: "R 기초"
         contents:
           - intro.qmd
+          - ggplot2.qmd
       # - references.qmd
 
 bibliography: references.bib
