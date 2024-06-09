@@ -15,8 +15,9 @@ library(ggplot2)
 library(ggthemes) 
 library(dplyr) 
 library(readr)
-library(extrafont)
-loadfonts(device = 'win')
+library(forcats)
+# library(extrafont)
+# loadfonts(device = 'win')
 ```
 
 ## 데이터
@@ -181,7 +182,200 @@ p1 <- ggplot(aes(y = export, x = year, colour = product), data = exports_data) +
 p1
 ```
 
-## Area
+## 영역 차트(Area Chart)
+
+영역 차트는 선 그래프와 유사하지만, 선 그래프의 아래 부분을 색칠하여 영역을 표시하는 차트입니다. 아래는 영역 차트를 그리는 예제입니다. 영역 차트는 `geom_area()`를 사용하여 그릴 수 있습니다.
+
+```{r}
+p2 <- ggplot(aes(y = export, x = year, fill = product), data = exports_data) + geom_area()
+p2
+```
+
+영역을 채우는 순서를 교체(fct_rev)하려고 합니다.
+
+```{r}
+p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + geom_area()
+p2
+```
+
+범례를 조정해보도록 하겠습니다.
+
+```{r}
+p2 <- p2 + theme(legend.position = "bottom", 
+                 legend.direction = "horizontal", 
+                 legend.title = element_blank())
+p2
+```
+
+앞선 예제와 같이 그래프에 몇가지 정보를 추가하기 위해서는 기존의 데이터를 수정해야 합니다.
+
+```{r}
+#| eval: false
+exports_data <- exports_data %>%
+  mutate(product = factor(product, levels = c("copper","others"),
+                          labels = c("Copper ","Pulp wood, Fruit, Salmon & Others")))
+```
+
+```{r}
+p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
+  geom_area() +
+  theme(legend.position = "bottom", legend.direction = "horizontal",
+        legend.title = element_blank()) + guides(fill = guide_legend(reverse = T))
+p2
+```
+
+x축 간격도 조정해보도록 하겠습니다.
+
+```{r}
+p2 <- p2 + scale_x_continuous(breaks = seq(2006,2015,1)) 
+p2
+```
+
+라벨도 변경하고, 제목도 추가하도록 하겠습니다.
+
+```{r}
+p2 <- p2 + labs(title = "Composition of Exports to China ($)",
+                subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million")
+p2
+```
+
+색도 변경하겠습니다.
+
+```{r}
+fill <- c("#E1B378","#5F9EA0")
+p2 <- p2 + scale_fill_manual(values = fill) 
+p2
+```
+
+테마를 적용하고, 필요한 부분만 수정해보도록 하겠습니다.
+
+```{r}
+p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
+  geom_area() +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million") +
+  scale_fill_manual(values = fill) +
+  theme_bw() +
+  theme(legend.position = "bottom", 
+        legend.direction = "horizontal", 
+        legend.title = element_blank()) +
+  guides(fill = guide_legend(reverse = T)) 
+p2
+```
+
+간단하게 폰트도 변경하도록 하겠습니다.
+
+```{r}
+fill <- c("#b2d183","#40b8d0")
+
+p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
+  geom_area() +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million") +
+  scale_fill_manual(values = fill) +
+  theme(axis.line.x = element_line(size = .5, colour = "black"),
+        axis.line.y = element_line(size = .5, colour = "black"), 
+        axis.text.x = element_text(colour = "black", size = 10), 
+        axis.text.y = element_text(colour = "black", size = 10), 
+        legend.key = element_rect(fill = "white", colour = "white"), 
+        legend.position = "bottom", 
+        legend.direction = "horizontal", 
+        legend.title = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        panel.border = element_blank(), 
+        panel.background = element_blank(),
+        plot.title = element_text(family = "MaruBuri Regular"),
+        text = element_text(family = "MaruBuri Regular")) +
+  guides(fill = guide_legend(reverse = T)) 
+p2
+```
+`theme_economist` 테마를 적용하고, 필요한 부분만 수정해보도록 하겠습니다.
+
+```{r}
+fill <- c("#00a3dc","#01526d")
+
+p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
+  geom_area() +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million") +
+  theme_economist() +
+  scale_fill_manual(values = fill) +
+  theme(axis.line.x = element_line(size = .5, colour = "black"),
+        axis.line.y = element_line(size = .5, colour = "black"), 
+        axis.text.x = element_text(colour = "black", size = 10), 
+        axis.text.y = element_text(colour = "black", size = 10), 
+        legend.key = element_rect(fill = "white", colour = "white"), 
+        legend.position = "bottom", 
+        legend.direction = "horizontal", 
+        legend.title = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        panel.border = element_blank(), 
+        panel.background = element_blank(),
+        plot.title = element_text(family = "MaruBuri Regular"),
+        text = element_text(family = "MaruBuri Regular")) +
+  guides(fill = guide_legend(reverse = T)) 
+p2
+```
+
+
+```{r}
+p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
+  geom_area() +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million") +
+  theme_fivethirtyeight() +
+  scale_fill_manual(values = fill) +
+  theme(axis.line.x = element_line(size = .5, colour = "black"),
+        axis.line.y = element_line(size = .5, colour = "black"), 
+        axis.text.x = element_text(colour = "black", size = 10), 
+        axis.text.y = element_text(colour = "black", size = 10), 
+        legend.key = element_rect(fill = "white", colour = "white"), 
+        legend.position = "bottom", 
+        legend.direction = "horizontal", 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        panel.border = element_blank(), 
+        panel.background = element_blank(),
+        plot.title = element_text(family = "MaruBuri Regular"),
+        legend.title = element_text(family = "MaruBuri Regular"),
+        text = element_text(family = "MaruBuri Regular")) +
+  guides(fill = guide_legend(reverse = T)) 
+p2
+```
+
+
+
+```{r}
+fill <- c("#b2d183","#40b8d0")
+
+p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
+  geom_area() +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)",
+       subtitle = "Source: The Observatory of Economic Complexity") +
+  labs(x = "Year", y = "USD million") +
+  scale_fill_manual(values = fill) +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+        axis.text.x = element_text(colour = "black", size = 10), 
+        axis.text.y = element_text(colour = "black", size = 10), 
+        legend.key = element_rect(fill = "white", colour = "white"), 
+        legend.position = "bottom", 
+        legend.direction = "horizontal", 
+        legend.title = element_blank(),
+        panel.grid.major = element_line(colour = "#d3d3d3"),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"), 
+        text = element_text(family = "MaruBuri Regular")) +
+  guides(fill = guide_legend(reverse = T)) 
+p2
+```
 
 ## Bar
 
