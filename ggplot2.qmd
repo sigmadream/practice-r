@@ -1,4 +1,4 @@
-# ggplot2
+# 간단한 그래프(ggplot2)
 
 > R 패키지를 활용하여 다양한 작업을 할 수 있지만, 저는 그 중에서 데이터 분석과 통계 분석 및 모델을 기반으로 많은 업무를 진행하였습니다. 따라서 제가 생각하기 R 패키지 중에서 가장 활용 용도가 높다고 생각하는 `ggplot2`을 사용해서 간단한 R 코드를 연습하고, 데이터 시각화를 진행해보겠습니다.
 
@@ -16,8 +16,10 @@ library(ggthemes)
 library(dplyr) 
 library(readr)
 library(forcats)
-# library(extrafont)
-# loadfonts(device = 'win')
+library(extrafont)
+library(scales)
+library(RColorBrewer)
+loadfonts(device = 'win', quiet = TRUE);
 ```
 
 ## 데이터
@@ -53,108 +55,6 @@ exports_data <- read_csv(chilean_exports)
 
 ## 선 그래프
 
-먼저 간단한 선(line) 그래프를 그려보겠습니다. 그래프를 초기화하기 위해 ggplot에 exports_data를 데이터로 지정하고 각 축에 변수(x, y)를 지정합니다. 그런 다음 `geom_line` 명령을 추가하여 선 그래프 화면에 출력하도록 합니다. 선 그래프의 두께를 조절하기 위해서 `linewidth`를 `1.5`로 설정합니다. 산점도(geom_point), 박스(geom_boxplot), 히스토그램(geom_histogram), 막대(geom_bar) 등과 같은 그래프 등을 많이 활용합니다.
-
-
-```{r}
-p1 <- ggplot(data = exports_data, mapping = aes(x = year, y = export, colour = product)) +
-  geom_line(linewidth = 1.5)
-p1
-```
-
-그래프에 몇가지 정보를 추가해보도록 하겠습니다. 특히 범례를 중점적으로 수정하도록 하겠습니다.
-
-```{r}
-exports_data <- exports_data %>%
-  mutate(product = factor(product, levels = c("copper","others"),
-                          labels = c("Copper ","Pulp wood, Fruit, Salmon & Others")))
-
-p1 <- ggplot(aes(y = export, x = year, colour = product), data = exports_data) +
-  geom_line(linewidth = 1.5) +
-  theme(text=element_text(family="MaruBuri Regular"),
-        legend.position = "bottom", 
-        legend.direction = "horizontal",
-        legend.title = element_blank())
-p1
-```
-
-축(x,y)의 데이터와 제목을 추가하도록 하겠습니다.
-
-```{r}
-p1 <- p1 + scale_x_continuous(breaks = seq(2006,2015,1)) + 
-  labs(title = "Composition of Exports to China ($)",
-       subtitle = "Source: The Observatory of Economic Complexity") +
-  labs(x = "Year", y = "USD million")
-p1
-```
-약간의 색을 변경할 수도 있습니다.
-```{r}
-colour <- c("#5F9EA0", "#E1B378")
-p1 <- p1 + scale_colour_manual(values = colour)
-p1
-```
-해당 그래프에 테마(theme_bw)를 적용해보도록 하겠습니다.
-
-```{r}
-p1 <- ggplot(aes(y = export, x = year, colour = product), data = exports_data) +
-  geom_line(linewidth = 1.5) +
-  scale_x_continuous(breaks = seq(2006,2015,1)) +
-  labs(title = "Composition of Exports to China ($)",
-       subtitle = "Source: The Observatory of Economic Complexity") +
-  labs(x = "Year", y = "USD million") +
-  scale_colour_manual(values = colour) +
-  theme_bw() +
-  theme(legend.position = "bottom",
-        legend.direction = "horizontal",
-        legend.title = element_blank())
-p1
-```
-테마를 조금 수정해보도록 하겠습니다. 세부적인 사항들은 [ggplot2 theme](https://ggplot2.tidyverse.org/reference/theme.html)에서 확인하실 수 있습니다.
-
-```{r}
-fill <- c("#40b8d0","#b2d183")
-
-p1 <- ggplot(data = exports_data, mapping = aes(y = export, x = year, colour = product)) +
-  geom_line(linewidth = 1.5) +
-  scale_x_continuous(breaks = seq(2006,2015,1)) +
-  labs(title = "Composition of Exports to China ($)",
-       subtitle = "Source: The Observatory of Economic Complexity") +
-  labs(x = "Year", y = "USD million") +
-  scale_fill_manual(values = fill) +
-  theme(axis.line.x = element_line(linewidth = .5, colour = "black"),
-      axis.line.y = element_line(linewidth = .5, colour = "black"),
-      axis.text.x = element_text(colour = "black", size = 10),
-      axis.text.y = element_text(colour = "black", size = 10),
-      legend.key = element_rect(fill = "white", colour = "white"),
-      legend.position = "bottom", legend.direction = "horizontal",
-      legend.title = element_blank(),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(), panel.border = element_blank(),
-      panel.background = element_blank())
-p1
-```
-테마(theme_economist)를 적용하고, 필요한 부분만 수정해보도록 하겠습니다.
-
-```{r}
-p1 <- ggplot(aes(y = export, x = year, colour = product),
-  data = exports_data) +
-  geom_line(linewidth = 1.5) +
-  scale_x_continuous(breaks = seq(2006,2015,1)) +
-  labs(title = "Composition of Exports to China ($)",
-       subtitle = "Source: The Observatory of Economic Complexity") +
-  labs(x = "Year", y = "USD million") +
-  theme_economist() + scale_colour_economist() +
-  theme(axis.line.x = element_line(linewidth = .5, colour = "black"),
-        legend.position = "bottom",
-        legend.direction = "horizontal",
-        legend.title = element_blank(),
-        plot.title = element_text(family = "MaruBuri Regular"),
-        text = element_text(family = "MaruBuri Regular"))
-p1
-```
-
-선 그래프의 가독성을 고려해서 아래와 같이 자신만의 테마로 구성하는 방법도 존재합니다.
-
 ```{r}
 colour <- c("#40b8d0", "#b2d183")
 
@@ -184,173 +84,6 @@ p1
 
 ## 영역 차트(Area Chart)
 
-영역 차트는 선 그래프와 유사하지만, 선 그래프의 아래 부분을 색칠하여 영역을 표시하는 차트입니다. 아래는 영역 차트를 그리는 예제입니다. 영역 차트는 `geom_area()`를 사용하여 그릴 수 있습니다.
-
-```{r}
-p2 <- ggplot(aes(y = export, x = year, fill = product), data = exports_data) + geom_area()
-p2
-```
-
-영역을 채우는 순서를 교체(fct_rev)하려고 합니다.
-
-```{r}
-p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + geom_area()
-p2
-```
-
-범례를 조정해보도록 하겠습니다.
-
-```{r}
-p2 <- p2 + theme(legend.position = "bottom", 
-                 legend.direction = "horizontal", 
-                 legend.title = element_blank())
-p2
-```
-
-앞선 예제와 같이 그래프에 몇가지 정보를 추가하기 위해서는 기존의 데이터를 수정해야 합니다.
-
-```{r}
-#| eval: false
-exports_data <- exports_data %>%
-  mutate(product = factor(product, levels = c("copper","others"),
-                          labels = c("Copper ","Pulp wood, Fruit, Salmon & Others")))
-```
-
-```{r}
-p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
-  geom_area() +
-  theme(legend.position = "bottom", legend.direction = "horizontal",
-        legend.title = element_blank()) + guides(fill = guide_legend(reverse = T))
-p2
-```
-
-x축 간격도 조정해보도록 하겠습니다.
-
-```{r}
-p2 <- p2 + scale_x_continuous(breaks = seq(2006,2015,1)) 
-p2
-```
-
-라벨도 변경하고, 제목도 추가하도록 하겠습니다.
-
-```{r}
-p2 <- p2 + labs(title = "Composition of Exports to China ($)",
-                subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million")
-p2
-```
-
-색도 변경하겠습니다.
-
-```{r}
-fill <- c("#E1B378","#5F9EA0")
-p2 <- p2 + scale_fill_manual(values = fill) 
-p2
-```
-
-테마를 적용하고, 필요한 부분만 수정해보도록 하겠습니다.
-
-```{r}
-p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
-  geom_area() +
-  scale_x_continuous(breaks = seq(2006,2015,1)) +
-  labs(title = "Composition of Exports to China ($)",
-       subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million") +
-  scale_fill_manual(values = fill) +
-  theme_bw() +
-  theme(legend.position = "bottom", 
-        legend.direction = "horizontal", 
-        legend.title = element_blank()) +
-  guides(fill = guide_legend(reverse = T)) 
-p2
-```
-
-간단하게 폰트도 변경하도록 하겠습니다.
-
-```{r}
-fill <- c("#b2d183","#40b8d0")
-
-p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
-  geom_area() +
-  scale_x_continuous(breaks = seq(2006,2015,1)) +
-  labs(title = "Composition of Exports to China ($)",
-       subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million") +
-  scale_fill_manual(values = fill) +
-  theme(axis.line.x = element_line(size = .5, colour = "black"),
-        axis.line.y = element_line(size = .5, colour = "black"), 
-        axis.text.x = element_text(colour = "black", size = 10), 
-        axis.text.y = element_text(colour = "black", size = 10), 
-        legend.key = element_rect(fill = "white", colour = "white"), 
-        legend.position = "bottom", 
-        legend.direction = "horizontal", 
-        legend.title = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        panel.border = element_blank(), 
-        panel.background = element_blank(),
-        plot.title = element_text(family = "MaruBuri Regular"),
-        text = element_text(family = "MaruBuri Regular")) +
-  guides(fill = guide_legend(reverse = T)) 
-p2
-```
-`theme_economist` 테마를 적용하고, 필요한 부분만 수정해보도록 하겠습니다.
-
-```{r}
-fill <- c("#00a3dc","#01526d")
-
-p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
-  geom_area() +
-  scale_x_continuous(breaks = seq(2006,2015,1)) +
-  labs(title = "Composition of Exports to China ($)",
-       subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million") +
-  theme_economist() +
-  scale_fill_manual(values = fill) +
-  theme(axis.line.x = element_line(size = .5, colour = "black"),
-        axis.line.y = element_line(size = .5, colour = "black"), 
-        axis.text.x = element_text(colour = "black", size = 10), 
-        axis.text.y = element_text(colour = "black", size = 10), 
-        legend.key = element_rect(fill = "white", colour = "white"), 
-        legend.position = "bottom", 
-        legend.direction = "horizontal", 
-        legend.title = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        panel.border = element_blank(), 
-        panel.background = element_blank(),
-        plot.title = element_text(family = "MaruBuri Regular"),
-        text = element_text(family = "MaruBuri Regular")) +
-  guides(fill = guide_legend(reverse = T)) 
-p2
-```
-
-
-```{r}
-p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) + 
-  geom_area() +
-  scale_x_continuous(breaks = seq(2006,2015,1)) +
-  labs(title = "Composition of Exports to China ($)",
-       subtitle = "Source: The Observatory of Economic Complexity") + labs(x = "Year", y = "USD million") +
-  theme_fivethirtyeight() +
-  scale_fill_manual(values = fill) +
-  theme(axis.line.x = element_line(size = .5, colour = "black"),
-        axis.line.y = element_line(size = .5, colour = "black"), 
-        axis.text.x = element_text(colour = "black", size = 10), 
-        axis.text.y = element_text(colour = "black", size = 10), 
-        legend.key = element_rect(fill = "white", colour = "white"), 
-        legend.position = "bottom", 
-        legend.direction = "horizontal", 
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        panel.border = element_blank(), 
-        panel.background = element_blank(),
-        plot.title = element_text(family = "MaruBuri Regular"),
-        legend.title = element_text(family = "MaruBuri Regular"),
-        text = element_text(family = "MaruBuri Regular")) +
-  guides(fill = guide_legend(reverse = T)) 
-p2
-```
-
-
-
 ```{r}
 fill <- c("#b2d183","#40b8d0")
 
@@ -377,22 +110,330 @@ p2 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_
 p2
 ```
 
-## Bar
+## 막대 그래프
 
-## Stacked bar
+```{r}
 
-## Weighted Scatter
+exports_data <- exports_data %>%
+  mutate(export_label = paste(round(export/1000000000,2), "B"))
 
-## Histograms
+fill <- c("#b2d183","#40b8d0")
 
-## Denstiy
+p3 <- ggplot(aes(y = export, x = year, fill = fct_rev(product)), data = exports_data) +
+  geom_col() +
+  geom_text(aes(label = export_label), position = position_stack(vjust = 0.5), colour = "black", family = "Tahoma", size = 3, show.legend = F) +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  labs(title = "Composition of Exports to China ($)", subtitle = "Source: The Observatory of Economic Complexity") +
+  labs(x = "Year", y = "USD million") +
+  scale_fill_manual(values = fill) +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+        axis.text.x = element_text(colour = "black", size = 10),
+        axis.text.y = element_text(colour = "black", size = 10),
+        legend.key = element_rect(fill = "white", colour = "white"),
+        legend.position = "bottom", legend.direction = "horizontal",
+        legend.title = element_blank(),
+        panel.grid.major = element_line(colour = "#d3d3d3"),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+        text = element_text(family = "MaruBuri Regular")) +
+  guides(fill = guide_legend(reverse = T))
 
-## Function
+p3
+```
 
-## Boxplot
+## 누적 막대(Stacked Bar) 그래프
 
-## Linear Regression
+```{r}
+fill <- c("#b2d183","#40b8d0")
 
-## LOWESS
+p4 <- ggplot(aes(y = percentage, x = year, fill = fct_rev(product)), data = exports_data) +
+  geom_col() +
+  geom_text(aes(label = paste0(percentage,"%")), position = position_stack(vjust = 0.5), colour = "black", family = "MaruBuri Regular", size = 4) +
+  scale_x_continuous(breaks = seq(2006,2015,1)) +
+  scale_y_continuous(labels = dollar_format(suffix = "%", prefix = "")) +
+  labs(title = "Composition of Exports to China ($)", subtitle = "Source: The Observatory of Economic Complexity") +
+  labs(x = "Year", y = "Percentage") +
+  scale_fill_manual(values = fill) +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+        axis.text.x = element_text(colour = "black", size = 10),
+        axis.text.y = element_text(colour = "black", size = 10),
+        legend.key = element_rect(fill = "white", colour = "white"),
+        legend.position = "bottom", legend.direction = "horizontal",
+        legend.title = element_blank(),
+        panel.grid.major = element_line(colour = "#d3d3d3"),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+        text = element_text(family = "MaruBuri Regular")) +
+  guides(fill = guide_legend(reverse = T))
+p4
+```
+## 산점도(Scatter)
 
+```{r}
+data(airquality)
 
+aq_trim <- airquality %>%
+  filter(Month %in% c(7,8,9)) %>%
+  mutate(Month = factor(Month, labels = c("July", "August", "September")))
+
+fill <- c("steelblue", "yellowgreen", "violetred1")
+
+p5 <- ggplot(aq_trim, aes(x = Day, y = Ozone, fill = Month)) +
+  geom_point(shape = 21) +
+  labs(title = "Air Quality in New York by Day", subtitle = "Source: New York State Department of Conservation") +
+  labs(x = "Day of the month", y = "Ozone (ppb)", fill = "Months ") +
+  scale_x_continuous(breaks = seq(1, 31, 5)) +
+  scale_size(range = c(1, 10)) +
+  scale_fill_manual(values = fill) +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+    axis.text.x = element_text(colour = "black", size = 9),
+    axis.text.y = element_text(colour = "black", size = 9),
+    legend.position = "bottom", legend.direction = "horizontal",
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+    text = element_text(family = "MaruBuri Regular"))
+p5
+```
+
+## 가중 산점도(Weighted Scatter)
+
+```{r}
+fill <- c("steelblue", "yellowgreen", "violetred1")
+
+p6 <- ggplot(aq_trim, aes(x = Day, y = Ozone, size = Wind, fill = Month)) +
+  geom_point(shape = 21) +
+  labs(title = "Air Quality in New York by Day", subtitle = "Source: New York State Department of Conservation") +
+  labs(x = "Day of the month", y = "Ozone (ppb)", size = "Wind Speed (mph) ", fill = "Months ") +
+  scale_x_continuous(breaks = seq(1, 31, 5)) +
+  scale_size(range = c(1, 10)) +
+  scale_fill_manual(values = fill) +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+    axis.text.x = element_text(colour = "black", size = 9),
+    axis.text.y = element_text(colour = "black", size = 9),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.box = "vertical",
+    legend.key.size = unit(0.5, "cm"),
+    legend.key = element_blank(),
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+    text = element_text(family = "MaruBuri Regular"))
+p6
+```
+
+## 히스토그램(Histograms)
+
+```{r}
+data(airquality)
+barfill <- "#4271AE"; barlines <- "#1F3552"
+
+p7 <- ggplot(airquality, aes(x = Ozone)) +
+  geom_histogram(aes(y = ..count..), binwidth = 5, colour = barlines, fill = barfill) +
+  scale_x_continuous(name = "Mean ozone in\nparts per billion", breaks = seq(0, 175, 25), limits = c(0, 175)) +
+  scale_y_continuous(name = "Count") +
+  labs(title = "Frequency histogram of mean ozone", subtitle = "Source: New York State Department of Conservation") +
+  geom_vline(xintercept = 75, size = 1, colour = "#FF3721", linetype = "dashed") +
+  theme(panel.border = element_rect(colour = "black", fill = NA, linewidth = .5),
+    axis.text.x = element_text(colour = "black", size = 9),
+    axis.text.y = element_text(colour = "black", size = 9),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.box = "horizontal",
+    legend.key = element_blank(),
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+    text = element_text(family = "MaruBuri Regular"))
+p7
+```
+
+```{r}
+airquality_trimmed <- airquality %>%
+  filter(Month %in% c(5,7)) %>%
+  mutate(Month.f = factor(Month, labels = c("May", "July")))
+
+p7 <- ggplot(airquality_trimmed, aes(x = Ozone)) +
+  geom_histogram(aes(y = ..count..), binwidth = 10, colour = barlines, fill = barfill) +
+  scale_x_continuous(name = "Mean ozone in\nparts per billion", breaks = seq(0, 175, 25), limits = c(0, 175)) +
+  scale_y_continuous(name = "Count") +
+  labs(title = "Frequency histogram of mean ozone", subtitle = "Source: New York State Department of Conservation") +
+  facet_grid(. ~ Month.f, scales = "free") +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+    axis.text.x = element_text(colour = "black", size = 9),
+    axis.text.y = element_text(colour = "black", size = 9),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.box = "horizontal",
+    legend.key = element_blank(),
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+    text = element_text(family = "MaruBuri Regular"))
+p7  
+```
+
+```{r}
+p7 <- ggplot(airquality_trimmed, aes(x = Ozone, fill = Month.f)) +
+  geom_histogram(aes(y = ..count..), binwidth = 10, position = "identity", alpha = 0.75) +
+  scale_x_continuous(name = "Mean ozone in\nparts per billion", breaks = seq(0, 175, 25), limits = c(0, 175)) +
+  scale_y_continuous(name = "Count") +
+  labs(title = "Frequency histogram of mean ozone", subtitle = "Source: New York State Department of Conservation") +
+  scale_fill_brewer(palette = "Accent") +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+    axis.text.x = element_text(colour = "black", size = 9),
+    axis.text.y = element_text(colour = "black", size = 9),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.box = "horizontal",
+    legend.key = element_blank(),
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+    text = element_text(family = "MaruBuri Regular")) +
+  labs(fill = "Month ")
+p7
+```
+
+## 밀집(Denstiy) 그래프
+
+```{r}
+data(airquality)
+
+p8 <- ggplot(airquality, aes(x = Ozone)) +
+  geom_density(fill = "#4271AE", colour = "#1F3552", alpha = 0.75) +
+  scale_x_continuous(name = "Mean ozone in\nparts per billion", breaks = seq(0, 175, 25), limits = c(0, 175)) +
+  scale_y_continuous(name = "Density") +
+  labs(title = "Density plot of mean ozone", subtitle = "Source: New York State Department of Conservation") +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+    axis.text.x = element_text(colour = "black", size = 9),
+    axis.text.y = element_text(colour = "black", size = 9),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.box = "horizontal",
+    legend.key = element_blank(),
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+    text = element_text(family = "MaruBuri Regular"))
+p8
+```
+
+```{r}
+airquality_trimmed <- airquality %>%
+  filter(Month %in% c(5,6,7)) %>%
+  mutate(Month.f = factor(Month, labels = c("May", "June", "July")))
+
+p8 <- ggplot(airquality_trimmed, aes(x = Ozone, colour = Month.f)) +
+  geom_density(position = "identity", size = 1) +
+  scale_x_continuous(name = "Mean ozone in\nparts per billion", breaks = seq(0, 200, 25), limits = c(0, 200)) +
+  scale_y_continuous(name = "Density") +
+  labs(title = "Frequency histogram of mean ozone", subtitle = "Source: New York State Department of Conservation") +
+  scale_colour_brewer(palette = "Accent") +
+  labs(colour = "Month ") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        panel.border = element_rect(colour = "black", fill = NA, size = .5),
+        plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+        text = element_text(size = 12, family = "MaruBuri Regular"))
+p8
+```
+## Function 그래프
+
+```{r}
+funcShaded <- function(x) {
+  y <- dnorm(x, mean = 0.2, sd = 0.1)
+  y[x < 0.2 | x > (0.2 + 4 * 0.1)] <- NA
+  return(y)
+}
+
+p9 <- ggplot(tibble(x = c(0, 1)), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(0.2, 0.1),
+                aes(colour = "Group 1 "), size = 1.5) +
+  stat_function(fun = dnorm, args = list(0.7, 0.05),
+                aes(colour = "Group 2 "), size = 1.5) +
+  stat_function(fun = funcShaded, geom = "area", fill = "#84CA72", alpha = 0.2) +
+  scale_x_continuous(name = "Probability", breaks = seq(0, 1, 0.2), limits = c(0, 1)) +
+  scale_y_continuous(name = "Frequency") +
+  labs(title = "Normal function curves of probabilities") +
+  labs(colour = "Groups ") +
+  scale_colour_brewer(palette = "Accent") +
+  theme_bw() +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = .5),
+    axis.text.x = element_text(colour = "black", size = 9),
+    axis.text.y = element_text(colour = "black", size = 9),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.box = "horizontal",
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+    text = element_text(family = "MaruBuri Regular"))
+p9
+```
+
+## 박스 플롯(Boxplot)
+
+```{r}
+data(airquality)
+fill <- "#4271AE"; lines <- "#1F3552"
+
+airquality <- airquality %>%
+  mutate(Month = factor(Month,
+                        labels = c("May", "Jun", "Jul", "Aug", "Sep")))
+
+p10 <- ggplot(airquality, aes(x = Month, y = Ozone)) +
+  geom_boxplot(colour = lines, fill = fill, size = 1, notch = TRUE) +
+  scale_y_continuous(name = "Mean ozone in\nparts per billion", breaks = seq(0, 175, 25), limits = c(0, 175)) +
+  scale_x_discrete(name = "Month") +
+  labs(title = "Frequency histogram of mean ozone", subtitle = "Source: New York State Department of Conservation") +
+  theme_bw() +
+  theme(panel.border = element_rect(colour = "black", size = .5),
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(),
+    plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+    text = element_text(family = "MaruBuri Regular"),
+    axis.title = element_text(face = "bold"),
+    axis.text.x = element_text(colour = "black", size = 11),
+    axis.text.y = element_text(colour = "black", size = 9))
+p10
+```
+
+```{r}
+data(airquality)
+fill <- "#4271AE"; line <- "#1F3552"
+
+airquality <- airquality %>%
+  mutate(Month = factor(Month,
+                        labels = c("May", "Jun", "Jul", "Aug", "Sep")))
+
+airquality_trimmed <- airquality %>%
+  filter(Month %in% c("Jul", "Aug", "Sep")) %>%
+  mutate(Temp.f = factor(ifelse(Temp > mean(Temp), 1, 0),
+                         labels = c("Low temp ", "High temp ")))
+
+p10 <- ggplot(airquality_trimmed, aes(x = Month, y = Ozone)) +
+  geom_boxplot(fill = fill, colour = line, alpha = 0.7) +
+  scale_y_continuous(name = "Mean ozone in\nparts per billion", breaks = seq(0, 175, 50), limits = c(0, 175)) +
+  scale_x_discrete(name = "Month") +
+  labs(title = "Frequency histogram of mean ozone", subtitle = "Source: New York State Department of Conservation") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 14, family = "MaruBuri Regular", face = "bold"),
+        panel.border = element_rect(colour = "black", fill = NA, size = .5),
+        text = element_text(size = 12, family = "MaruBuri Regular"),
+        axis.title = element_text(face = "bold"),
+        axis.text.x = element_text(size = 11)) +
+  facet_grid(. ~ Temp.f)
+p10  
+```
