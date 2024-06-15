@@ -16,15 +16,13 @@ library(ggthemes)
 library(dplyr) 
 library(readr)
 library(forcats)
-library(extrafont)
 library(scales)
 library(RColorBrewer)
-loadfonts(device = 'win', quiet = TRUE);
 ```
 
 ## 데이터
 
-간단한 데이터를 생성하고, 이를 시각화하는 방법을 알아보겠습니다. 이 데이터는 [@hitchhikerggplot2]에서 가져왔습니다. 
+간단한 데이터를 생성하고, 이를 시각화하는 방법을 알아보겠습니다. 이 데이터는 [@MauricioVargas2023]에서 가져왔습니다. 
 
 ```{r}
 chilean_exports <- "year,product,export,percentage

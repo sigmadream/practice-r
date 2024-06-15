@@ -18,13 +18,14 @@ website:
   sidebar:
     style: "docked"
     search: true
+    collapse-level: 1
     contents:
       - index.qmd
-      - section: "R 기초"
+      - section: "R4DS"
         contents:
-          - intro.qmd
+          - r4ds_2nd_01.qmd
           - ggplot2.qmd
-      # - references.qmd
+
 
 bibliography: references.bib
 link-citations: true
