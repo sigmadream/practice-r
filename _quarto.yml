@@ -1,0 +1,36 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "notes/"
+
+website:
+  page-navigation: true
+  # navbar:
+  #   background: primary
+  #   search: true
+  #   left:
+  #     - text: "Home"
+  #       href: index.qmd
+  sidebar:
+    style: "docked"
+    search: true
+    collapse-level: 2
+    contents:
+      - index.qmd
+
+bibliography: references.bib
+link-citations: true
+csl: apa-single-spaced.csl
+
+# format:
+  # pdf:
+  #   documentclass: scrreprt
+  #   papersize: a4
+  #   toc: true
+  #   toc-depth: 2
+  #   number-sections: true
+  #   colorlinks: true
+  #   include-in-header: 
+  #     text: |
+  #       \usepackage{kotex}
