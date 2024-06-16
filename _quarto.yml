@@ -1,0 +1,48 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "*.ipynb"
+    - "!slides/"
+    - "!_ing"
+
+website:
+  page-navigation: true
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+  sidebar:
+    style: "docked"
+    search: true
+    collapse-level: 1
+    contents:
+      - index.qmd
+      - section: "R4DS"
+        contents:
+          - r4ds_2nd_01.qmd
+          - ggplot2.qmd
+
+
+bibliography: references.bib
+link-citations: true
+csl: apa-single-spaced.csl
+
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+  # pdf:
+  #   documentclass: scrreprt
+  #   papersize: a4
+  #   toc: true
+  #   toc-depth: 2
+  #   number-sections: true
+  #   colorlinks: true
+  #   include-in-header: 
+  #     text: |
+  #       \usepackage{kotex}

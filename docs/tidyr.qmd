@@ -1,0 +1,42 @@
+# tidyverse
+
+`R`에서 데이터 분석에 유용한 패키지들을 모아놓은 라이브러리입니다. `tidyverse` 내부에 포함된 패키지들은 데이터를 다루는데 있어서 편리한 기능을 제공합니다. 
+
+- ggplot2는 데이터 시각화에 사용
+- dplyr는 데이터 전처리에 사용
+- readr는 데이터를 가져오는데 사용
+- tibble: modern data frames
+- stringr는 문자열 처리에 사용
+- forcats는 factor 데이터를 처리하는데 사용
+- tidyr는 데이터를 다루기 위해서 사용
+- purrr는 데이터를 다루는 함수를 제공
+
+## 데이터 불러오기
+
+- `csv`는 `read_csv`를 사용
+- `::`은 패키지 내 함수를 사용할 때 사용
+
+```{r}
+library(tidyverse)
+library(magrittr)
+
+moving_data <- read_csv("./data/seoul_moving_202107_09_hr.csv")
+reference_data <- readxl::read_excel("./data/reference.xlsx")
+
+moving_data %>% dim()
+reference_data %>% dim()
+
+moving_data %>% head()
+moving_data %>% names() 
+moving_data %>% glimpse()
+
+reference_data %>% head()
+reference_data %>% head()
+reference_data %>% glimpse()
+
+reference_data <- janitor::clean_names(reference_data)
+reference_data %>% names()
+
+moving_data <- janitor::clean_names(moving_data)
+moving_data %>% names()
+```
