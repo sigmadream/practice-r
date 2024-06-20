@@ -1,0 +1,182 @@
+---
+title: Workflow: basics
+---
+
+> 해당 교재는 https://r4ds.hadley.nz/ 에서 확인하실 수 있습니다. 이 문서에 존재하는 모든 인용은 @HadleyWickham2023 입니다.
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes)
+```
+
+> Our ultimate goal in this chapter is to recreate the following visualization displaying the relationship between flipper lengths and body masses of these penguins, taking into consideration the species of the penguin.
+
+## `R`을 활용한 시각화 기초
+
+### 정리1. 용어
+- variable, value, Tabular data(변수, 값, 표 데이터)에 대해서 정의
+- 데이터 분석의 경우 교재가 통계학에서 영향을 받은 경우 '독립/종속' 등과 같은 용어를 쓰기 때문에 가능하면 교재에서 제시한 용어의 의미를 명확하게 이해하는 것이 우선
+
+> To make the discussion easier, let’s define some terms: A variable is a quantity, quality, or property that you can measure. A value is the state of a variable when you measure it. The value of a variable may change from measurement to measurement. An observation is a set of measurements made under similar conditions (you usually make all of the measurements in an observation at the same time and on the same object). An observation will contain several values, each associated with a different variable. We’ll sometimes refer to an observation as a data point. Tabular data is a set of values, each associated with a variable and an observation. Tabular data is tidy if each value is placed in its own “cell”, each variable in its own column, and each observation in its own row.
+
+```{r}
+penguins %>% glimpse()
+```
+### 정리2. 데이터 자료형
+- `penguins`의 데이테는 데이터프레임이 아니라 `tibble` 임 
+- 데이터프레임과 tibble의 차이점은 [이 곳](https://tibble.tidyverse.org/)을 참고
+
+```{r}
+penguins
+```
+### 정리3. 간단한 시각화 
+- '산점도, 막대, 선' 그리고 '박스플롯'
+- `ggplot2`를 사용해서 해당 데이터를 시각화
+
+```{r}
+ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(mapping = aes(color = species, shape = species), na.rm = TRUE) +
+  geom_smooth(formula = y ~ x, method = "lm", na.rm = TRUE) +
+  labs(title = "Body mass and flipper length",
+       subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+       x = "Flipper length (mm)", y = "Body mass (g)",
+       color = "Species", shape = "Species") +
+  scale_color_colorblind()
+```
+### 정리4. pipe operator
+- ` %>% / |>`를 사용해서 코드를 작성하고 있으며, pipe operator는 `%>%`임 
+- pipe operator를 사용하면 코드의 가독성이 좋아지기 때문에 사용하는 것이 좋음
+
+```{r}
+penguins %>% 
+  ggplot(mapping = aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(mapping = aes(color = species, shape = species), na.rm = TRUE) +
+  geom_smooth(formula = y ~ x, method = "lm", na.rm = TRUE) +
+  labs(title = "Body mass and flipper length",
+       subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+       x = "Flipper length (mm)", y = "Body mass (g)",
+       color = "Species", shape = "Species") +
+  scale_color_colorblind()
+```
+### 정리5. 변수 유형에 따른 그래프 선택
+- 변수 유형에 따라서 적절한 그래프를 사용
+- 범주형 변수의 경우 막대그래프를 사용하고, 연속형 변수의 경우 산점도를 사용하는 것이 일반적
+- 변수의 개수에 따라 변수가 1개인 경우 히스토그램을 사용하고, 2개인 경우 산점도를 사용하는 것이 일반적(@midway2020principles, @kelleher2011ten, @islam2019overview 등도 함께 참고)
+
+## 연습문제 1.2.5
+
+### 3
+```{r}
+ggplot(data = penguins, mapping = aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point()
+```
+
+### 4
+```{r}
+ggplot(data = penguins, mapping = aes(x = bill_depth_mm, y = species)) +
+  geom_point()
+```
+
+### 5
+```{r}
+ggplot(data = penguins, mapping = aes(x = bill_depth_mm, colour = species)) +
+  geom_density()
+```
+
+### 8
+```{r}
+penguins %>% 
+  ggplot(mapping = aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(aes(colour = bill_depth_mm), na.rm = TRUE) +
+  geom_smooth(formula = y ~ x, method = "loess", na.rm = TRUE)
+```
+
+## 연습문제 1.4.3
+
+### 1
+
+```{r}
+penguins %>% 
+  ggplot(aes(y = species))+
+  geom_bar()
+```
+
+### 2
+```{r}
+penguins %>% 
+  ggplot(aes(x = species)) +
+  geom_bar(fill = "red")
+```
+
+### 4
+```{r}
+diamonds %>% 
+  ggplot(aes(x = carat)) +
+  geom_histogram(binwidth = 0.5)
+```
+
+## 연습문제 1.5.5
+
+### 6
+
+```{r}
+penguins %>% 
+  ggplot(mapping = aes(x = bill_length_mm, y = bill_depth_mm, 
+                       color = species, shape = species)) +
+  geom_point(na.rm = TRUE) +
+  labs(color = "Species", shape = "Species")
+```
+### 7
+```{r}
+penguins %>% ggplot(aes(x = island, fill = species)) +
+  geom_bar(position = "fill")
+penguins %>% ggplot(aes(x = species, fill = island)) +
+  geom_bar(position = "fill")
+```
+### 연습문제 1.6.1
+```{r}
+mpg %>% 
+  ggplot() +
+  geom_point(aes(x = cty, y = hwy))
+# ggsave("mpg-plot.pdf")
+```
+## Appendix
+
+###  벡터
+
+> 벡터는 자료형이 같은 스칼라를 원소로 갖는 1차원 자료구조 입니다. R은 5가지 주요 자료구조(벡터, 행렬, 배열, 리스트, 데이터프레임)을 제공합니다. 그중에서 벡터가 기본 자료구조이며, 나머지 4개의 자료구조는 벡터를 기반으로 확장된 자료구조입니다.
+
+벡터에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Simple-manipulations-numbers-and-vectors)을 참고하세요. 일반적으로 `R` 교재 등을 참고하기 보다는 `R`에서 제공하는 도움말을 활용하는 것이 좋습니다. `R`에서 제공하는 도움말은 `?`를 사용하여 확인할 수 있습니다. 하지만 가독성이 좋지 않기 때문에 가능하면 [홈페이지](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Simple-manipulations-numbers-and-vectors)를 참고하세요.
+
+그리고, vector 관련 내용 중에서 범주형 자료를 다른 [항목](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Factors)도 함께 참고하세요.
+
+### 리스트
+
+> 리스트는 R에서 가장 다양한 객체를 원소로 가질 수 있는 자료구조입니다. 스칼라, 벡터, 행렬은 물론 데이터프레임, 리스트 및 함수도 원소로 가질 수 있습니다. 이러한 리스트의 특성은 다양한 객체를 하나로 담는 역할을 수행합니다. 따라서 함수가 반환해야 할 객체가 서로 다른 자료구조를 가질 때 리스트를 주로 사용하기 때문에, 많은 함수들의 반환값으로 해당 자료구조가 선택됩니다.
+
+리스트에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Lists)을 참고하세요. 매뉴얼에 제시된 수준이면 R을 사용해서 문제를 해결하는데 큰 어려움은 없습니다.
+
+### 데이터프레임
+
+> R을 사용해서 데이터 분석을 하다면 가장 많이 다루게 될 자료구조 입니다. 리스트가 행벡터를 원소가 가진다면, 데이터프레임은 열벡터를 원소로 가집니다. 따라서 데이터프레임은 열벡터를 가로 방향으로 붙여서 행과 열을 갖는 직사각형 모양으로 출력됩니다. 데이터프레임의 모든 열벡터는 길이가 같아야 합니다. 만약 길이가 다른 열벡터로 데이터프레임을 생성하려고 하면 에러가 발생합니다.
+
+데이터프레임에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Data-frames)을 참고하세요. 데이터프레임은 R에서 가장 많이 사용되는 자료구조이기 때문에, 해당 자료구조에 대해서 별도의 연습이 필요합니다. 관련하여 아래와 같은 교재를 참고하세요. [@나성호2021]의 경우 3장, 4장을 참고하세요. [@오세종2023]의 경우 2장, 3장을 참고하세요.
+
+### 제어와 함수
+
+#### 제어문
+
+> 실행 흐름을 분기하는 if, ifelse와 반복문인 for, while, repeat, break, next 등을 제공합니다. 이러한 제어문을 사용하여 프로그램의 실행 흐름을 제어할 수 있습니다.
+
+제어문에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Loops-and-conditional-execution)을 참고하세요. 제어문에 대한 이해가 부족하면 프로그램을 작성하는데 어려움이 있을 수 있으니 별도로 연습이 필요합니다.
+
+[@나성호2021]의 경우 5장, 6장을 참고하세요. [@오세종2023]의 경우 4장을 참고하세요.
+
+#### 함수
+
+> 사용자 정의 함수 뿐만 아니라 라이브러리에서 제공하는 함수를 이해하기 위해서 함수를 학습하게 됩니다. 
+
+함수에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Functions)을 참고하세요. 다른 라이브러리를 활용하기 위해서 함수에 대한 이해가 필요합니다. 그리고 데이터프레임을 활용하기 위해서는 `apply` 등과 같은 함수를 사용해야 하기 때문에 관련 내용은 잘 파악해두시기 바랍니다.
+
+[@나성호2021]의 경우 7장, 8장을 참고하세요. [@오세종2023]의 경우 4장을 참고하세요.
