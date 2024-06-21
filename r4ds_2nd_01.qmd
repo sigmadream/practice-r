@@ -134,7 +134,7 @@ penguins %>% ggplot(aes(x = island, fill = species)) +
 penguins %>% ggplot(aes(x = species, fill = island)) +
   geom_bar(position = "fill")
 ```
-### 연습문제 1.6.1
+## 연습문제 1.6.1
 ```{r}
 mpg %>% 
   ggplot() +
