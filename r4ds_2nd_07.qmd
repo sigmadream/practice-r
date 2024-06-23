@@ -1,0 +1,82 @@
+---
+title: Data import
+---
+
+> 해당 교재는 https://r4ds.hadley.nz/ 에서 확인하실 수 있습니다. 이 문서에 존재하는 모든 인용은 @HadleyWickham2023 입니다.
+
+```{r}
+library(tidyverse)
+```
+
+## Reading data from a file
+
+```{r}
+students <- read_csv("data/students.csv")
+students <- read_csv("data/students.csv", na = c("N/A", ""))
+```
+
+
+```{r}
+students |> 
+  rename(
+    student_id = `Student ID`,
+    full_name = `Full Name`
+  )
+```
+
+```{r}
+students |> janitor::clean_names()
+```
+
+```{r}
+students |>
+  janitor::clean_names() |>
+  mutate(meal_plan = factor(meal_plan))
+```
+
+```{r}
+students <- students |>
+  janitor::clean_names() |>
+  mutate(
+    meal_plan = factor(meal_plan),
+    age = parse_number(if_else(age == "five", "5", age))
+  )
+```
+
+### 연습문제 7.2.4
+
+```{r}
+annoying <- tibble(
+  `1` = 1:10,
+  `2` = `1` * 2 + rnorm(length(`1`))
+)
+
+annoying |>
+  select(`1`)
+
+ggplot(annoying, aes(x = `2`, y = `1`)) +
+  geom_point()
+
+annoying |>
+  mutate(`3` = `2` / `1`)
+
+annoying |>
+  mutate(`3` = `2` / `1`) |>
+  rename(
+    "one" = `1`,
+    "two" = `2`,
+    "three" = `3`
+  )
+```
+
+## Data entry
+
+```{r}
+tribble(
+  ~x, ~y, ~z,
+  1, "h", 0.08,
+  2, "m", 0.83,
+  5, "g", 0.60
+)
+```
+
