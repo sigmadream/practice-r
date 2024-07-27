@@ -1,0 +1,94 @@
+---
+title: Layers
+---
+
+> 해당 교재는 https://r4ds.hadley.nz/ 에서 확인하실 수 있습니다. 이 문서에 존재하는 모든 인용은 @HadleyWickham2023 입니다.
+
+이 장에서는 그래픽의 레이어 문법(grammar of graphics)을 학습합니다. ggplot2에서 제공하는 가장 중요하고 일반적으로 사용되는 기능을 연습하고 ggplot2를 확장하는 패키지를 소개합니다.
+
+```{r}
+library(tidyverse)
+```
+
+## Aesthetic mappings
+
+```{r}
+# Light
+ggplot(mpg, aes(x = displ, y = hwy, color = class)) + geom_point()
+
+# Right
+ggplot(mpg, aes(x = displ, y = hwy, shape = class)) + geom_point()
+```
+
+클래스(class)가 shape에 매핑되면 두 가지 경고가 표시됩니다:
+- 도형 팔레트는 최대 6개의 불연속형 값을 처리할 수 있습니다. 6개를 초과하면 구분이 어려워집니다. 도형이 꼭 필요한 경우 수동으로 도형을 지정하는 것이 좋습니다.
+- 누락된 값이 포함된 62개 행을 제거했습니다(geom_point()). 데이터 집합에 62개의 SUV가 있지만 플롯되지 않은 것과 관련이 있습니다.
+
+마찬가지로 클래스를 크기에 매핑하여 각각 포인트의 크기와 alpha 값에 매핑하여 투명도를 제어할 수 있습니다.
+
+```{r}
+# Left
+ggplot(mpg, aes(x = displ, y = hwy, size = class)) +
+  geom_point()
+
+# Right
+ggplot(mpg, aes(x = displ, y = hwy, alpha = class)) +
+  geom_point()
+```
+
+```{r}
+students |> janitor::clean_names()
+```
+
+```{r}
+students |>
+  janitor::clean_names() |>
+  mutate(meal_plan = factor(meal_plan))
+```
+
+```{r}
+students <- students |>
+  janitor::clean_names() |>
+  mutate(
+    meal_plan = factor(meal_plan),
+    age = parse_number(if_else(age == "five", "5", age))
+  )
+```
+
+### 연습문제 7.2.4
+
+```{r}
+annoying <- tibble(
+  `1` = 1:10,
+  `2` = `1` * 2 + rnorm(length(`1`))
+)
+
+annoying |>
+  select(`1`)
+
+ggplot(annoying, aes(x = `2`, y = `1`)) +
+  geom_point()
+
+annoying |>
+  mutate(`3` = `2` / `1`)
+
+annoying |>
+  mutate(`3` = `2` / `1`) |>
+  rename(
+    "one" = `1`,
+    "two" = `2`,
+    "three" = `3`
+  )
+```
+
+## Data entry
+
+```{r}
+tribble(
+  ~x, ~y, ~z,
+  1, "h", 0.08,
+  2, "m", 0.83,
+  5, "g", 0.60
+)
+```
+
