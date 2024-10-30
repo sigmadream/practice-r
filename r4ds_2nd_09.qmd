@@ -37,6 +37,7 @@ ggplot(mpg, aes(x = displ, y = hwy, alpha = class)) +
 ```
 
 ```{r}
+students <- read_csv("data/students.csv")
 students |> janitor::clean_names()
 ```
 
