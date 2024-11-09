@@ -30,6 +30,7 @@ penguins %>% glimpse()
 ```{r}
 penguins
 ```
+
 ### 정리3. 간단한 시각화 
 - '산점도, 막대, 선' 그리고 '박스플롯'
 - `ggplot2`를 사용해서 해당 데이터를 시각화
@@ -44,6 +45,7 @@ ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
        color = "Species", shape = "Species") +
   scale_color_colorblind()
 ```
+
 ### 정리4. pipe operator
 - ` %>% / |>`를 사용해서 코드를 작성하고 있으며, pipe operator는 `%>%`임 
 - pipe operator를 사용하면 코드의 가독성이 좋아지기 때문에 사용하는 것이 좋음
@@ -59,6 +61,7 @@ penguins %>%
        color = "Species", shape = "Species") +
   scale_color_colorblind()
 ```
+
 ### 정리5. 변수 유형에 따른 그래프 선택
 - 변수 유형에 따라서 적절한 그래프를 사용
 - 범주형 변수의 경우 막대그래프를 사용하고, 연속형 변수의 경우 산점도를 사용하는 것이 일반적

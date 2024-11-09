@@ -10,5 +10,13 @@ library(palmerpenguins)
 library(ggthemes)
 ```
 
-> [...] But while you should expect to be a little frustrated, take comfort in that this experience is typical and temporary: it happens to everyone, and the only way to get over it is to keep trying.
+> [...] But while you should expect to be a little frustrated, take comfort in that this experience is typical and temporary: it happens to everyone, and the only way to get over it is to keep trying(하지만 이러한 경험은 누구나 겪을 수 있는 일반적인 일시적인 현상이며, 이를 극복할 수 있는 유일한 방법은 계속 노력하는 것뿐이라는 사실에 위안을 삼으세요.).
 
+## 정리1. 코딩에 관한 사항
+
+- `R` 코딩에 관한 기초적인 사항(변수, 제어문, 함수)에 대해선 별도의 교재를 활용해서 연습을 하세요.
+    - 데이터 분석에 필요한 기초적인 사항을 위해서 별도의 코딩 테스트나 알고리즘 연습을 하실 필요는 없습니다.
+
+- 주석을 활용하는 방법을 연습하세요. 데이터 분석 과정에서 발생하는 의사결정이나 자료를 코드에 남겨두고 기록물로 보관하기 위해선 주석을 활용하는 방법은 연습해 주세요.
+    - Quarto(@Quarto)
+    - Knitr(@KnitrBook2015, @KnitrManual2024)
