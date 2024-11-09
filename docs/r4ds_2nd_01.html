@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.32">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,10 +91,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2486e1f0a3ee9ee1fc393803a1361cdb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4225ea539d84296ffd99a6a587bdbcdb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -334,10 +334,6 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="r을-활용한-시각화-기초"><code>R</code>을 활용한 시각화 기초</h2>
 <section id="정리1.-용어" class="level3">
 <h3 class="anchored" data-anchor-id="정리1.-용어">정리1. 용어</h3>
-<ul>
-<li>variable, value, Tabular data(변수, 값, 표 데이터)에 대해서 정의</li>
-<li>데이터 분석의 경우 교재가 통계학에서 영향을 받은 경우 ‘독립/종속’ 등과 같은 용어를 쓰기 때문에 가능하면 교재에서 제시한 용어의 의미를 명확하게 이해하는 것이 우선</li>
-</ul>
 <blockquote class="blockquote">
 <p>To make the discussion easier, let’s define some terms: A variable is a quantity, quality, or property that you can measure. A value is the state of a variable when you measure it. The value of a variable may change from measurement to measurement. An observation is a set of measurements made under similar conditions (you usually make all of the measurements in an observation at the same time and on the same object). An observation will contain several values, each associated with a different variable. We’ll sometimes refer to an observation as a data point. Tabular data is a set of values, each associated with a variable and an observation. Tabular data is tidy if each value is placed in its own “cell”, each variable in its own column, and each observation in its own row.</p>
 </blockquote>
@@ -360,8 +356,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <section id="정리2.-데이터-자료형" class="level3">
 <h3 class="anchored" data-anchor-id="정리2.-데이터-자료형">정리2. 데이터 자료형</h3>
 <ul>
-<li><code>penguins</code>의 데이테는 데이터프레임이 아니라 <code>tibble</code> 임</li>
-<li>데이터프레임과 tibble의 차이점은 <a href="https://tibble.tidyverse.org/">이 곳</a>을 참고</li>
+<li><a href="(https://tibble.tidyverse.org/)">dataframe vs tibble</a></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -387,8 +382,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <section id="정리3.-간단한-시각화" class="level3">
 <h3 class="anchored" data-anchor-id="정리3.-간단한-시각화">정리3. 간단한 시각화</h3>
 <ul>
-<li>‘산점도, 막대, 선’ 그리고 ‘박스플롯’</li>
-<li><code>ggplot2</code>를 사용해서 해당 데이터를 시각화</li>
+<li><code>ggplot2</code></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
@@ -411,8 +405,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <section id="정리4.-pipe-operator" class="level3">
 <h3 class="anchored" data-anchor-id="정리4.-pipe-operator">정리4. pipe operator</h3>
 <ul>
-<li><code>%&gt;% / |&gt;</code>를 사용해서 코드를 작성하고 있으며, pipe operator는 <code>%&gt;%</code>임</li>
-<li>pipe operator를 사용하면 코드의 가독성이 좋아지기 때문에 사용하는 것이 좋음</li>
+<li><code>%&gt;% / |&gt;</code></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
@@ -436,8 +429,6 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <section id="정리5.-변수-유형에-따른-그래프-선택" class="level3">
 <h3 class="anchored" data-anchor-id="정리5.-변수-유형에-따른-그래프-선택">정리5. 변수 유형에 따른 그래프 선택</h3>
 <ul>
-<li>변수 유형에 따라서 적절한 그래프를 사용</li>
-<li>범주형 변수의 경우 막대그래프를 사용하고, 연속형 변수의 경우 산점도를 사용하는 것이 일반적</li>
 <li>변수의 개수에 따라 변수가 1개인 경우 히스토그램을 사용하고, 2개인 경우 산점도를 사용하는 것이 일반적(<span class="citation" data-cites="midway2020principles">Midway (<a href="#ref-midway2020principles" role="doc-biblioref">2020</a>)</span>, <span class="citation" data-cites="kelleher2011ten">Kelleher &amp; Wagener (<a href="#ref-kelleher2011ten" role="doc-biblioref">2011</a>)</span>, <span class="citation" data-cites="islam2019overview">Islam &amp; Jin (<a href="#ref-islam2019overview" role="doc-biblioref">2019</a>)</span> 등도 함께 참고)</li>
 </ul>
 </section>

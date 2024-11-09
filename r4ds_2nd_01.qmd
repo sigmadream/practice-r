@@ -15,25 +15,23 @@ library(ggthemes)
 ## `R`을 활용한 시각화 기초
 
 ### 정리1. 용어
-- variable, value, Tabular data(변수, 값, 표 데이터)에 대해서 정의
-- 데이터 분석의 경우 교재가 통계학에서 영향을 받은 경우 '독립/종속' 등과 같은 용어를 쓰기 때문에 가능하면 교재에서 제시한 용어의 의미를 명확하게 이해하는 것이 우선
 
 > To make the discussion easier, let’s define some terms: A variable is a quantity, quality, or property that you can measure. A value is the state of a variable when you measure it. The value of a variable may change from measurement to measurement. An observation is a set of measurements made under similar conditions (you usually make all of the measurements in an observation at the same time and on the same object). An observation will contain several values, each associated with a different variable. We’ll sometimes refer to an observation as a data point. Tabular data is a set of values, each associated with a variable and an observation. Tabular data is tidy if each value is placed in its own “cell”, each variable in its own column, and each observation in its own row.
 
 ```{r}
 penguins %>% glimpse()
 ```
+
 ### 정리2. 데이터 자료형
-- `penguins`의 데이테는 데이터프레임이 아니라 `tibble` 임 
-- 데이터프레임과 tibble의 차이점은 [이 곳](https://tibble.tidyverse.org/)을 참고
+- [dataframe vs tibble]((https://tibble.tidyverse.org/))
 
 ```{r}
 penguins
 ```
 
 ### 정리3. 간단한 시각화 
-- '산점도, 막대, 선' 그리고 '박스플롯'
-- `ggplot2`를 사용해서 해당 데이터를 시각화
+
+- `ggplot2`
 
 ```{r}
 ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g)) + 
@@ -47,8 +45,8 @@ ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
 ```
 
 ### 정리4. pipe operator
-- ` %>% / |>`를 사용해서 코드를 작성하고 있으며, pipe operator는 `%>%`임 
-- pipe operator를 사용하면 코드의 가독성이 좋아지기 때문에 사용하는 것이 좋음
+
+- ` %>% / |>`
 
 ```{r}
 penguins %>% 
@@ -63,8 +61,7 @@ penguins %>%
 ```
 
 ### 정리5. 변수 유형에 따른 그래프 선택
-- 변수 유형에 따라서 적절한 그래프를 사용
-- 범주형 변수의 경우 막대그래프를 사용하고, 연속형 변수의 경우 산점도를 사용하는 것이 일반적
+
 - 변수의 개수에 따라 변수가 1개인 경우 히스토그램을 사용하고, 2개인 경우 산점도를 사용하는 것이 일반적(@midway2020principles, @kelleher2011ten, @islam2019overview 등도 함께 참고)
 
 ## 연습문제 1.2.5
@@ -130,6 +127,7 @@ penguins %>%
   geom_point(na.rm = TRUE) +
   labs(color = "Species", shape = "Species")
 ```
+
 ### 7
 ```{r}
 penguins %>% ggplot(aes(x = island, fill = species)) +
@@ -137,6 +135,7 @@ penguins %>% ggplot(aes(x = island, fill = species)) +
 penguins %>% ggplot(aes(x = species, fill = island)) +
   geom_bar(position = "fill")
 ```
+
 ## 연습문제 1.6.1
 ```{r}
 mpg %>% 
@@ -144,6 +143,7 @@ mpg %>%
   geom_point(aes(x = cty, y = hwy))
 # ggsave("mpg-plot.pdf")
 ```
+
 ## Appendix
 
 ###  벡터

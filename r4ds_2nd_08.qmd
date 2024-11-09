@@ -36,7 +36,7 @@ mean(y)
 그런 다음 기본 출력 형식이 GitHub용으로 지정된 reprex()를 호출합니다.
 
 ```{r}
-reprex::reprex()
+reprex::reprex(y)
 ```
 
 
