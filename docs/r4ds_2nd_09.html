@@ -84,6 +84,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./r4ds_2nd_10.html" rel="next">
+<link href="./r4ds_2nd_08.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -151,7 +153,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Layers</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./r4ds_2nd_01.html">R4DS</a></li><li class="breadcrumb-item"><a href="./r4ds_2nd_09.html">Layers</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -179,13 +181,13 @@ div.csl-indent {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">R4DS</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./r4ds_2nd_01.html" class="sidebar-item-text sidebar-link">
@@ -230,6 +232,24 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./r4ds_2nd_08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workflow - getting help</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./r4ds_2nd_09.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Layers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./r4ds_2nd_10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Layers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">간단한 그래프(ggplot2)</span></a>
   </div>
@@ -257,7 +277,7 @@ div.csl-indent {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./r4ds_2nd_01.html">R4DS</a></li><li class="breadcrumb-item"><a href="./r4ds_2nd_09.html">Layers</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Layers</h1>
 </div>
@@ -446,16 +466,16 @@ dbl (1): Student ID
 <pre><code># A tibble: 10 × 3
      `1`    `2`   `3`
    &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
- 1     1  0.957 0.957
- 2     2  5.82  2.91 
- 3     3  6.09  2.03 
- 4     4  8.45  2.11 
- 5     5  9.06  1.81 
- 6     6 11.3   1.89 
- 7     7 14.7   2.10 
- 8     8 15.9   1.99 
- 9     9 17.9   1.99 
-10    10 21.3   2.13 </code></pre>
+ 1     1  0.574 0.574
+ 2     2  4.39  2.19 
+ 3     3  6.41  2.14 
+ 4     4  8.38  2.09 
+ 5     5  9.05  1.81 
+ 6     6 11.5   1.92 
+ 7     7 14.0   2.00 
+ 8     8 16.5   2.06 
+ 9     9 17.7   1.97 
+10    10 20.7   2.07 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>annoying <span class="sc">|&gt;</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">3</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">2</span><span class="st">`</span> <span class="sc">/</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
@@ -468,16 +488,16 @@ dbl (1): Student ID
 <pre><code># A tibble: 10 × 3
      one    two three
    &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
- 1     1  0.957 0.957
- 2     2  5.82  2.91 
- 3     3  6.09  2.03 
- 4     4  8.45  2.11 
- 5     5  9.06  1.81 
- 6     6 11.3   1.89 
- 7     7 14.7   2.10 
- 8     8 15.9   1.99 
- 9     9 17.9   1.99 
-10    10 21.3   2.13 </code></pre>
+ 1     1  0.574 0.574
+ 2     2  4.39  2.19 
+ 3     3  6.41  2.14 
+ 4     4  8.38  2.09 
+ 5     5  9.05  1.81 
+ 6     6 11.5   1.92 
+ 7     7 14.0   2.00 
+ 8     8 16.5   2.06 
+ 9     9 17.7   1.97 
+10    10 20.7   2.07 </code></pre>
 </div>
 </div>
 </section>
@@ -930,6 +950,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./r4ds_2nd_08.html" class="pagination-link" aria-label="Workflow - getting help">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Workflow - getting help</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./r4ds_2nd_10.html" class="pagination-link" aria-label="Layers">
+        <span class="nav-page-text">Layers</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

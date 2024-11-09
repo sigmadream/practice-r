@@ -18,7 +18,7 @@ website:
   sidebar:
     style: "docked"
     search: true
-    collapse-level: 1
+    collapse-level: 2
     contents:
       - index.qmd
       - section: "R4DS"
@@ -30,6 +30,9 @@ website:
           - r4ds_2nd_05.qmd
           - r4ds_2nd_06.qmd
           - r4ds_2nd_07.qmd
+          - r4ds_2nd_08.qmd
+          - r4ds_2nd_09.qmd
+          - r4ds_2nd_10.qmd
           - ggplot2.qmd
 
 
