@@ -18,19 +18,19 @@ website:
   sidebar:
     style: "docked"
     search: true
-    collapse-level: 1
+    collapse-level: 2
     contents:
       - index.qmd
-      - section: "R4DS"
+      - section: "R"
         contents:
-          - r4ds_2nd_01.qmd
-          - ggplot2.qmd
-
+          - notes/r4ds_2nd.qmd
+      - section: "ggplot"
+        contents:
+          - notes/ggplot2.qmd
 
 bibliography: references.bib
 link-citations: true
 csl: apa-single-spaced.csl
-
 
 format:
   html:
