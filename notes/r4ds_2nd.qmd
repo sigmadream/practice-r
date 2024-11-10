@@ -855,7 +855,7 @@ flights |>
   filter(n > 10)
 ```
 
-## 5. Data tidying
+## Data tidying
 
 ### Tidy data
 
