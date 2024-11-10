@@ -882,6 +882,23 @@
       ],
       "Hash": "9171f898db9d9c4c1b2c745adc2c1ef1"
     },
+    "hexbin": {
+      "Package": "hexbin",
+      "Version": "1.28.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "grid",
+        "lattice",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "2520cb5cbe2c02559992b64f7ad80134"
+    },
     "highr": {
       "Package": "highr",
       "Version": "0.11",

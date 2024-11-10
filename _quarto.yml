@@ -21,25 +21,16 @@ website:
     collapse-level: 2
     contents:
       - index.qmd
-      - section: "R4DS"
+      - section: "R"
         contents:
-          - r4ds_2nd_01.qmd
-          - r4ds_2nd_02.qmd
-          - r4ds_2nd_03.qmd
-          - r4ds_2nd_04.qmd
-          - r4ds_2nd_05.qmd
-          - r4ds_2nd_06.qmd
-          - r4ds_2nd_07.qmd
-          - r4ds_2nd_08.qmd
-          - r4ds_2nd_09.qmd
-          - r4ds_2nd_10.qmd
-          - ggplot2.qmd
-
+          - notes/r4ds_2nd.qmd
+      - section: "ggplot"
+        contents:
+          - notes/ggplot2.qmd
 
 bibliography: references.bib
 link-citations: true
 csl: apa-single-spaced.csl
-
 
 format:
   html:
