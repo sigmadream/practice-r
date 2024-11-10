@@ -12,68 +12,55 @@ library(palmerpenguins)
 library(nycflights13)
 ```
 
-## Data visualization
+## 1. Data visualization
 
-> Our ultimate goal in this chapter is to recreate the following visualization displaying the relationship between flipper lengths and body masses of these penguins, taking into consideration the species of the penguin.
+### 1.2 First steps
 
-### 용어
+#### 1.2.1 The penguins data frame
+
+> penguins contains 344 observations collected and made available by Dr. Kristen Gorman and the Palmer Station, Antarctica LTER2.
 
 > To make the discussion easier, let’s define some terms: A variable is a quantity, quality, or property that you can measure. A value is the state of a variable when you measure it. The value of a variable may change from measurement to measurement. An observation is a set of measurements made under similar conditions (you usually make all of the measurements in an observation at the same time and on the same object). An observation will contain several values, each associated with a different variable. We’ll sometimes refer to an observation as a data point. Tabular data is a set of values, each associated with a variable and an observation. Tabular data is tidy if each value is placed in its own “cell”, each variable in its own column, and each observation in its own row.
 
-### `ggplot2`
+#### 1.2.2 Ultimate goal
+
+> Our ultimate goal in this chapter is to recreate the following visualization displaying the relationship between flipper lengths and body masses of these penguins, taking into consideration the species of the penguin.
+
+
+#### 1.2.4 Adding aesthetics and layers
 
 ```{r}
 ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g)) + 
   geom_point(mapping = aes(color = species, shape = species), na.rm = TRUE) +
   geom_smooth(formula = y ~ x, method = "lm", na.rm = TRUE) +
   labs(title = "Body mass and flipper length",
-       subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
-       x = "Flipper length (mm)", y = "Body mass (g)",
-       color = "Species", shape = "Species") +
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", y = "Body mass (g)",
+    color = "Species", shape = "Species") +
   scale_color_colorblind()
 ```
 
-### pipe operator
+#### Exercises 1.2.5
 
-- ` %>% / |>`
-
-```{r}
-penguins %>% 
-  ggplot(mapping = aes(x = flipper_length_mm, y = body_mass_g)) + 
-  geom_point(mapping = aes(color = species, shape = species), na.rm = TRUE) +
-  geom_smooth(formula = y ~ x, method = "lm", na.rm = TRUE) +
-  labs(title = "Body mass and flipper length",
-       subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
-       x = "Flipper length (mm)", y = "Body mass (g)",
-       color = "Species", shape = "Species") +
-  scale_color_colorblind()
-```
-
-### 변수 유형에 따른 그래프 선택
-
-- 변수의 개수에 따라 변수가 1개인 경우 히스토그램을 사용하고, 2개인 경우 산점도를 사용하는 것이 일반적(@midway2020principles, @kelleher2011ten, @islam2019overview 등도 함께 참고)
-
-### 연습문제 1.2.5
-
-#### 3
+- 3
 ```{r}
 ggplot(data = penguins, mapping = aes(x = bill_depth_mm, y = bill_length_mm)) +
   geom_point()
 ```
 
-#### 4
+- 4
 ```{r}
 ggplot(data = penguins, mapping = aes(x = bill_depth_mm, y = species)) +
   geom_point()
 ```
 
-#### 5
+- 5
 ```{r}
 ggplot(data = penguins, mapping = aes(x = bill_depth_mm, colour = species)) +
   geom_density()
 ```
 
-#### 8
+- 8
 ```{r}
 penguins %>% 
   ggplot(mapping = aes(x = flipper_length_mm, y = body_mass_g)) + 
@@ -81,33 +68,83 @@ penguins %>%
   geom_smooth(formula = y ~ x, method = "loess", na.rm = TRUE)
 ```
 
-### 연습문제 1.4.3
 
-#### 1
+### 1.3 ggplot2 calls
 
+> In the future, you’ll also learn about the pipe, |>, which will allow you to create that plot with.
+
+```{r}
+penguins %>% 
+  ggplot(mapping = aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(mapping = aes(color = species, shape = species), na.rm = TRUE) +
+  geom_smooth(formula = y ~ x, method = "lm", na.rm = TRUE) +
+  labs(title = "Body mass and flipper length",
+       subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+       x = "Flipper length (mm)", y = "Body mass (g)",
+       color = "Species", shape = "Species") +
+  scale_color_colorblind()
+```
+
+### 1.4 Visualizing distributions
+
+> How you visualize the distribution of a variable depends on the type of variable: categorical or numerical.
+
+- 변수의 개수에 따라 변수가 1개인 경우 히스토그램을 사용하고, 2개인 경우 산점도를 사용하는 것이 일반적(@midway2020principles, @kelleher2011ten, @islam2019overview 등도 함께 참고)
+
+#### 1.4.1 A categorical variable
+
+> A variable is categorical if it can only take one of a small set of values. To examine the distribution of a categorical variable, you can use a bar chart. The height of the bars displays how many observations occurred with each x value.
+
+#### 1.4.2 
+
+> A variable is numerical (or quantitative) if it can take on a wide range of numerical values, and it is sensible to add, subtract, or take averages with those values. Numerical variables can be continuous or discrete.
+
+#### Exercises 1.4.3
+
+- 1
 ```{r}
 penguins %>% 
   ggplot(aes(y = species))+
   geom_bar()
 ```
 
-#### 2
+- 2
 ```{r}
 penguins %>% 
   ggplot(aes(x = species)) +
   geom_bar(fill = "red")
 ```
 
-#### 4
+- 4
 ```{r}
 diamonds %>% 
   ggplot(aes(x = carat)) +
   geom_histogram(binwidth = 0.5)
 ```
 
-### 연습문제 1.5.5
+### 1.5 Visualizing relationships
 
-#### 6
+> To visualize a relationship we need to have at least two variables mapped to aesthetics of a plot.
+
+#### 1.5.1 A numerical and a categorical variable
+
+> A boxplot is a type of visual shorthand for measures of position (percentiles) that describe a distribution. It is also useful for identifying potential outliers.
+
+#### 1.5.2 Two categorical variables
+
+> We can use stacked bar plots to visualize the relationship between two categorical variables.
+
+#### 1.5.3 Two numerical variables
+
+> [...] A scatterplot is probably the most commonly used plot for visualizing the relationship between two numerical variables.
+
+#### 1.5.4 Three or more variables
+
+> However adding too many aesthetic mappings to a plot makes it cluttered and difficult to make sense of. Another way, which is particularly useful for categorical variables, is to split your plot into facets, subplots that each display one subset of the data.
+
+#### Exercises 1.5.5
+
+- 6
 ```{r}
 penguins %>% 
   ggplot(mapping = aes(x = bill_length_mm, y = bill_depth_mm, 
@@ -116,7 +153,7 @@ penguins %>%
   labs(color = "Species", shape = "Species")
 ```
 
-#### 7
+- 7
 ```{r}
 penguins %>% ggplot(aes(x = island, fill = species)) +
   geom_bar(position = "fill")
@@ -124,7 +161,7 @@ penguins %>% ggplot(aes(x = species, fill = island)) +
   geom_bar(position = "fill")
 ```
 
-### 연습문제 1.6.1
+#### Exercises 1.6.1
 ```{r}
 mpg %>% 
   ggplot() +
@@ -132,66 +169,37 @@ mpg %>%
 # ggsave("mpg-plot.pdf")
 ```
 
-### Appendix
+## 2. Workflow - basics
 
-#### Vector
+> You now have some experience running R code. We didn’t give you many details, but you’ve obviously figured out the basics, or you would’ve thrown this book away in frustration! Frustration is natural when you start programming in R because it is such a stickler for punctuation, and even one character out of place can cause it to complain. But while you should expect to be a little frustrated, take comfort in that this experience is typical and temporary: it happens to everyone, and the only way to get over it is to keep trying.
 
-> 벡터는 자료형이 같은 스칼라를 원소로 갖는 1차원 자료구조 입니다. R은 5가지 주요 자료구조(벡터, 행렬, 배열, 리스트, 데이터프레임)을 제공합니다. 그중에서 벡터가 기본 자료구조이며, 나머지 4개의 자료구조는 벡터를 기반으로 확장된 자료구조입니다.
+### 2.1 Coding basics
 
-벡터에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Simple-manipulations-numbers-and-vectors)을 참고하세요. 일반적으로 `R` 교재 등을 참고하기 보다는 `R`에서 제공하는 도움말을 활용하는 것이 좋습니다. `R`에서 제공하는 도움말은 `?`를 사용하여 확인할 수 있습니다. 하지만 가독성이 좋지 않기 때문에 가능하면 [홈페이지](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Simple-manipulations-numbers-and-vectors)를 참고하세요.
+> You will make lots of assignments, and `<-` is a pain to type. You can save time with RStudio’s keyboard shortcut: `Alt + -`(the minus sign). Notice that RStudio automatically surrounds `<-` with spaces, which is a good code formatting practice. Code can be miserable to read on a good day, so giveyoureyesabreak and use spaces.
 
-그리고, vector 관련 내용 중에서 범주형 자료를 다른 [항목](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Factors)도 함께 참고하세요.
+### 2.2 Comments
 
-#### list
+> For data analysis code, use comments to explain your overall plan of attack and record important insights as you encounter them. There’s no way to re-capture this knowledge from the code itself.
 
-> 리스트는 R에서 가장 다양한 객체를 원소로 가질 수 있는 자료구조입니다. 스칼라, 벡터, 행렬은 물론 데이터프레임, 리스트 및 함수도 원소로 가질 수 있습니다. 이러한 리스트의 특성은 다양한 객체를 하나로 담는 역할을 수행합니다. 따라서 함수가 반환해야 할 객체가 서로 다른 자료구조를 가질 때 리스트를 주로 사용하기 때문에, 많은 함수들의 반환값으로 해당 자료구조가 선택됩니다.
+### 2.3 What’s in a name
 
-리스트에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Lists)을 참고하세요. 매뉴얼에 제시된 수준이면 R을 사용해서 문제를 해결하는데 큰 어려움은 없습니다.
+> We recommend snake_case, where you separate lowercase words with `_`.
 
-#### dataframe
+## 3. Data transformation
 
-> R을 사용해서 데이터 분석을 하다면 가장 많이 다루게 될 자료구조 입니다. 리스트가 행벡터를 원소가 가진다면, 데이터프레임은 열벡터를 원소로 가집니다. 따라서 데이터프레임은 열벡터를 가로 방향으로 붙여서 행과 열을 갖는 직사각형 모양으로 출력됩니다. 데이터프레임의 모든 열벡터는 길이가 같아야 합니다. 만약 길이가 다른 열벡터로 데이터프레임을 생성하려고 하면 에러가 발생합니다.
+> Visualization is an important tool for generating insight, but it’s rare that you get the data in exactly the right form you need to make the graph you want. Often you’ll need to create some new variables or summaries to answer your questions with your data, or maybe you just want to rename the variables or reorder the observations to make the data a little easier to work with.
 
-데이터프레임에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Data-frames)을 참고하세요. 데이터프레임은 R에서 가장 많이 사용되는 자료구조이기 때문에, 해당 자료구조에 대해서 별도의 연습이 필요합니다. 관련하여 아래와 같은 교재를 참고하세요. [@나성호2021]의 경우 3장, 4장을 참고하세요. [@오세종2023]의 경우 2장, 3장을 참고하세요.
 
-#### 제어와 함수
-
-- 제어문
-
-> 실행 흐름을 분기하는 if, ifelse와 반복문인 for, while, repeat, break, next 등을 제공합니다. 이러한 제어문을 사용하여 프로그램의 실행 흐름을 제어할 수 있습니다.
-
-제어문에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Loops-and-conditional-execution)을 참고하세요. 제어문에 대한 이해가 부족하면 프로그램을 작성하는데 어려움이 있을 수 있으니 별도로 연습이 필요합니다. [@나성호2021]의 경우 5장, 6장을 참고하세요. [@오세종2023]의 경우 4장을 참고하세요.
-
-- 함수
-
-> 사용자 정의 함수 뿐만 아니라 라이브러리에서 제공하는 함수를 이해하기 위해서 함수를 학습하게 됩니다. 
-
-함수에 관련된 내용은 [이 곳](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Functions)을 참고하세요. 다른 라이브러리를 활용하기 위해서 함수에 대한 이해가 필요합니다. 그리고 데이터프레임을 활용하기 위해서는 `apply` 등과 같은 함수를 사용해야 하기 때문에 관련 내용은 잘 파악해두시기 바랍니다. [@나성호2021]의 경우 7장, 8장을 참고하세요. [@오세종2023]의 경우 4장을 참고하세요.
-
-## Workflow - basics
-
-> [...] But while you should expect to be a little frustrated, take comfort in that this experience is typical and temporary: it happens to everyone, and the only way to get over it is to keep trying(하지만 이러한 경험은 누구나 겪을 수 있는 일반적인 일시적인 현상이며, 이를 극복할 수 있는 유일한 방법은 계속 노력하는 것뿐이라는 사실에 위안을 삼으세요.).
-
-### 코딩에 관한 사항
-
-- `R` 코딩에 관한 기초적인 사항(변수, 제어문, 함수)에 대해선 별도의 교재를 활용해서 연습을 하세요.
-  - 데이터 분석에 필요한 기초적인 사항을 위해서 별도의 코딩 테스트나 알고리즘 연습을 하실 필요는 없습니다.
-
-- 주석을 활용하는 방법을 연습하세요. 데이터 분석 과정에서 발생하는 의사결정이나 자료를 코드에 남겨두고 기록물로 보관하기 위해선 주석을 활용하는 방법은 연습해 주세요.
-  - Quarto(@Quarto)
-  - Knitr(@KnitrBook2015, @KnitrManual2024)
-
-## Data transformation
-
-주요 도구인 dplyr 패키지를 사용한 데이터 변환을 학습합니다.
-
-> [...] which will introduce you to data transformation using the dplyr package and a new dataset on flights that departed from New York City in 2013.
+> flights is a tibble, a special type of data frame used by the tidyverse to avoid some common gotchas. The most important difference between tibbles and data frames is the way tibbles print; they are designed for large datasets, so they only show the first few rows and only the columns that fit on one screen. There are a few options to see everything. If you’re using RStudio, the most convenient is probably View(flights), which opens an interactive, scrollable, and filterable view. Otherwise you can use print(flights, width = Inf) to show all columns, or use glimpse():
 
 ```{r}
 flights %>% 
   glimpse()
 ```
 
+### 3.1.3 dplyr basics
+
+> You’re about to learn the primary dplyr verbs (functions), which will allow you to solve the vast majority of your data manipulation challenges. But before we discuss their individual differences, it’s worth stating what they have in common: 1. The first argument is always a data frame., 2. The subsequent arguments typically describe which columns to operate on using the variable names (without quotes)., 3. The output is always a new data frame.
 
 ```{r}
 flights |>
@@ -202,16 +210,22 @@ flights |>
   ) 
 ```
 
-### Row
+> dplyr’s verbs are organized into four groups based on what they operate on: rows, columns, groups, or tables. In the following sections, you’ll learn the most important verbs for rows, columns, and groups. Then, we’ll return to the join verbs that work on tables in Chapter 19. Let’s dive in!
 
-#### filter
+### 3.2 Rows
 
-> The most important verbs that operate on rows of a dataset are filter() [...]
+> The most important verbs that operate on rows of a dataset are filter(), which changes which rows are present without changing their order, and arrange(), which changes the order of the rows without changing which are present. Both functions only affect the rows, and the columns are left unchanged. We’ll also discuss distinct() which finds rows with unique values. Unlike arrange() and filter() it can also optionally modify the columns.
+
+#### 3.2.1 filter
+
+> filter() allows you to keep rows based on the values of the columns. The first argument is the data frame. The second and subsequent arguments are the conditions that must be true to keep the row.
 
 ```{r}
 flights |> 
   filter(dep_delay > 120)
 ```
+
+> There’s a useful shortcut when you’re combining `|` and `==`: `%in%`. It keeps rows where the variable equals one of the values on the right:
 
 ```{r}
 flights |> 
@@ -220,16 +234,13 @@ flights |>
   filter(month == 1 | month == 2)
 flights |> 
   filter(month %in% c(1, 2))
-```
-
-```{r}
 jan1 <- flights |> 
   filter(month == 1 & day == 1)
 ```
 
-#### arrange
+#### 3.2.3 arrange
 
-> arrange() changes the order of the rows based on the value of the columns. [...]
+> arrange() changes the order of the rows based on the value of the columns. It takes a data frame and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of the preceding columns. For example, the following code sorts by the departure time, which is spread over four columns. We get the earliest years first, then within a year, the earliest months, etc
 
 ```{r}
 flights |> 
@@ -238,9 +249,9 @@ flights |>
   arrange(desc(dep_delay))
 ```
 
-#### distinct
+#### 3.2.4 distinct
 
-> distinct() finds all the unique rows in a dataset, so in a technical sense...
+> distinct() finds all the unique rows in a dataset, so technically, it primarily operates on the rows. Most of the time, however, you’ll want the distinct combination of some variables, so you can also optionally supply column names:
 
 ```{r}
 flights |> 
@@ -256,14 +267,16 @@ flights |>
   distinct(origin, dest, .keep_all = TRUE)
 ```
 
+> If you want to find the number of occurrences instead, you’re better off swapping distinct() for count(). With the sort = TRUE argument, you can arrange them in descending order of the number of occurrences. You’ll learn more about count in Section 13.3.
+
 ```{r}
 flights |>
   count(origin, dest, sort = TRUE)
 ```
 
-#### 연습문제 3.2.5
+#### Exercises 3.2.5
 
-#### 1
+- 1
 
 ```{r}
 # Had an arrival delay of two or more hours
@@ -292,7 +305,7 @@ flights |>
   filter(dep_delay >= 60 & dep_delay - arr_delay > 30)
 ```
 
-#### 2
+- 2
 
 ```{r}
 flights |> 
@@ -301,7 +314,7 @@ flights |>
   relocate(dep_delay, sched_dep_time)
 ```
 
-#### 3
+- 3
 
 ```{r}
 flights |> 
@@ -310,7 +323,7 @@ flights |>
   relocate(speed)
 ```
 
-#### 4
+- 4
 
 ```{r}
 flights |> 
@@ -318,7 +331,7 @@ flights |>
   nrow()
 ```
 
-#### 5
+- 5
 
 ```{r}
 flights |> 
@@ -326,11 +339,13 @@ flights |>
   relocate(distance)
 ```
 
-### Columns
+### 3.3 Columns
 
-#### mutate
+> There are four important verbs that affect the columns without changing the rows: mutate() creates new columns that are derived from the existing columns, select() changes which columns are present, rename() changes the names of the columns, and relocate() changes the positions of the columns.
 
-> The job of mutate() is to add new columns that are calculated from the existing columns. 
+#### 3.3.1 mutate
+
+> The job of mutate() is to add new columns that are calculated from the existing columns. In the transform chapters, you’ll learn a large set of functions that you can use to manipulate different types of variables. For now, we’ll stick with basic algebra, which allows us to compute the gain, how much time a delayed flight made up in the air, and the speed in miles per hour:
 
 ```{r}
 flights |> 
@@ -340,7 +355,7 @@ flights |>
   )
 ```
 
-> [...] We can use the .before argument to instead add the variables to the left hand side.
+> By default, mutate() adds new columns on the right-hand side of your dataset, which makes it difficult to see what’s happening here. We can use the .before argument to instead add the variables to the left-hand side. [...] Alternatively, you can control which variables are kept with the .keep argument. A particularly useful argument is "used" which specifies that we only keep the columns that were involved or created in the mutate() step. [...] we should think carefully about whether we want the result to be assigned back to flights, overwriting the original data frame with many more variables, or to a new object.
 
 ```{r}
 flights |> 
@@ -366,33 +381,45 @@ flights |>
   )
 ```
 
-#### select
+#### 3.3.2 select
 
-> [...] select() allows you to rapidly zoom in on a useful subset using operations based on the names of the variables:
+> It’s not uncommon to get datasets with hundreds or even thousands of variables. In this situation, the first challenge is often just focusing on the variables you’re interested in. select() allows you to rapidly zoom in on a useful subset using operations based on the names of the variables:
 
 ```{r}
+# Select columns by name:
 flights |> 
   select(year, month, day)
+
+# Select all columns between year and day (inclusive):
 flights |> 
   select(year:day)
 flights |> 
   select(!year:day)
+
+# Select all columns that are characters:
 flights |> 
   select(where(is.character))
+```
+
+> You can rename variables as you select() them by using =. The new name appears on the left-hand side of the =, and the old variable appears on the right-hand side:
+
+```{r}
 flights |> 
   select(tail_num = tailnum)
 ```
 
-#### rename
+#### 3.3.3 rename
 
-> If you have a bunch of inconsistently named columns and it would be painful to fix them all by hand, check out janitor::clean_names() which provides some useful automated cleaning.
+> If you want to keep all the existing variables and just want to rename a few, you can use rename() instead of select(): [...] If you have a bunch of inconsistently named columns and it would be painful to fix them all by hand, check out janitor::clean_names() which provides some useful automated cleaning.
 
 ```{r}
 flights |> 
   rename(tail_num = tailnum)
 ```
 
-#### relocate
+#### 3.3.4 relocate
+
+> Use relocate() to move variables around. You might want to collect related variables together or move important variables to the front. By default relocate() moves variables to the front:
 
 ```{r}
 flights |> 
@@ -403,16 +430,16 @@ flights |>
   relocate(starts_with("arr"), .before = dep_time)
 ```
 
-### 연습문제 3.3.5
+#### Exercises 3.3.5
 
-#### 1
+- 1
 
 ```{r}
 flights |> 
   relocate(dep_time, sched_dep_time, dep_delay)
 ```
 
-#### 2
+- 2
 
 ```{r}
 flights |> 
@@ -423,14 +450,14 @@ flights |>
   select(dep_time:arr_delay, -contains("sched"))
 ```
 
-#### 3
+- 3
 
 ```{r}
 flights |> 
   select(dep_time, dep_time)
 ```
 
-#### 4
+- 4
 
 ```{r}
 variables <- c("year", "month", "day", "dep_delay", "arr_delay")
@@ -439,7 +466,7 @@ flights |>
   select(any_of(variables))
 ```
 
-#### 5
+- 5
 
 ```{r}
 flights |> 
@@ -448,7 +475,7 @@ flights |>
   select(contains("TIME", ignore.case = FALSE))
 ```
 
-#### 6
+- 6
 
 ```{r}
 flights |>
@@ -456,7 +483,7 @@ flights |>
   relocate(air_time_min)
 ```
 
-### The Pipe
+### 3.4 The Pipe
 
 > While both forms have their time and place, the pipe generally produces data analysis code that is easier to write and read.
 
@@ -468,11 +495,11 @@ flights |>
   arrange(desc(speed))
 ```
 
-### Groups
+### 3.5 Groups
 
 > So far you’ve learned about functions that work with rows and columns. dplyr gets even more powerful when you add in the ability to work with groups.
 
-#### group_by
+#### 3.5.1 group_by
 
 > Use group_by() to divide your dataset into groups meaningful for your analysis
 
@@ -481,7 +508,9 @@ flights |>
   group_by(month)
 ```
 
-#### summarize
+#### 3.5.2 summarize
+
+> You can create any number of summaries in a single call to summarize(). You’ll learn various useful summaries in the upcoming chapters, but one very useful summary is n(), which returns the number of rows in each group:
 
 ```{r}
 flights |> 
@@ -489,11 +518,13 @@ flights |>
   summarize(
     avg_delay = mean(dep_delay)
   )
+
 flights |> 
   group_by(month) |> 
   summarize(
     avg_delay = mean(dep_delay, na.rm = TRUE)
   )
+
 flights |> 
   group_by(month) |> 
   summarize(
@@ -502,7 +533,9 @@ flights |>
   )
 ```
 
-#### slice_
+#### 3.5.3 `slice_`
+
+> There are five handy functions that allow you to extract specific rows within each group: - `df |> slice_head(n = 1)` takes the first row from each group. - `df |> slice_tail(n = 1)` takes the last row in each group. - `df |> slice_min(x, n = 1)` takes the row with the smallest value of column x. - `df |> slice_max(x, n = 1)` takes the row with the largest value of column x. - `df |> slice_sample(n = 1)` takes one random row.
 
 ```{r}
 flights |> 
@@ -511,12 +544,16 @@ flights |>
   relocate(dest)
 ```
 
-#### Grouping by multiple variables
+#### 3.5.4 Grouping by multiple variables
+
+> You can create groups using more than one variable. For example, we could make a group for each date.
 
 ```{r}
 daily <- flights |>  
   group_by(year, month, day)
 ```
+
+> When you summarize a tibble grouped by more than one variable, each summary peels off the last group. In hindsight, this wasn’t a great way to make this function work, but it’s difficult to change without breaking existing code.
 
 ```{r}
 daily_flights <- daily |> 
@@ -529,7 +566,9 @@ daily_flights <- daily |>
   )
 ```
 
-#### Ungrouping
+#### 3.5.5 Ungrouping
+
+> You might also want to remove grouping from a data frame without using summarize(). You can do this with ungroup(). [...] You get a single row back because dplyr treats all the rows in an ungrouped data frame as belonging to one group.
 
 ```{r}
 daily |> 
@@ -543,7 +582,9 @@ daily |>
 ```
 
 
-#### .by
+#### 3.5.6 .by
+
+> [...] syntax for per-operation grouping, the .by argument. group_by() and ungroup() aren’t going away, but you can now also use the .by argument to group within a single operation. .by works with all verbs and has the advantage that you don’t need to use the .groups argument to suppress the grouping message or ungroup() when you’re done.
 
 ```{r}
 flights |> 
@@ -561,9 +602,9 @@ flights |>
   )
 ```
 
-### 연습문제 3.5.7
+#### Exercises 3.5.7
 
-#### 1
+- 1
 
 ```{r}
 flights |>
@@ -572,7 +613,7 @@ flights |>
   arrange(desc(avg_dep_delay))
 ```
 
-#### 2
+- 2
 
 ```{r}
 flights |> 
@@ -582,7 +623,7 @@ flights |>
   relocate(dest, dep_delay)
 ```
 
-#### 3
+- 3
 
 ```{r}
 flights |>
@@ -592,7 +633,7 @@ flights |>
   geom_smooth()
 ```
 
-#### 4
+- 4
 
 ```{r}
 flights |> 
@@ -612,7 +653,7 @@ flights |>
   relocate(dep_delay)
 ```
 
-#### 6
+- 6
 
 ```{r}
 df <- tibble(
@@ -641,11 +682,13 @@ df |>
   mutate(mean_x = mean(x))
 ```
 
-## Workflow - code style
+## 4. Workflow - code style
 
 > [...] Open the palette by pressing Cmd/Ctrl + Shift + P, then type “styler” to see all the shortcuts offered by styler.
 
-### Naems
+### 4.1 Naems
+
+> [...] by mutate()) should use only lowercase letters, numbers, and _. Use _ to separate words within a name. [...] If you have a bunch of names for related things, do your best to be consistent. It’s easy for inconsistencies to arise when you forget a previous convention, so don’t feel bad if you have to go back and rename things. In general, if you have a bunch of variables that are a variation on a theme, you’re better off giving them a common prefix rather than a common suffix because autocomplete works best on the start of a variable.
 
 ```{r}
 # Strive for:
@@ -655,7 +698,9 @@ short_flights <- flights |> filter(air_time < 60)
 SHORTFLIGHTS <- flights |> filter(air_time < 60)
 ```
 
-### Spaces
+### 4.2 Spaces
+
+> Put spaces on either side of mathematical operators apart from ^ (i.e. +, -, ==, <, …), and around the assignment operator (<-).
 
 ```{r}
 #| eval: false
@@ -667,6 +712,8 @@ z <- (a + b)^2 / d
 z<-( a + b ) ^ 2/d
 ```
 
+> It’s OK to add extra spaces if it improves alignment. For example, if you’re creating multiple variables in mutate(), you might want to add spaces so that all the = line up.1 This makes it easier to skim the code.
+
 ```{r}
 #| eval: false
 
@@ -677,7 +724,9 @@ mean(x, na.rm = TRUE)
 mean (x ,na.rm=TRUE)
 ```
 
-### Pipes
+### 4.3 Pipes
+
+> `|>` should always have a space before it and should typically be the last thing on a line. [...] After the first step of the pipeline, indent each line by two spaces. RStudio will automatically put the spaces in for you after a line break following a |> . If you’re putting each argument on its own line, indent by an extra two spaces. Make sure ) is on its own line, and un-indented to match the horizontal position of the function name. [...] Finally, be wary of writing very long pipes, say longer than 10-15 lines. Try to break them up into smaller sub-tasks, giving each task an informative name. The names will help cue the reader into what’s happening and makes it easier to check that intermediate results are as expected. Whenever you can give something an informative name, you should give it an informative name, for example when you fundamentally change the structure of the data, e.g., after pivoting or summarizing. Don’t expect to get it right the first time! This means breaking up long pipelines if there are intermediate states that can get good names.
 
 ```{r}
 # Strive for 
@@ -738,7 +787,9 @@ df |>
   )
 ```
 
-### ggplot2
+### 4.4 ggplot2
+
+> The same basic rules that apply to the pipe also apply to ggplot2; just treat `+` the same way as `|>`. [...] Again, if you can’t fit all of the arguments to a function on to a single line, put each argument on its own line:
 
 ```{r}
 flights |> 
@@ -767,7 +818,9 @@ flights |>
   geom_point()
 ```
 
-### Section 
+### Section
+
+> As your scripts get longer, you can use sectioning comments to break up your file into manageable pieces:
 
 ```{r}
 # Load data --------------------------------------
@@ -775,7 +828,7 @@ flights |>
 # Plot data --------------------------------------
 ```
 
-### 연습문제 4.7
+### Exercises 4.6
 
 ```{r}
 flights |>
@@ -802,7 +855,7 @@ flights |>
   filter(n > 10)
 ```
 
-## Data tidying
+## 5. Data tidying
 
 ### Tidy data
 

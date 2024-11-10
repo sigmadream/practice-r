@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.32">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,10 +91,10 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2486e1f0a3ee9ee1fc393803a1361cdb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4225ea539d84296ffd99a6a587bdbcdb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -223,29 +223,26 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-visualization" id="toc-data-visualization" class="nav-link active" data-scroll-target="#data-visualization">Data visualization</a>
+  <li><a href="#data-visualization" id="toc-data-visualization" class="nav-link active" data-scroll-target="#data-visualization">1. Data visualization</a>
   <ul class="collapse">
-  <li><a href="#용어" id="toc-용어" class="nav-link" data-scroll-target="#용어">용어</a></li>
-  <li><a href="#ggplot2" id="toc-ggplot2" class="nav-link" data-scroll-target="#ggplot2"><code>ggplot2</code></a></li>
-  <li><a href="#pipe-operator" id="toc-pipe-operator" class="nav-link" data-scroll-target="#pipe-operator">pipe operator</a></li>
-  <li><a href="#변수-유형에-따른-그래프-선택" id="toc-변수-유형에-따른-그래프-선택" class="nav-link" data-scroll-target="#변수-유형에-따른-그래프-선택">변수 유형에 따른 그래프 선택</a></li>
-  <li><a href="#연습문제-1.2.5" id="toc-연습문제-1.2.5" class="nav-link" data-scroll-target="#연습문제-1.2.5">연습문제 1.2.5</a></li>
-  <li><a href="#연습문제-1.4.3" id="toc-연습문제-1.4.3" class="nav-link" data-scroll-target="#연습문제-1.4.3">연습문제 1.4.3</a></li>
-  <li><a href="#연습문제-1.5.5" id="toc-연습문제-1.5.5" class="nav-link" data-scroll-target="#연습문제-1.5.5">연습문제 1.5.5</a></li>
-  <li><a href="#연습문제-1.6.1" id="toc-연습문제-1.6.1" class="nav-link" data-scroll-target="#연습문제-1.6.1">연습문제 1.6.1</a></li>
-  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
+  <li><a href="#first-steps" id="toc-first-steps" class="nav-link" data-scroll-target="#first-steps">1.2 First steps</a></li>
+  <li><a href="#ggplot2-calls" id="toc-ggplot2-calls" class="nav-link" data-scroll-target="#ggplot2-calls">1.3 ggplot2 calls</a></li>
+  <li><a href="#visualizing-distributions" id="toc-visualizing-distributions" class="nav-link" data-scroll-target="#visualizing-distributions">1.4 Visualizing distributions</a></li>
+  <li><a href="#visualizing-relationships" id="toc-visualizing-relationships" class="nav-link" data-scroll-target="#visualizing-relationships">1.5 Visualizing relationships</a></li>
   </ul></li>
-  <li><a href="#workflow---basics" id="toc-workflow---basics" class="nav-link" data-scroll-target="#workflow---basics">Workflow - basics</a>
+  <li><a href="#workflow---basics" id="toc-workflow---basics" class="nav-link" data-scroll-target="#workflow---basics">2. Workflow - basics</a>
   <ul class="collapse">
-  <li><a href="#코딩에-관한-사항" id="toc-코딩에-관한-사항" class="nav-link" data-scroll-target="#코딩에-관한-사항">코딩에 관한 사항</a></li>
+  <li><a href="#coding-basics" id="toc-coding-basics" class="nav-link" data-scroll-target="#coding-basics">2.1 Coding basics</a></li>
+  <li><a href="#comments" id="toc-comments" class="nav-link" data-scroll-target="#comments">2.2 Comments</a></li>
+  <li><a href="#whats-in-a-name" id="toc-whats-in-a-name" class="nav-link" data-scroll-target="#whats-in-a-name">2.3 What’s in a name</a></li>
   </ul></li>
-  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">Data transformation</a>
+  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">3. Data transformation</a>
   <ul class="collapse">
-  <li><a href="#row" id="toc-row" class="nav-link" data-scroll-target="#row">Row</a></li>
-  <li><a href="#columns" id="toc-columns" class="nav-link" data-scroll-target="#columns">Columns</a></li>
-  <li><a href="#연습문제-3.3.5" id="toc-연습문제-3.3.5" class="nav-link" data-scroll-target="#연습문제-3.3.5">연습문제 3.3.5</a></li>
-  <li><a href="#the-pipe" id="toc-the-pipe" class="nav-link" data-scroll-target="#the-pipe">The Pipe</a></li>
-  <li><a href="#groups" id="toc-groups" class="nav-link" data-scroll-target="#groups">Groups</a></li>
+  <li><a href="#dplyr-basics" id="toc-dplyr-basics" class="nav-link" data-scroll-target="#dplyr-basics">3.1.3 dplyr basics</a></li>
+  <li><a href="#rows" id="toc-rows" class="nav-link" data-scroll-target="#rows">3.2 Rows</a></li>
+  <li><a href="#columns" id="toc-columns" class="nav-link" data-scroll-target="#columns">3.3 Columns</a></li>
+  <li><a href="#the-pipe" id="toc-the-pipe" class="nav-link" data-scroll-target="#the-pipe">3.4 The Pipe</a></li>
+  <li><a href="#groups" id="toc-groups" class="nav-link" data-scroll-target="#groups">3.5 Groups</a></li>
   <li><a href="#연습문제-3.5.7" id="toc-연습문제-3.5.7" class="nav-link" data-scroll-target="#연습문제-3.5.7">연습문제 3.5.7</a></li>
   </ul></li>
   <li><a href="#workflow---code-style" id="toc-workflow---code-style" class="nav-link" data-scroll-target="#workflow---code-style">Workflow - code style</a>
@@ -253,8 +250,8 @@ div.csl-indent {
   <li><a href="#naems" id="toc-naems" class="nav-link" data-scroll-target="#naems">Naems</a></li>
   <li><a href="#spaces" id="toc-spaces" class="nav-link" data-scroll-target="#spaces">Spaces</a></li>
   <li><a href="#pipes" id="toc-pipes" class="nav-link" data-scroll-target="#pipes">Pipes</a></li>
-  <li><a href="#ggplot2-1" id="toc-ggplot2-1" class="nav-link" data-scroll-target="#ggplot2-1">ggplot2</a></li>
-  <li><a href="#section-25" id="toc-section-25" class="nav-link" data-scroll-target="#section-25">Section</a></li>
+  <li><a href="#ggplot2" id="toc-ggplot2" class="nav-link" data-scroll-target="#ggplot2">ggplot2</a></li>
+  <li><a href="#section-6" id="toc-section-6" class="nav-link" data-scroll-target="#section-6">Section</a></li>
   <li><a href="#연습문제-4.7" id="toc-연습문제-4.7" class="nav-link" data-scroll-target="#연습문제-4.7">연습문제 4.7</a></li>
   </ul></li>
   <li><a href="#data-tidying" id="toc-data-tidying" class="nav-link" data-scroll-target="#data-tidying">Data tidying</a>
@@ -340,26 +337,34 @@ div.csl-indent {
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="data-visualization" class="level2">
-<h2 class="anchored" data-anchor-id="data-visualization">Data visualization</h2>
+<h2 class="anchored" data-anchor-id="data-visualization">1. Data visualization</h2>
+<section id="first-steps" class="level3">
+<h3 class="anchored" data-anchor-id="first-steps">1.2 First steps</h3>
+<section id="the-penguins-data-frame" class="level4">
+<h4 class="anchored" data-anchor-id="the-penguins-data-frame">1.2.1 The penguins data frame</h4>
 <blockquote class="blockquote">
-<p>Our ultimate goal in this chapter is to recreate the following visualization displaying the relationship between flipper lengths and body masses of these penguins, taking into consideration the species of the penguin.</p>
+<p>penguins contains 344 observations collected and made available by Dr.&nbsp;Kristen Gorman and the Palmer Station, Antarctica LTER2.</p>
 </blockquote>
-<section id="용어" class="level3">
-<h3 class="anchored" data-anchor-id="용어">용어</h3>
 <blockquote class="blockquote">
 <p>To make the discussion easier, let’s define some terms: A variable is a quantity, quality, or property that you can measure. A value is the state of a variable when you measure it. The value of a variable may change from measurement to measurement. An observation is a set of measurements made under similar conditions (you usually make all of the measurements in an observation at the same time and on the same object). An observation will contain several values, each associated with a different variable. We’ll sometimes refer to an observation as a data point. Tabular data is a set of values, each associated with a variable and an observation. Tabular data is tidy if each value is placed in its own “cell”, each variable in its own column, and each observation in its own row.</p>
 </blockquote>
 </section>
-<section id="ggplot2" class="level3">
-<h3 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h3>
+<section id="ultimate-goal" class="level4">
+<h4 class="anchored" data-anchor-id="ultimate-goal">1.2.2 Ultimate goal</h4>
+<blockquote class="blockquote">
+<p>Our ultimate goal in this chapter is to recreate the following visualization displaying the relationship between flipper lengths and body masses of these penguins, taking into consideration the species of the penguin.</p>
+</blockquote>
+</section>
+<section id="adding-aesthetics-and-layers" class="level4">
+<h4 class="anchored" data-anchor-id="adding-aesthetics-and-layers">1.2.4 Adding aesthetics and layers</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">color =</span> species, <span class="at">shape =</span> species), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Body mass and flipper length"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Dimensions for Adelie, Chinstrap, and Gentoo Penguins"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Flipper length (mm)"</span>, <span class="at">y =</span> <span class="st">"Body mass (g)"</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Species"</span>, <span class="at">shape =</span> <span class="st">"Species"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Dimensions for Adelie, Chinstrap, and Gentoo Penguins"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Flipper length (mm)"</span>, <span class="at">y =</span> <span class="st">"Body mass (g)"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Species"</span>, <span class="at">shape =</span> <span class="st">"Species"</span>) <span class="sc">+</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_colorblind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -370,21 +375,18 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="pipe-operator" class="level3">
-<h3 class="anchored" data-anchor-id="pipe-operator">pipe operator</h3>
+<section id="exercises-1.2.5" class="level4">
+<h4 class="anchored" data-anchor-id="exercises-1.2.5">Exercises 1.2.5</h4>
 <ul>
-<li><code>%&gt;% / |&gt;</code></li>
+<li>3</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">color =</span> species, <span class="at">shape =</span> species), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Body mass and flipper length"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Dimensions for Adelie, Chinstrap, and Gentoo Penguins"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Flipper length (mm)"</span>, <span class="at">y =</span> <span class="st">"Body mass (g)"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Species"</span>, <span class="at">shape =</span> <span class="st">"Species"</span>) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_colorblind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> bill_length_mm)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -393,20 +395,12 @@ div.csl-indent {
 </div>
 </div>
 </div>
-</section>
-<section id="변수-유형에-따른-그래프-선택" class="level3">
-<h3 class="anchored" data-anchor-id="변수-유형에-따른-그래프-선택">변수 유형에 따른 그래프 선택</h3>
 <ul>
-<li>변수의 개수에 따라 변수가 1개인 경우 히스토그램을 사용하고, 2개인 경우 산점도를 사용하는 것이 일반적(<span class="citation" data-cites="midway2020principles">Midway (<a href="#ref-midway2020principles" role="doc-biblioref">2020</a>)</span>, <span class="citation" data-cites="kelleher2011ten">Kelleher &amp; Wagener (<a href="#ref-kelleher2011ten" role="doc-biblioref">2011</a>)</span>, <span class="citation" data-cites="islam2019overview">Islam &amp; Jin (<a href="#ref-islam2019overview" role="doc-biblioref">2019</a>)</span> 등도 함께 참고)</li>
+<li>4</li>
 </ul>
-</section>
-<section id="연습문제-1.2.5" class="level3">
-<h3 class="anchored" data-anchor-id="연습문제-1.2.5">연습문제 1.2.5</h3>
-<section id="section" class="level4">
-<h4 class="anchored" data-anchor-id="section">3</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> bill_length_mm)) <span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> species)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
@@ -419,15 +413,15 @@ div.csl-indent {
 </div>
 </div>
 </div>
-</section>
-<section id="section-1" class="level4">
-<h4 class="anchored" data-anchor-id="section-1">4</h4>
+<ul>
+<li>5</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> species)) <span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">colour =</span> species)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_density()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -437,16 +431,14 @@ div.csl-indent {
 </div>
 </div>
 </div>
-</section>
-<section id="section-2" class="level4">
-<h4 class="anchored" data-anchor-id="section-2">5</h4>
+<ul>
+<li>8</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">colour =</span> species)) <span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_density()`).</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> bill_depth_mm), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -456,13 +448,22 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="section-3" class="level4">
-<h4 class="anchored" data-anchor-id="section-3">8</h4>
+</section>
+<section id="ggplot2-calls" class="level3">
+<h3 class="anchored" data-anchor-id="ggplot2-calls">1.3 ggplot2 calls</h3>
+<blockquote class="blockquote">
+<p>In the future, you’ll also learn about the pipe, |&gt;, which will allow you to create that plot with.</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> bill_depth_mm), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">color =</span> species, <span class="at">shape =</span> species), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Body mass and flipper length"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Dimensions for Adelie, Chinstrap, and Gentoo Penguins"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Flipper length (mm)"</span>, <span class="at">y =</span> <span class="st">"Body mass (g)"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Species"</span>, <span class="at">shape =</span> <span class="st">"Species"</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_colorblind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -472,11 +473,31 @@ div.csl-indent {
 </div>
 </div>
 </section>
+<section id="visualizing-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-distributions">1.4 Visualizing distributions</h3>
+<blockquote class="blockquote">
+<p>How you visualize the distribution of a variable depends on the type of variable: categorical or numerical.</p>
+</blockquote>
+<ul>
+<li>변수의 개수에 따라 변수가 1개인 경우 히스토그램을 사용하고, 2개인 경우 산점도를 사용하는 것이 일반적(<span class="citation" data-cites="midway2020principles">Midway (<a href="#ref-midway2020principles" role="doc-biblioref">2020</a>)</span>, <span class="citation" data-cites="kelleher2011ten">Kelleher &amp; Wagener (<a href="#ref-kelleher2011ten" role="doc-biblioref">2011</a>)</span>, <span class="citation" data-cites="islam2019overview">Islam &amp; Jin (<a href="#ref-islam2019overview" role="doc-biblioref">2019</a>)</span> 등도 함께 참고)</li>
+</ul>
+<section id="a-categorical-variable" class="level4">
+<h4 class="anchored" data-anchor-id="a-categorical-variable">1.4.1 A categorical variable</h4>
+<blockquote class="blockquote">
+<p>A variable is categorical if it can only take one of a small set of values. To examine the distribution of a categorical variable, you can use a bar chart. The height of the bars displays how many observations occurred with each x value.</p>
+</blockquote>
 </section>
-<section id="연습문제-1.4.3" class="level3">
-<h3 class="anchored" data-anchor-id="연습문제-1.4.3">연습문제 1.4.3</h3>
-<section id="section-4" class="level4">
-<h4 class="anchored" data-anchor-id="section-4">1</h4>
+<section id="section" class="level4">
+<h4 class="anchored" data-anchor-id="section">1.4.2</h4>
+<blockquote class="blockquote">
+<p>A variable is numerical (or quantitative) if it can take on a wide range of numerical values, and it is sensible to add, subtract, or take averages with those values. Numerical variables can be continuous or discrete.</p>
+</blockquote>
+</section>
+<section id="exercises-1.4.3" class="level4">
+<h4 class="anchored" data-anchor-id="exercises-1.4.3">Exercises 1.4.3</h4>
+<ul>
+<li>1</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> species))<span class="sc">+</span></span>
@@ -489,9 +510,9 @@ div.csl-indent {
 </div>
 </div>
 </div>
-</section>
-<section id="section-5" class="level4">
-<h4 class="anchored" data-anchor-id="section-5">2</h4>
+<ul>
+<li>2</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> species)) <span class="sc">+</span></span>
@@ -504,9 +525,9 @@ div.csl-indent {
 </div>
 </div>
 </div>
-</section>
-<section id="section-6" class="level4">
-<h4 class="anchored" data-anchor-id="section-6">4</h4>
+<ul>
+<li>4</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">%&gt;%</span> </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> carat)) <span class="sc">+</span></span>
@@ -521,10 +542,40 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="연습문제-1.5.5" class="level3">
-<h3 class="anchored" data-anchor-id="연습문제-1.5.5">연습문제 1.5.5</h3>
-<section id="section-7" class="level4">
-<h4 class="anchored" data-anchor-id="section-7">6</h4>
+<section id="visualizing-relationships" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-relationships">1.5 Visualizing relationships</h3>
+<blockquote class="blockquote">
+<p>To visualize a relationship we need to have at least two variables mapped to aesthetics of a plot.</p>
+</blockquote>
+<section id="a-numerical-and-a-categorical-variable" class="level4">
+<h4 class="anchored" data-anchor-id="a-numerical-and-a-categorical-variable">1.5.1 A numerical and a categorical variable</h4>
+<blockquote class="blockquote">
+<p>A boxplot is a type of visual shorthand for measures of position (percentiles) that describe a distribution. It is also useful for identifying potential outliers.</p>
+</blockquote>
+</section>
+<section id="two-categorical-variables" class="level4">
+<h4 class="anchored" data-anchor-id="two-categorical-variables">1.5.2 Two categorical variables</h4>
+<blockquote class="blockquote">
+<p>We can use stacked bar plots to visualize the relationship between two categorical variables.</p>
+</blockquote>
+</section>
+<section id="two-numerical-variables" class="level4">
+<h4 class="anchored" data-anchor-id="two-numerical-variables">1.5.3 Two numerical variables</h4>
+<blockquote class="blockquote">
+<p>[…] A scatterplot is probably the most commonly used plot for visualizing the relationship between two numerical variables.</p>
+</blockquote>
+</section>
+<section id="three-or-more-variables" class="level4">
+<h4 class="anchored" data-anchor-id="three-or-more-variables">1.5.4 Three or more variables</h4>
+<blockquote class="blockquote">
+<p>However adding too many aesthetic mappings to a plot makes it cluttered and difficult to make sense of. Another way, which is particularly useful for categorical variables, is to split your plot into facets, subplots that each display one subset of the data.</p>
+</blockquote>
+</section>
+<section id="exercises-1.5.5" class="level4">
+<h4 class="anchored" data-anchor-id="exercises-1.5.5">Exercises 1.5.5</h4>
+<ul>
+<li>6</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, </span>
@@ -539,9 +590,9 @@ div.csl-indent {
 </div>
 </div>
 </div>
-</section>
-<section id="section-8" class="level4">
-<h4 class="anchored" data-anchor-id="section-8">7</h4>
+<ul>
+<li>7</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">fill =</span> species)) <span class="sc">+</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -563,9 +614,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-</section>
-<section id="연습문제-1.6.1" class="level3">
-<h3 class="anchored" data-anchor-id="연습문제-1.6.1">연습문제 1.6.1</h3>
+<section id="exercises-1.6.1" class="level4">
+<h4 class="anchored" data-anchor-id="exercises-1.6.1">Exercises 1.6.1</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -580,74 +630,39 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave("mpg-plot.pdf")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="appendix" class="level3">
-<h3 class="anchored" data-anchor-id="appendix">Appendix</h3>
-<section id="vector" class="level4">
-<h4 class="anchored" data-anchor-id="vector">Vector</h4>
-<blockquote class="blockquote">
-<p>벡터는 자료형이 같은 스칼라를 원소로 갖는 1차원 자료구조 입니다. R은 5가지 주요 자료구조(벡터, 행렬, 배열, 리스트, 데이터프레임)을 제공합니다. 그중에서 벡터가 기본 자료구조이며, 나머지 4개의 자료구조는 벡터를 기반으로 확장된 자료구조입니다.</p>
-</blockquote>
-<p>벡터에 관련된 내용은 <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Simple-manipulations-numbers-and-vectors">이 곳</a>을 참고하세요. 일반적으로 <code>R</code> 교재 등을 참고하기 보다는 <code>R</code>에서 제공하는 도움말을 활용하는 것이 좋습니다. <code>R</code>에서 제공하는 도움말은 <code>?</code>를 사용하여 확인할 수 있습니다. 하지만 가독성이 좋지 않기 때문에 가능하면 <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Simple-manipulations-numbers-and-vectors">홈페이지</a>를 참고하세요.</p>
-<p>그리고, vector 관련 내용 중에서 범주형 자료를 다른 <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Factors">항목</a>도 함께 참고하세요.</p>
-</section>
-<section id="list" class="level4">
-<h4 class="anchored" data-anchor-id="list">list</h4>
-<blockquote class="blockquote">
-<p>리스트는 R에서 가장 다양한 객체를 원소로 가질 수 있는 자료구조입니다. 스칼라, 벡터, 행렬은 물론 데이터프레임, 리스트 및 함수도 원소로 가질 수 있습니다. 이러한 리스트의 특성은 다양한 객체를 하나로 담는 역할을 수행합니다. 따라서 함수가 반환해야 할 객체가 서로 다른 자료구조를 가질 때 리스트를 주로 사용하기 때문에, 많은 함수들의 반환값으로 해당 자료구조가 선택됩니다.</p>
-</blockquote>
-<p>리스트에 관련된 내용은 <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Lists">이 곳</a>을 참고하세요. 매뉴얼에 제시된 수준이면 R을 사용해서 문제를 해결하는데 큰 어려움은 없습니다.</p>
-</section>
-<section id="dataframe" class="level4">
-<h4 class="anchored" data-anchor-id="dataframe">dataframe</h4>
-<blockquote class="blockquote">
-<p>R을 사용해서 데이터 분석을 하다면 가장 많이 다루게 될 자료구조 입니다. 리스트가 행벡터를 원소가 가진다면, 데이터프레임은 열벡터를 원소로 가집니다. 따라서 데이터프레임은 열벡터를 가로 방향으로 붙여서 행과 열을 갖는 직사각형 모양으로 출력됩니다. 데이터프레임의 모든 열벡터는 길이가 같아야 합니다. 만약 길이가 다른 열벡터로 데이터프레임을 생성하려고 하면 에러가 발생합니다.</p>
-</blockquote>
-<p>데이터프레임에 관련된 내용은 <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Data-frames">이 곳</a>을 참고하세요. 데이터프레임은 R에서 가장 많이 사용되는 자료구조이기 때문에, 해당 자료구조에 대해서 별도의 연습이 필요합니다. 관련하여 아래와 같은 교재를 참고하세요. <span class="citation" data-cites="나성호2021">(<a href="#ref-나성호2021" role="doc-biblioref">나성호, 2021</a>)</span>의 경우 3장, 4장을 참고하세요. <span class="citation" data-cites="오세종2023">(<a href="#ref-오세종2023" role="doc-biblioref">오세종, 2023</a>)</span>의 경우 2장, 3장을 참고하세요.</p>
-</section>
-<section id="제어와-함수" class="level4">
-<h4 class="anchored" data-anchor-id="제어와-함수">제어와 함수</h4>
-<ul>
-<li>제어문</li>
-</ul>
-<blockquote class="blockquote">
-<p>실행 흐름을 분기하는 if, ifelse와 반복문인 for, while, repeat, break, next 등을 제공합니다. 이러한 제어문을 사용하여 프로그램의 실행 흐름을 제어할 수 있습니다.</p>
-</blockquote>
-<p>제어문에 관련된 내용은 <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Loops-and-conditional-execution">이 곳</a>을 참고하세요. 제어문에 대한 이해가 부족하면 프로그램을 작성하는데 어려움이 있을 수 있으니 별도로 연습이 필요합니다. <span class="citation" data-cites="나성호2021">(<a href="#ref-나성호2021" role="doc-biblioref">나성호, 2021</a>)</span>의 경우 5장, 6장을 참고하세요. <span class="citation" data-cites="오세종2023">(<a href="#ref-오세종2023" role="doc-biblioref">오세종, 2023</a>)</span>의 경우 4장을 참고하세요.</p>
-<ul>
-<li>함수</li>
-</ul>
-<blockquote class="blockquote">
-<p>사용자 정의 함수 뿐만 아니라 라이브러리에서 제공하는 함수를 이해하기 위해서 함수를 학습하게 됩니다.</p>
-</blockquote>
-<p>함수에 관련된 내용은 <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Functions">이 곳</a>을 참고하세요. 다른 라이브러리를 활용하기 위해서 함수에 대한 이해가 필요합니다. 그리고 데이터프레임을 활용하기 위해서는 <code>apply</code> 등과 같은 함수를 사용해야 하기 때문에 관련 내용은 잘 파악해두시기 바랍니다. <span class="citation" data-cites="나성호2021">(<a href="#ref-나성호2021" role="doc-biblioref">나성호, 2021</a>)</span>의 경우 7장, 8장을 참고하세요. <span class="citation" data-cites="오세종2023">(<a href="#ref-오세종2023" role="doc-biblioref">오세종, 2023</a>)</span>의 경우 4장을 참고하세요.</p>
-</section>
 </section>
 </section>
 <section id="workflow---basics" class="level2">
-<h2 class="anchored" data-anchor-id="workflow---basics">Workflow - basics</h2>
+<h2 class="anchored" data-anchor-id="workflow---basics">2. Workflow - basics</h2>
 <blockquote class="blockquote">
-<p>[…] But while you should expect to be a little frustrated, take comfort in that this experience is typical and temporary: it happens to everyone, and the only way to get over it is to keep trying(하지만 이러한 경험은 누구나 겪을 수 있는 일반적인 일시적인 현상이며, 이를 극복할 수 있는 유일한 방법은 계속 노력하는 것뿐이라는 사실에 위안을 삼으세요.).</p>
+<p>You now have some experience running R code. We didn’t give you many details, but you’ve obviously figured out the basics, or you would’ve thrown this book away in frustration! Frustration is natural when you start programming in R because it is such a stickler for punctuation, and even one character out of place can cause it to complain. But while you should expect to be a little frustrated, take comfort in that this experience is typical and temporary: it happens to everyone, and the only way to get over it is to keep trying.</p>
 </blockquote>
-<section id="코딩에-관한-사항" class="level3">
-<h3 class="anchored" data-anchor-id="코딩에-관한-사항">코딩에 관한 사항</h3>
-<ul>
-<li><code>R</code> 코딩에 관한 기초적인 사항(변수, 제어문, 함수)에 대해선 별도의 교재를 활용해서 연습을 하세요.
-<ul>
-<li>데이터 분석에 필요한 기초적인 사항을 위해서 별도의 코딩 테스트나 알고리즘 연습을 하실 필요는 없습니다.</li>
-</ul></li>
-<li>주석을 활용하는 방법을 연습하세요. 데이터 분석 과정에서 발생하는 의사결정이나 자료를 코드에 남겨두고 기록물로 보관하기 위해선 주석을 활용하는 방법은 연습해 주세요.
-<ul>
-<li>Quarto(<span class="citation" data-cites="Quarto">Quarto (<a href="#ref-Quarto" role="doc-biblioref">n.d.</a>)</span>)</li>
-<li>Knitr(<span class="citation" data-cites="KnitrBook2015">Xie (<a href="#ref-KnitrBook2015" role="doc-biblioref">2015</a>)</span>, <span class="citation" data-cites="KnitrManual2024">Xie (<a href="#ref-KnitrManual2024" role="doc-biblioref">2024</a>)</span>)</li>
-</ul></li>
-</ul>
+<section id="coding-basics" class="level3">
+<h3 class="anchored" data-anchor-id="coding-basics">2.1 Coding basics</h3>
+<blockquote class="blockquote">
+<p>You will make lots of assignments, and <code>&lt;-</code> is a pain to type. You can save time with RStudio’s keyboard shortcut: <code>Alt + -</code>(the minus sign). Notice that RStudio automatically surrounds <code>&lt;-</code> with spaces, which is a good code formatting practice. Code can be miserable to read on a good day, so giveyoureyesabreak and use spaces.</p>
+</blockquote>
+</section>
+<section id="comments" class="level3">
+<h3 class="anchored" data-anchor-id="comments">2.2 Comments</h3>
+<blockquote class="blockquote">
+<p>For data analysis code, use comments to explain your overall plan of attack and record important insights as you encounter them. There’s no way to re-capture this knowledge from the code itself.</p>
+</blockquote>
+</section>
+<section id="whats-in-a-name" class="level3">
+<h3 class="anchored" data-anchor-id="whats-in-a-name">2.3 What’s in a name</h3>
+<blockquote class="blockquote">
+<p>We recommend snake_case, where you separate lowercase words with <code>_</code>.</p>
+</blockquote>
 </section>
 </section>
 <section id="data-transformation" class="level2">
-<h2 class="anchored" data-anchor-id="data-transformation">Data transformation</h2>
-<p>주요 도구인 dplyr 패키지를 사용한 데이터 변환을 학습합니다.</p>
+<h2 class="anchored" data-anchor-id="data-transformation">3. Data transformation</h2>
 <blockquote class="blockquote">
-<p>[…] which will introduce you to data transformation using the dplyr package and a new dataset on flights that departed from New York City in 2013.</p>
+<p>Visualization is an important tool for generating insight, but it’s rare that you get the data in exactly the right form you need to make the graph you want. Often you’ll need to create some new variables or summaries to answer your questions with your data, or maybe you just want to rename the variables or reorder the observations to make the data a little easier to work with.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>flights is a tibble, a special type of data frame used by the tidyverse to avoid some common gotchas. The most important difference between tibbles and data frames is the way tibbles print; they are designed for large datasets, so they only show the first few rows and only the columns that fit on one screen. There are a few options to see everything. If you’re using RStudio, the most convenient is probably View(flights), which opens an interactive, scrollable, and filterable view. Otherwise you can use print(flights, width = Inf) to show all columns, or use glimpse():</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
@@ -676,6 +691,11 @@ $ minute         &lt;dbl&gt; 15, 29, 40, 45, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5
 $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 0…</code></pre>
 </div>
 </div>
+<section id="dplyr-basics" class="level3">
+<h3 class="anchored" data-anchor-id="dplyr-basics">3.1.3 dplyr basics</h3>
+<blockquote class="blockquote">
+<p>You’re about to learn the primary dplyr verbs (functions), which will allow you to solve the vast majority of your data manipulation challenges. But before we discuss their individual differences, it’s worth stating what they have in common: 1. The first argument is always a data frame., 2. The subsequent arguments typically describe which columns to operate on using the variable names (without quotes)., 3. The output is always a new data frame.</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dest <span class="sc">==</span> <span class="st">"IAH"</span>) <span class="sc">|&gt;</span> </span>
@@ -705,12 +725,19 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 # ℹ 355 more rows</code></pre>
 </div>
 </div>
-<section id="row" class="level3">
-<h3 class="anchored" data-anchor-id="row">Row</h3>
-<section id="filter" class="level4">
-<h4 class="anchored" data-anchor-id="filter">filter</h4>
 <blockquote class="blockquote">
-<p>The most important verbs that operate on rows of a dataset are filter() […]</p>
+<p>dplyr’s verbs are organized into four groups based on what they operate on: rows, columns, groups, or tables. In the following sections, you’ll learn the most important verbs for rows, columns, and groups. Then, we’ll return to the join verbs that work on tables in Chapter 19. Let’s dive in!</p>
+</blockquote>
+</section>
+<section id="rows" class="level3">
+<h3 class="anchored" data-anchor-id="rows">3.2 Rows</h3>
+<blockquote class="blockquote">
+<p>The most important verbs that operate on rows of a dataset are filter(), which changes which rows are present without changing their order, and arrange(), which changes the order of the rows without changing which are present. Both functions only affect the rows, and the columns are left unchanged. We’ll also discuss distinct() which finds rows with unique values. Unlike arrange() and filter() it can also optionally modify the columns.</p>
+</blockquote>
+<section id="filter" class="level4">
+<h4 class="anchored" data-anchor-id="filter">3.2.1 filter</h4>
+<blockquote class="blockquote">
+<p>filter() allows you to keep rows based on the values of the columns. The first argument is the data frame. The second and subsequent arguments are the conditions that must be true to keep the row.</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
@@ -735,6 +762,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
+<blockquote class="blockquote">
+<p>There’s a useful shortcut when you’re combining <code>|</code> and <code>==</code>: <code>%in%</code>. It keeps rows where the variable equals one of the values on the right:</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> day <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -799,16 +829,14 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
-</div>
-<div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>jan1 <span class="ot">&lt;-</span> flights <span class="sc">|&gt;</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> day <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="arrange" class="level4">
-<h4 class="anchored" data-anchor-id="arrange">arrange</h4>
+<h4 class="anchored" data-anchor-id="arrange">3.2.3 arrange</h4>
 <blockquote class="blockquote">
-<p>arrange() changes the order of the rows based on the value of the columns. […]</p>
+<p>arrange() changes the order of the rows based on the value of the columns. It takes a data frame and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of the preceding columns. For example, the following code sorts by the departure time, which is spread over four columns. We get the earliest years first, then within a year, the earliest months, etc</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
@@ -856,9 +884,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </section>
 <section id="distinct" class="level4">
-<h4 class="anchored" data-anchor-id="distinct">distinct</h4>
+<h4 class="anchored" data-anchor-id="distinct">3.2.4 distinct</h4>
 <blockquote class="blockquote">
-<p>distinct() finds all the unique rows in a dataset, so in a technical sense…</p>
+<p>distinct() finds all the unique rows in a dataset, so technically, it primarily operates on the rows. Most of the time, however, you’ll want the distinct combination of some variables, so you can also optionally supply column names:</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
@@ -927,6 +955,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
+<blockquote class="blockquote">
+<p>If you want to find the number of occurrences instead, you’re better off swapping distinct() for count(). With the sort = TRUE argument, you can arrange them in descending order of the number of occurrences. You’ll learn more about count in Section 13.3.</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(origin, dest, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -948,11 +979,11 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 </section>
-<section id="연습문제-3.2.5" class="level4">
-<h4 class="anchored" data-anchor-id="연습문제-3.2.5">연습문제 3.2.5</h4>
-</section>
-<section id="section-9" class="level4">
-<h4 class="anchored" data-anchor-id="section-9">1</h4>
+<section id="exercises-3.2.5" class="level4">
+<h4 class="anchored" data-anchor-id="exercises-3.2.5">Exercises 3.2.5</h4>
+<ul>
+<li>1</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Had an arrival delay of two or more hours</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
@@ -1070,9 +1101,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
-</section>
-<section id="section-10" class="level4">
-<h4 class="anchored" data-anchor-id="section-10">2</h4>
+<ul>
+<li>2</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(dep_delay)) <span class="sc">|&gt;</span> </span>
@@ -1098,9 +1129,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
-</section>
-<section id="section-11" class="level4">
-<h4 class="anchored" data-anchor-id="section-11">3</h4>
+<ul>
+<li>3</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speed =</span> distance <span class="sc">/</span> (air_time <span class="sc">/</span> <span class="dv">60</span>)) <span class="sc">|&gt;</span></span>
@@ -1126,9 +1157,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
-</section>
-<section id="section-12" class="level4">
-<h4 class="anchored" data-anchor-id="section-12">4</h4>
+<ul>
+<li>4</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(year, month, day) <span class="sc">|&gt;</span></span>
@@ -1137,9 +1168,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <pre><code>[1] 365</code></pre>
 </div>
 </div>
-</section>
-<section id="section-13" class="level4">
-<h4 class="anchored" data-anchor-id="section-13">5</h4>
+<ul>
+<li>5</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(distance)) <span class="sc">|&gt;</span></span>
@@ -1167,11 +1198,14 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </section>
 </section>
 <section id="columns" class="level3">
-<h3 class="anchored" data-anchor-id="columns">Columns</h3>
-<section id="mutate" class="level4">
-<h4 class="anchored" data-anchor-id="mutate">mutate</h4>
+<h3 class="anchored" data-anchor-id="columns">3.3 Columns</h3>
 <blockquote class="blockquote">
-<p>The job of mutate() is to add new columns that are calculated from the existing columns.</p>
+<p>There are four important verbs that affect the columns without changing the rows: mutate() creates new columns that are derived from the existing columns, select() changes which columns are present, rename() changes the names of the columns, and relocate() changes the positions of the columns.</p>
+</blockquote>
+<section id="mutate" class="level4">
+<h4 class="anchored" data-anchor-id="mutate">3.3.1 mutate</h4>
+<blockquote class="blockquote">
+<p>The job of mutate() is to add new columns that are calculated from the existing columns. In the transform chapters, you’ll learn a large set of functions that you can use to manipulate different types of variables. For now, we’ll stick with basic algebra, which allows us to compute the gain, how much time a delayed flight made up in the air, and the speed in miles per hour:</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
@@ -1200,7 +1234,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 <blockquote class="blockquote">
-<p>[…] We can use the .before argument to instead add the variables to the left hand side.</p>
+<p>By default, mutate() adds new columns on the right-hand side of your dataset, which makes it difficult to see what’s happening here. We can use the .before argument to instead add the variables to the left-hand side. […] Alternatively, you can control which variables are kept with the .keep argument. A particularly useful argument is “used” which specifies that we only keep the columns that were involved or created in the mutate() step. […] we should think carefully about whether we want the result to be assigned back to flights, overwriting the original data frame with many more variables, or to a new object.</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
@@ -1279,13 +1313,14 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </section>
 <section id="select" class="level4">
-<h4 class="anchored" data-anchor-id="select">select</h4>
+<h4 class="anchored" data-anchor-id="select">3.3.2 select</h4>
 <blockquote class="blockquote">
-<p>[…] select() allows you to rapidly zoom in on a useful subset using operations based on the names of the variables:</p>
+<p>It’s not uncommon to get datasets with hundreds or even thousands of variables. In this situation, the first challenge is often just focusing on the variables you’re interested in. select() allows you to rapidly zoom in on a useful subset using operations based on the names of the variables:</p>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, month, day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns by name:</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, month, day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 336,776 × 3
     year month   day
@@ -1302,8 +1337,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 10  2013     1     1
 # ℹ 336,766 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year<span class="sc">:</span>day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all columns between year and day (inclusive):</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year<span class="sc">:</span>day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 336,776 × 3
     year month   day
@@ -1340,8 +1376,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 # ℹ 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
 #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.character))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all columns that are characters:</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.character))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 336,776 × 4
    carrier tailnum origin dest 
@@ -1358,6 +1395,11 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 10 AA      N3ALAA  LGA    ORD  
 # ℹ 336,766 more rows</code></pre>
 </div>
+</div>
+<blockquote class="blockquote">
+<p>You can rename variables as you select() them by using =. The new name appears on the left-hand side of the =, and the old variable appears on the right-hand side:</p>
+</blockquote>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">tail_num =</span> tailnum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1379,9 +1421,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </section>
 <section id="rename" class="level4">
-<h4 class="anchored" data-anchor-id="rename">rename</h4>
+<h4 class="anchored" data-anchor-id="rename">3.3.3 rename</h4>
 <blockquote class="blockquote">
-<p>If you have a bunch of inconsistently named columns and it would be painful to fix them all by hand, check out janitor::clean_names() which provides some useful automated cleaning.</p>
+<p>If you want to keep all the existing variables and just want to rename a few, you can use rename() instead of select(): […] If you have a bunch of inconsistently named columns and it would be painful to fix them all by hand, check out janitor::clean_names() which provides some useful automated cleaning.</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
@@ -1408,7 +1450,10 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </section>
 <section id="relocate" class="level4">
-<h4 class="anchored" data-anchor-id="relocate">relocate</h4>
+<h4 class="anchored" data-anchor-id="relocate">3.3.4 relocate</h4>
+<blockquote class="blockquote">
+<p>Use relocate() to move variables around. You might want to collect related variables together or move important variables to the front. By default relocate() moves variables to the front:</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(time_hour, air_time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1475,11 +1520,11 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 </section>
-</section>
-<section id="연습문제-3.3.5" class="level3">
-<h3 class="anchored" data-anchor-id="연습문제-3.3.5">연습문제 3.3.5</h3>
-<section id="section-14" class="level4">
-<h4 class="anchored" data-anchor-id="section-14">1</h4>
+<section id="exercises-3.3.5" class="level4">
+<h4 class="anchored" data-anchor-id="exercises-3.3.5">Exercises 3.3.5</h4>
+<ul>
+<li>1</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(dep_time, sched_dep_time, dep_delay)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1503,9 +1548,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
-</section>
-<section id="section-15" class="level4">
-<h4 class="anchored" data-anchor-id="section-15">2</h4>
+<ul>
+<li>2</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dep_time, dep_delay, arr_time, arr_delay)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1562,9 +1607,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 # ℹ 336,766 more rows</code></pre>
 </div>
 </div>
-</section>
-<section id="section-16" class="level4">
-<h4 class="anchored" data-anchor-id="section-16">3</h4>
+<ul>
+<li>3</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dep_time, dep_time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1585,9 +1630,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 # ℹ 336,766 more rows</code></pre>
 </div>
 </div>
-</section>
-<section id="section-17" class="level4">
-<h4 class="anchored" data-anchor-id="section-17">4</h4>
+<ul>
+<li>4</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>, <span class="st">"dep_delay"</span>, <span class="st">"arr_delay"</span>)</span>
 <span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1610,9 +1655,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 # ℹ 336,766 more rows</code></pre>
 </div>
 </div>
-</section>
-<section id="section-18" class="level4">
-<h4 class="anchored" data-anchor-id="section-18">5</h4>
+<ul>
+<li>5</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"TIME"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1638,9 +1683,9 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <pre><code># A tibble: 336,776 × 0</code></pre>
 </div>
 </div>
-</section>
-<section id="section-19" class="level4">
-<h4 class="anchored" data-anchor-id="section-19">6</h4>
+<ul>
+<li>6</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">air_time_min =</span> air_time) <span class="sc">|&gt;</span></span>
@@ -1668,7 +1713,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </section>
 </section>
 <section id="the-pipe" class="level3">
-<h3 class="anchored" data-anchor-id="the-pipe">The Pipe</h3>
+<h3 class="anchored" data-anchor-id="the-pipe">3.4 The Pipe</h3>
 <blockquote class="blockquote">
 <p>While both forms have their time and place, the pipe generally produces data analysis code that is easier to write and read.</p>
 </blockquote>
@@ -1697,12 +1742,12 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </section>
 <section id="groups" class="level3">
-<h3 class="anchored" data-anchor-id="groups">Groups</h3>
+<h3 class="anchored" data-anchor-id="groups">3.5 Groups</h3>
 <blockquote class="blockquote">
 <p>So far you’ve learned about functions that work with rows and columns. dplyr gets even more powerful when you add in the ability to work with groups.</p>
 </blockquote>
 <section id="group_by" class="level4">
-<h4 class="anchored" data-anchor-id="group_by">group_by</h4>
+<h4 class="anchored" data-anchor-id="group_by">3.5.1 group_by</h4>
 <blockquote class="blockquote">
 <p>Use group_by() to divide your dataset into groups meaningful for your analysis</p>
 </blockquote>
@@ -1732,7 +1777,10 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </section>
 <section id="summarize" class="level4">
-<h4 class="anchored" data-anchor-id="summarize">summarize</h4>
+<h4 class="anchored" data-anchor-id="summarize">3.5.2 summarize</h4>
+<blockquote class="blockquote">
+<p>You can create any number of summaries in a single call to summarize(). You’ll learn various useful summaries in the upcoming chapters, but one very useful summary is n(), which returns the number of rows in each group:</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
@@ -1804,7 +1852,10 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </section>
 <section id="slice_" class="level4">
-<h4 class="anchored" data-anchor-id="slice_">slice_</h4>
+<h4 class="anchored" data-anchor-id="slice_">3.5.3 <code>slice_</code></h4>
+<blockquote class="blockquote">
+<p>There are five handy functions that allow you to extract specific rows within each group: - <code>df |&gt; slice_head(n = 1)</code> takes the first row from each group. - <code>df |&gt; slice_tail(n = 1)</code> takes the last row in each group. - <code>df |&gt; slice_min(x, n = 1)</code> takes the row with the smallest value of column x. - <code>df |&gt; slice_max(x, n = 1)</code> takes the row with the largest value of column x. - <code>df |&gt; slice_sample(n = 1)</code> takes one random row.</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">|&gt;</span> </span>
@@ -1943,8 +1994,8 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </section>
 <section id="연습문제-3.5.7" class="level3">
 <h3 class="anchored" data-anchor-id="연습문제-3.5.7">연습문제 3.5.7</h3>
-<section id="section-20" class="level4">
-<h4 class="anchored" data-anchor-id="section-20">1</h4>
+<section id="section-1" class="level4">
+<h4 class="anchored" data-anchor-id="section-1">1</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(carrier) <span class="sc">|&gt;</span></span>
@@ -1973,8 +2024,8 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 </section>
-<section id="section-21" class="level4">
-<h4 class="anchored" data-anchor-id="section-21">2</h4>
+<section id="section-2" class="level4">
+<h4 class="anchored" data-anchor-id="section-2">2</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">|&gt;</span> </span>
@@ -2003,8 +2054,8 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 </section>
-<section id="section-22" class="level4">
-<h4 class="anchored" data-anchor-id="section-22">3</h4>
+<section id="section-3" class="level4">
+<h4 class="anchored" data-anchor-id="section-3">3</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
 <span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hour) <span class="sc">|&gt;</span></span>
@@ -2027,8 +2078,8 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 </section>
-<section id="section-23" class="level4">
-<h4 class="anchored" data-anchor-id="section-23">4</h4>
+<section id="section-4" class="level4">
+<h4 class="anchored" data-anchor-id="section-4">4</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(dep_delay, <span class="at">n =</span> <span class="sc">-</span><span class="dv">5</span>) <span class="sc">|&gt;</span></span>
@@ -2108,8 +2159,8 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 </section>
-<section id="section-24" class="level4">
-<h4 class="anchored" data-anchor-id="section-24">6</h4>
+<section id="section-5" class="level4">
+<h4 class="anchored" data-anchor-id="section-5">6</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
@@ -2429,8 +2480,8 @@ argument.</code></pre>
 </div>
 </div>
 </section>
-<section id="ggplot2-1" class="level3">
-<h3 class="anchored" data-anchor-id="ggplot2-1">ggplot2</h3>
+<section id="ggplot2" class="level3">
+<h3 class="anchored" data-anchor-id="ggplot2">ggplot2</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
@@ -2482,8 +2533,8 @@ argument.</code></pre>
 </div>
 </div>
 </section>
-<section id="section-25" class="level3">
-<h3 class="anchored" data-anchor-id="section-25">Section</h3>
+<section id="section-6" class="level3">
+<h3 class="anchored" data-anchor-id="section-6">Section</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data --------------------------------------</span></span>
 <span id="cb190-2"><a href="#cb190-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2658,8 +2709,8 @@ argument.</code></pre>
 </section>
 <section id="연습문제-5.2.1" class="level3">
 <h3 class="anchored" data-anchor-id="연습문제-5.2.1">연습문제 5.2.1</h3>
-<section id="section-26" class="level4">
-<h4 class="anchored" data-anchor-id="section-26">2</h4>
+<section id="section-7" class="level4">
+<h4 class="anchored" data-anchor-id="section-7">2</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a>table2 <span class="sc">|&gt;</span></span>
 <span id="cb208-2"><a href="#cb208-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
@@ -3117,16 +3168,16 @@ dbl (1): Student ID
 <pre><code># A tibble: 10 × 3
      `1`   `2`   `3`
    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1     1  1.25  1.25
- 2     2  4.23  2.11
- 3     3  6.42  2.14
- 4     4  6.33  1.58
- 5     5  9.51  1.90
- 6     6 11.6   1.94
- 7     7 15.1   2.16
- 8     8 14.9   1.87
- 9     9 18.8   2.09
-10    10 20.7   2.07</code></pre>
+ 1     1  1.78  1.78
+ 2     2  2.30  1.15
+ 3     3  4.84  1.61
+ 4     4  5.94  1.49
+ 5     5 11.0   2.21
+ 6     6 10.9   1.82
+ 7     7 13.0   1.86
+ 8     8 15.7   1.97
+ 9     9 16.2   1.80
+10    10 19.7   1.97</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb254"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb254-1"><a href="#cb254-1" aria-hidden="true" tabindex="-1"></a>annoying <span class="sc">|&gt;</span></span>
 <span id="cb254-2"><a href="#cb254-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">3</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">2</span><span class="st">`</span> <span class="sc">/</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
@@ -3139,16 +3190,16 @@ dbl (1): Student ID
 <pre><code># A tibble: 10 × 3
      one   two three
    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1     1  1.25  1.25
- 2     2  4.23  2.11
- 3     3  6.42  2.14
- 4     4  6.33  1.58
- 5     5  9.51  1.90
- 6     6 11.6   1.94
- 7     7 15.1   2.16
- 8     8 14.9   1.87
- 9     9 18.8   2.09
-10    10 20.7   2.07</code></pre>
+ 1     1  1.78  1.78
+ 2     2  2.30  1.15
+ 3     3  4.84  1.61
+ 4     4  5.94  1.49
+ 5     5 11.0   2.21
+ 6     6 10.9   1.82
+ 7     7 13.0   1.86
+ 8     8 15.7   1.97
+ 9     9 16.2   1.80
+10    10 19.7   1.97</code></pre>
 </div>
 </div>
 </section>
@@ -3439,16 +3490,16 @@ dbl (1): Student ID
 <pre><code># A tibble: 10 × 3
      `1`   `2`   `3`
    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1     1  3.07  3.07
- 2     2  4.52  2.26
- 3     3  6.72  2.24
- 4     4  7.37  1.84
- 5     5 11.1   2.22
- 6     6 12.9   2.14
- 7     7 14.1   2.01
- 8     8 14.8   1.85
- 9     9 19.5   2.16
-10    10 20.6   2.06</code></pre>
+ 1     1  5.03  5.03
+ 2     2  3.72  1.86
+ 3     3  5.40  1.80
+ 4     4  7.64  1.91
+ 5     5  9.96  1.99
+ 6     6 14.6   2.43
+ 7     7 13.1   1.87
+ 8     8 15.7   1.96
+ 9     9 19.2   2.13
+10    10 19.8   1.98</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb290"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb290-1"><a href="#cb290-1" aria-hidden="true" tabindex="-1"></a>annoying <span class="sc">|&gt;</span></span>
 <span id="cb290-2"><a href="#cb290-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">3</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">2</span><span class="st">`</span> <span class="sc">/</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
@@ -3461,16 +3512,16 @@ dbl (1): Student ID
 <pre><code># A tibble: 10 × 3
      one   two three
    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1     1  3.07  3.07
- 2     2  4.52  2.26
- 3     3  6.72  2.24
- 4     4  7.37  1.84
- 5     5 11.1   2.22
- 6     6 12.9   2.14
- 7     7 14.1   2.01
- 8     8 14.8   1.85
- 9     9 19.5   2.16
-10    10 20.6   2.06</code></pre>
+ 1     1  5.03  5.03
+ 2     2  3.72  1.86
+ 3     3  5.40  1.80
+ 4     4  7.64  1.91
+ 5     5  9.96  1.99
+ 6     6 14.6   2.43
+ 7     7 13.1   1.87
+ 8     8 15.7   1.96
+ 9     9 19.2   2.13
+10    10 19.8   1.98</code></pre>
 </div>
 </div>
 </section>
@@ -3645,8 +3696,8 @@ dbl (1): Student ID
 </section>
 <section id="연습문제-10.3.3" class="level3">
 <h3 class="anchored" data-anchor-id="연습문제-10.3.3">연습문제 10.3.3</h3>
-<section id="section-27" class="level4">
-<h4 class="anchored" data-anchor-id="section-27">1</h4>
+<section id="section-8" class="level4">
+<h4 class="anchored" data-anchor-id="section-8">1</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb302"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb302-1"><a href="#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">select</span>(diamonds, x, y, z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3682,8 +3733,8 @@ dbl (1): Student ID
 </div>
 </div>
 </section>
-<section id="section-28" class="level4">
-<h4 class="anchored" data-anchor-id="section-28">2</h4>
+<section id="section-9" class="level4">
+<h4 class="anchored" data-anchor-id="section-9">2</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb307"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb307-1"><a href="#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">filter</span>(diamonds, price <span class="sc">&lt;</span> <span class="dv">2500</span>), <span class="fu">aes</span>(<span class="at">x =</span> price)) <span class="sc">+</span></span>
 <span id="cb307-2"><a href="#cb307-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>, <span class="at">center =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3747,8 +3798,8 @@ dbl (1): Student ID
 </div>
 </div>
 </section>
-<section id="section-29" class="level4">
-<h4 class="anchored" data-anchor-id="section-29">3</h4>
+<section id="section-10" class="level4">
+<h4 class="anchored" data-anchor-id="section-10">3</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb312"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb312-1"><a href="#cb312-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">%&gt;%</span></span>
 <span id="cb312-2"><a href="#cb312-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(carat <span class="sc">&gt;=</span> <span class="fl">0.99</span>, carat <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
@@ -3794,8 +3845,8 @@ dbl (1): Student ID
 </div>
 </div>
 </section>
-<section id="section-30" class="level4">
-<h4 class="anchored" data-anchor-id="section-30">4</h4>
+<section id="section-11" class="level4">
+<h4 class="anchored" data-anchor-id="section-11">4</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb316"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb316-1"><a href="#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds) <span class="sc">+</span></span>
 <span id="cb316-2"><a href="#cb316-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> price)) <span class="sc">+</span></span>
@@ -3899,8 +3950,8 @@ dbl (1): Student ID
 </section>
 <section id="연습문제-10.4.1" class="level3">
 <h3 class="anchored" data-anchor-id="연습문제-10.4.1">연습문제 10.4.1</h3>
-<section id="section-31" class="level4">
-<h4 class="anchored" data-anchor-id="section-31">1</h4>
+<section id="section-12" class="level4">
+<h4 class="anchored" data-anchor-id="section-12">1</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb328"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb328-1"><a href="#cb328-1" aria-hidden="true" tabindex="-1"></a>diamonds2 <span class="ot">&lt;-</span> diamonds <span class="sc">%&gt;%</span></span>
 <span id="cb328-2"><a href="#cb328-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">ifelse</span>(y <span class="sc">&lt;</span> <span class="dv">3</span> <span class="sc">|</span> y <span class="sc">&gt;</span> <span class="dv">20</span>, <span class="cn">NA</span>, y))</span>
@@ -3936,8 +3987,8 @@ dbl (1): Student ID
 </div>
 </div>
 </section>
-<section id="section-32" class="level4">
-<h4 class="anchored" data-anchor-id="section-32">2</h4>
+<section id="section-13" class="level4">
+<h4 class="anchored" data-anchor-id="section-13">2</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb332"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb332-1"><a href="#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4040,8 +4091,8 @@ dbl (1): Student ID
 <li><p>None</p></li>
 </ol>
 </section>
-<section id="two-categorical-variables" class="level4">
-<h4 class="anchored" data-anchor-id="two-categorical-variables">Two categorical variables</h4>
+<section id="two-categorical-variables-1" class="level4">
+<h4 class="anchored" data-anchor-id="two-categorical-variables-1">Two categorical variables</h4>
 <p>범주형 변수 간의 공변량을 시각화하려면 이러한 범주형 변수의 각 수준 조합에 대한 관찰 횟수를 계산해야 합니다. 이를 수행하는 한 가지 방법은 내장된 <code>geom_count()</code>를 사용하는 것입니다:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb342"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb342-1"><a href="#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">x =</span> cut, <span class="at">y =</span> color)) <span class="sc">+</span></span>
@@ -4099,8 +4150,8 @@ dbl (1): Student ID
 <li><p>None</p></li>
 </ol>
 </section>
-<section id="two-numerical-variables" class="level4">
-<h4 class="anchored" data-anchor-id="two-numerical-variables">Two numerical variables</h4>
+<section id="two-numerical-variables-1" class="level4">
+<h4 class="anchored" data-anchor-id="two-numerical-variables-1">Two numerical variables</h4>
 <p>두 숫자 변수 간의 공분산을 시각화하는 한 가지 좋은 방법은 <code>geom_point()</code>로 산점도를 그리는 것입니다. 점의 패턴으로 공분산을 볼 수 있습니다. 예를 들어 다이아몬드의 캐럿 크기와 가격 간에 양의 관계가 있음을 알 수 있습니다. 캐럿이 많은 다이아몬드는 가격이 더 높습니다. 이 관계는 기하급수적입니다.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb346"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb346-1"><a href="#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(smaller, <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price)) <span class="sc">+</span></span>
@@ -4225,7 +4276,7 @@ Caused by error in `compute_group()`:
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb358"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb358-1"><a href="#cb358-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span></span>
 <span id="cb358-2"><a href="#cb358-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -4278,21 +4329,6 @@ Kelleher, C., &amp; Wagener, T. (2011). Ten guidelines for effective data visual
 </div>
 <div id="ref-midway2020principles" class="csl-entry" role="listitem">
 Midway, S. R. (2020). Principles of effective data visualization. <em>Patterns</em>, <em>1</em>(9).
-</div>
-<div id="ref-Quarto" class="csl-entry" role="listitem">
-Quarto. (n.d.). <em>Quarto</em>. <a href="https://quarto.org">https://quarto.org</a>
-</div>
-<div id="ref-KnitrBook2015" class="csl-entry" role="listitem">
-Xie, Y. (2015). <em>Dynamic documents with <span>R</span> and knitr</em> (2nd ed.). Chapman; Hall/CRC. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>
-</div>
-<div id="ref-KnitrManual2024" class="csl-entry" role="listitem">
-Xie, Y. (2024). <em>Knitr: A general-purpose package for dynamic report generation in r</em>. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>
-</div>
-<div id="ref-나성호2021" class="csl-entry" role="listitem">
-나성호. (2021). <em>Must have 나성호의 r 데이터 분석 입문</em>. 골든래빗.
-</div>
-<div id="ref-오세종2023" class="csl-entry" role="listitem">
-오세종. (2023). <em>모두를 위한 r 데이터 분석 입문 (2판)</em>. 한빛미디어.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
