@@ -1279,7 +1279,7 @@ bar + coord_polar()
 
 > If you’d like to learn more about the theoretical underpinnings of ggplot2, you might enjoy reading “The Layered Grammar of Graphics”, the scientific paper that describes the theory of ggplot2 in detail.
 
-```{r}
+```{r, eval=FALSE}
 ggplot(data = <DATA>) + 
   <GEOM_FUNCTION>(
      mapping = aes(<MAPPINGS>),
@@ -1514,6 +1514,8 @@ diamonds |>
 > You’ve already seen one great way to visualize the covariation between two numerical variables: draw a scatterplot with geom_point(). You can see covariation as a pattern in the points. For example, you can see a positive relationship between the carat size and price of a diamond: diamonds with more carats have a higher price. The relationship is exponential.
 
 ```{r}
+smaller <- diamonds |> 
+  filter(carat < 3)
 ggplot(smaller, aes(x = carat, y = price)) +
   geom_point()
 ```
