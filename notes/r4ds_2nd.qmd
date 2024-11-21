@@ -1516,6 +1516,7 @@ diamonds |>
 ```{r}
 smaller <- diamonds |> 
   filter(carat < 3)
+  
 ggplot(smaller, aes(x = carat, y = price)) +
   geom_point()
 ```
