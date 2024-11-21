@@ -26,7 +26,6 @@ library(nycflights13)
 
 > Our ultimate goal in this chapter is to recreate the following visualization displaying the relationship between flipper lengths and body masses of these penguins, taking into consideration the species of the penguin.
 
-
 #### 1.2.4 Adding aesthetics and layers
 
 ```{r}
@@ -40,7 +39,7 @@ ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
   scale_color_colorblind()
 ```
 
-#### Exercises 1.2.5
+##### 1.2.5(연습문제)
 
 - 3
 ```{r}
@@ -99,7 +98,7 @@ penguins %>%
 
 > A variable is numerical (or quantitative) if it can take on a wide range of numerical values, and it is sensible to add, subtract, or take averages with those values. Numerical variables can be continuous or discrete.
 
-#### Exercises 1.4.3
+#### 1.4.3(연습문제)
 
 - 1
 ```{r}
@@ -142,7 +141,7 @@ diamonds %>%
 
 > However adding too many aesthetic mappings to a plot makes it cluttered and difficult to make sense of. Another way, which is particularly useful for categorical variables, is to split your plot into facets, subplots that each display one subset of the data.
 
-#### Exercises 1.5.5
+#### 1.5.5(연습문제)
 
 - 6
 ```{r}
@@ -161,7 +160,7 @@ penguins %>% ggplot(aes(x = species, fill = island)) +
   geom_bar(position = "fill")
 ```
 
-#### Exercises 1.6.1
+#### 1.6.1(연습문제)
 ```{r}
 mpg %>% 
   ggplot() +
@@ -274,7 +273,7 @@ flights |>
   count(origin, dest, sort = TRUE)
 ```
 
-#### Exercises 3.2.5
+#### 3.2.5(연습문제)
 
 - 1
 
@@ -430,7 +429,7 @@ flights |>
   relocate(starts_with("arr"), .before = dep_time)
 ```
 
-#### Exercises 3.3.5
+#### 3.3.5(연습문제)
 
 - 1
 
@@ -602,7 +601,7 @@ flights |>
   )
 ```
 
-#### Exercises 3.5.7
+#### 3.5.7(연습문제)
 
 - 1
 
@@ -764,9 +763,9 @@ flights |>
 flights|>
   group_by(tailnum) |> 
   summarize(
-             delay = mean(arr_delay, na.rm = TRUE), 
-             n = n()
-           )
+    delay = mean(arr_delay, na.rm = TRUE), 
+    n = n()
+  )
 
 # Avoid
 flights|>
@@ -828,7 +827,7 @@ flights |>
 # Plot data --------------------------------------
 ```
 
-### Exercises 4.6
+### 4.6(연습문제)
 
 ```{r}
 flights |>
@@ -855,7 +854,7 @@ flights |>
   filter(n > 10)
 ```
 
-## Data tidying
+## 5. Data tidying
 
 ### Tidy data
 
@@ -894,7 +893,7 @@ ggplot(table1, aes(x = year, y = cases)) +
   scale_x_continuous(breaks = c(1999, 2000)) # x-axis breaks at 1999 and 2000
 ```
 
-### 연습문제 5.2.1
+### 5.2.1(연습문제)
 
 #### 2
 
@@ -1072,11 +1071,11 @@ df |>
   filter(n > 1)
 ```
 
-## Workflow - scripts and projects
+## 6. Workflow - scripts and projects
 
 > scripts and projects give you a solid workflow that will serve you well in the future: - Create one RStudio project for each data analysis project., - Save your scripts (with informative names) in the project, edit them, run them in bits or as a whole., - Restart R frequently to make sure you’ve captured everything in your scripts., - Only ever use relative paths, not absolute paths., - Then everything you need is in one place and cleanly separated from all the other projects that you are working on.
 
-## Reading data from a file
+## 7. Reading data from a file
 
 ```{r}
 students <- read_csv("data/students.csv")
@@ -1110,7 +1109,7 @@ students <- students |>
   )
 ```
 
-### 연습문제 7.2.4
+### 7.2.4(연습문제)
 
 ```{r}
 annoying <- tibble(
@@ -1147,85 +1146,40 @@ tribble(
 )
 ```
 
-## Workflow - getting help
+## 8. Workflow - getting help
 
 ### Google is your friend
 
-> 막막하다면 Google부터 시작하세요. 일반적으로 검색어에 "R", "tidyverse" 또는 "ggplot2"와 같은 추가적인 정보를 검색어에 포함하세요. Google은 오류 메시지에 특히 유용합니다. 오류 메시지가 표시되었는데 무슨 뜻인지 모르겠다면 Google에서 검색해 보세요! 만약, 오류 메시지가 영어로 되어 있지 않은 경우 `Sys.setenv(LANGUAGE = "en")`를 실행하고 코드를 다시 실행하면 오류가 영어로 출력됩니다. 구글과 함께  [Stack Overflow](https://stackoverflow.com)도 함께 참고하세요.
+> [...] If you get an error message and you have no idea what it means, try googling it! Chances are that someone else has been confused by it in the past, and there will be help somewhere on the web. (If the error message isn’t in English, run Sys.setenv(LANGUAGE = "en") and re-run the code; you’re more likely to find help for English error messages.)
 
 ### Making a reprex
- 
-인터넷 검색에서 유용한 정보를 찾지 못했다면 재현 가능한 최소한의 예제를 뜻하는 reprex를 준비하는 것이 좋습니다. 좋은 reprex를 만들면 다른 사람들이 더 쉽게 도움을 줄 수 있고, 만드는 과정에서 스스로 문제를 파악할 수 있는 경우가 많습니다. 레프렉스를 만드는 데는 두 가지 부분이 있습니다.
 
-- 첫째, 코드를 재현 가능하게 만들어야 합니다. 즉, 모든 library() 호출을 포함하고 필요한 모든 객체를 생성하는 등 모든 것을 캡처해야 합니다. 이를 확인하는 가장 쉬운 방법은 reprex 패키지를 사용하는 것입니다.
-
-- 둘째, 최소한으로 만들어야 합니다. 문제와 직접 관련이 없는 모든 것을 제거하세요. 여기에는 일반적으로 실생활에서 직면하는 문제보다 훨씬 작고 단순한 R 개체를 만들거나 내장된 데이터를 사용하는 것이 포함됩니다.
-
-많은 작업처럼 들립니다! 그럴 수도 있지만 그만한 보상이 있습니다.
-
-- 80%의 경우, 훌륭한 레프렉스를 만들면 문제의 원인을 파악할 수 있습니다. 독립적이고 최소한의 예시를 작성하는 과정에서 스스로 질문에 답할 수 있는 경우가 얼마나 많은지 놀라울 정도입니다.
-
-- 나머지 20%의 시간에는 다른 사람들이 쉽게 사용할 수 있는 방식으로 문제의 본질을 파악하게 됩니다. 이렇게 하면 도움을 받을 가능성이 크게 높아집니다!
-
-수작업으로 reprex를 만들 때는 실수로 무언가를 놓치기 쉬우므로 다른 사람의 컴퓨터에서 코드를 실행할 수 없게 됩니다. tidyverse의 일부로 설치되는 reprex 패키지를 사용하면 이 문제를 방지할 수 있습니다. 
+> First, you need to make your code reproducible. This means that you need to capture everything, i.e. include any library() calls and create all necessary objects. The easiest way to make sure you’ve done this is using the reprex package.
 
 ```{r}
 y <- 1:4
 mean(y)
-```
-
-그런 다음 기본 출력 형식이 GitHub용으로 지정된 reprex()를 호출합니다.
-
-```{r}
 reprex::reprex(y)
 ```
 
-멋지게 렌더링된 HTML 미리 보기가 RStudio의 뷰어(RStudio를 사용하는 경우) 또는 기본 브라우저에 표시됩니다. 클립보드에 자동으로 복사됩니다. 이 텍스트는 마크다운이라는 방식으로 작성되며, 마크다운을 StackOverflow나 Github 같은 사이트에 붙여넣으면 코드처럼 보이도록 자동으로 렌더링됩니다. 
-
-누구나 바로 복사하여 붙여넣고 실행할 수 있습니다. 예제를 재현 가능하게 만들려면 필수 패키지, 데이터, 코드 세 가지를 포함해야 합니다.
-
-1. 예제에 필요한 패키지를 쉽게 확인할 수 있도록 스크립트의 맨 위에 패키지가 로드되어야 합니다. 패키지를 설치하거나 마지막으로 업데이트한 이후 수정된 버그를 발견했을 수 있으므로 각 패키지의 최신 버전을 사용하고 있는지 확인하기에 좋은 시기입니다. tidyverse에 있는 패키지의 경우 가장 쉽게 확인할 수 있는 방법은 tidyverse_update()를 실행하는 것입니다.
-
-2. 데이터를 포함하는 가장 쉬운 방법은 `dput()`을 사용하여 데이터를 다시 생성하는 데 필요한 R 코드를 생성하는 것입니다. 예를 들어, R에서 mtcars 데이터 집합을 다시 만들려면 다음 단계를 수행합니다.
-
-- R에서 `dput(mtcars)`를 실행합니다.
-- 출력 복사
-- reprex에서 mtcars <-를 입력한 다음 붙여넣습니다.
+> This text is formatted in a special way, called Markdown, which can be pasted to sites like StackOverflow or Github and they will automatically render it to look like code. Here’s what that Markdown would look like rendered on GitHub:
 
 ```{r}
 dput(mtcars)
 reprex::reprex(mtcars)
 ```
 
-3. 다른 사람들이 코드를 쉽게 읽을 수 있도록 약간의 시간을 투자하세요.
-
-- 변수 등을 올바로 사용했는지 확인하세요.
-- 주석을 사용해서 문제가 발생한 부분에 적절한 정보를 추가하세요.
-- 문제와 관련이 없는 모든 것은 제거하세요.
-
-새로운 세션을 시작하고, 작성된 스크립트가 재현 가능한 예제인지 확인하세요. 만약, 재현 가능하지 않다면 유사한 예제를 만들 수 있도록 연습해야 합니다. 코드가 포함된 질문을 하는 법을 배우고, 재현 가능하도록 R과 관려된 기술에 시간을 투자하세요.
-
-이 장에서는 그래픽의 레이어 문법(grammar of graphics)을 학습합니다. ggplot2에서 제공하는 가장 중요하고 일반적으로 사용되는 기능을 연습하고 ggplot2를 확장하는 패키지를 소개합니다.
+> Spend a little bit of time ensuring that your code is easy for others to read: 1) Make sure you’ve used spaces and your variable names are concise yet informative. 2) Use comments to indicate where your problem lies. 3) Do your best to remove everything that is not related to the problem. 4) The shorter your code is, the easier it is to understand and the easier it is to fix.
 
 ```{r}
 library(tidyverse)
 ```
 
-## Aesthetic mappings
+## 9. Layers
 
-```{r}
-# Light
-ggplot(mpg, aes(x = displ, y = hwy, color = class)) + geom_point()
+### Aesthetic mappings
 
-# Right
-ggplot(mpg, aes(x = displ, y = hwy, shape = class)) + geom_point()
-```
-
-클래스(class)가 shape에 매핑되면 두 가지 경고가 표시됩니다:
-- 도형 팔레트는 최대 6개의 불연속형 값을 처리할 수 있습니다. 6개를 초과하면 구분이 어려워집니다. 도형이 꼭 필요한 경우 수동으로 도형을 지정하는 것이 좋습니다.
-- 누락된 값이 포함된 62개 행을 제거했습니다(geom_point()). 데이터 집합에 62개의 SUV가 있지만 플롯되지 않은 것과 관련이 있습니다.
-
-마찬가지로 클래스를 크기에 매핑하여 각각 포인트의 크기와 alpha 값에 매핑하여 투명도를 제어할 수 있습니다.
+> Using alpha for a discrete variable is not advised.
 
 ```{r}
 # Left
@@ -1236,6 +1190,106 @@ ggplot(mpg, aes(x = displ, y = hwy, size = class)) +
 ggplot(mpg, aes(x = displ, y = hwy, alpha = class)) +
   geom_point()
 ```
+
+### Geometric objects
+
+> ggplot2 will treat them as local mappings for the layer. It will use these mappings to extend or overwrite the global mappings for that layer only. This makes it possible to display different aesthetics in different layers.
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = class)) + 
+  geom_smooth()
+```
+
+> If this sounds strange, we can make it clearer by overlaying the lines on top of the raw data and then coloring everything according to drv.
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() +
+  geom_smooth(aes(linetype = drv))
+```
+
+> The best place to get a comprehensive overview of all of the geoms ggplot2 offers, as well as all functions in the package, is the reference page: https://ggplot2.tidyverse.org/reference. To learn more about any single geom, use the help (e.g., ?geom_smooth).
+
+### Facets
+
+> By default each of the facets share the same scale and range for x and y axes. This is useful when you want to compare data across facets but it can be limiting when you want to visualize the relationship within each facet better. Setting the scales argument in a faceting function to "free_x" will allow for different scales of x-axis across columns, "free_y" will allow for different scales on y-axis across rows, and "free" will allow both.
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  facet_grid(drv ~ cyl, scales = "free")
+```
+
+
+### Statistical transformations
+
+> The algorithm used to calculate new values for a graph is called a stat, short for statistical transformation. Figure 9.2 shows how this process works with geom_bar().
+
+```{r}
+ggplot(diamonds, aes(x = cut)) + 
+  geom_bar()
+```
+
+> Every geom has a default stat; and every stat has a default geom. This means that you can typically use geoms without worrying about the underlying statistical transformation. However, there are three reasons why you might need to use a stat explicitly:
+
+```{r}
+ggplot(diamonds) + 
+  stat_summary(
+    aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+```
+
+### Position adjustments
+
+> The stacking is performed automatically using the position adjustment specified by the position argument. If you don’t want a stacked bar chart, you can use one of three other options: "identity", "dodge" or "fill".
+
+```{r}
+# Left
+ggplot(mpg, aes(x = drv, fill = class)) + 
+  geom_bar(position = "fill")
+
+# Right
+ggplot(mpg, aes(x = drv, fill = class)) + 
+  geom_bar(position = "dodge")
+```
+
+
+### Coordinate systems
+
+> coord_quickmap() sets the aspect ratio correctly for geographic maps. This is very important if you’re plotting spatial data with ggplot2. We don’t have the space to discuss maps in this book, but you can learn more in the Maps chapter of ggplot2: Elegant graphics for data analysis.
+
+```{r}
+bar <- ggplot(data = diamonds) + 
+  geom_bar(
+    mapping = aes(x = clarity, fill = clarity), 
+    show.legend = FALSE,
+    width = 1
+  ) + 
+  theme(aspect.ratio = 1)
+
+bar + coord_flip()
+bar + coord_polar()
+```
+
+### The layered grammar of graphics
+
+> If you’d like to learn more about the theoretical underpinnings of ggplot2, you might enjoy reading “The Layered Grammar of Graphics”, the scientific paper that describes the theory of ggplot2 in detail.
+
+```{r}
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(
+     mapping = aes(<MAPPINGS>),
+     stat = <STAT>, 
+     position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
+```
+
 
 ```{r}
 students <- read_csv("data/students.csv")
@@ -1257,31 +1311,6 @@ students <- students |>
   )
 ```
 
-### 연습문제 7.2.4
-
-```{r}
-annoying <- tibble(
-  `1` = 1:10,
-  `2` = `1` * 2 + rnorm(length(`1`))
-)
-
-annoying |>
-  select(`1`)
-
-ggplot(annoying, aes(x = `2`, y = `1`)) +
-  geom_point()
-
-annoying |>
-  mutate(`3` = `2` / `1`)
-
-annoying |>
-  mutate(`3` = `2` / `1`) |>
-  rename(
-    "one" = `1`,
-    "two" = `2`,
-    "three" = `3`
-  )
-```
 
 ### Data entry
 
@@ -1294,21 +1323,12 @@ tribble(
 )
 ```
 
-## Layers
+## 10. Exploratory data analysis
 
-이 장에서는 시각화 및 변환을 사용하여 체계적인 방식으로 데이터를 탐색하는 방법, 즉 통계학자들이 탐색적 데이터 분석 또는 줄여서 EDA라고 부르는 작업에 대해서 소개합니다.
-
-1. 데이터에 대한 질문을 생성하세요.
-2. 데이터를 시각화, 변환 및 모델링하여 답을 찾아보세요.
-3. 학습한 내용을 사용하여 질문을 구체화하거나 새로운 질문을 생성합니다.
-
-EDA는 엄격한 규칙이 있는 알고리즘이나 방법론이 아닙니다. EDA는 정신 혹은 과정의 상태입니다. EDA의 초기 단계에서는 떠오르는 모든 아이디어를 자유롭게 확인해야 합니다. 이러한 아이디어 중 일부는 실현될 수도 있고 일부는 막다른 골목에 부딪힐 수도 있습니다. 탐색을 계속하다 보면 몇 가지 가능성을 발견하게 되고, 집중하게 될 것이고, 결국에는 이를 문서로 작성하여 다른 사람들에게 전달할 수 있을 것입니다.
+> This chapter will show you how to use visualization and transformation to explore your data in a systematic way, a task that statisticians call exploratory data analysis, or EDA for short. EDA is an iterative cycle. You: 1) Generate questions about your data. 2) 
+Search for answers by visualizing, transforming, and modelling your data. 3) Use what you learn to refine your questions and/or generate new questions.
 
 > EDA is a state of mind.
-
-EDA는 모든 데이터 분석에서 중요한 부분입니다. 질문이 주어지더라도 항상 데이터의 품질을 확인해야 합니다. 데이터 정리는 데이터가 기대에 부합하는지 여부에 대한 EDA의 한 가지 응용 분야일 뿐입니다. 데이터 정리를 수행하려면 시각화, 변환, 모델링 등 EDA의 모든 방법을 활용해야 합니다.
-
-질문을 하고, 데이터로 답변하고, 새로운 질문을 하기 위해 dplyr 및 ggplot2에 대해 배운 내용을 함께 사용해보도록 하겠습니다.
 
 ```{r}
 library(tidyverse)
@@ -1320,104 +1340,18 @@ library(tidyverse)
 
 > “Far better an approximate answer to the right question, which is often vague, than an exact answer to the wrong question, which can always be made precise.” — John Tukey
 
-EDA의 목표는 데이터에 대한 이해를 높이는 것입니다. 이를 위한 가장 쉬운 방법은 데이터를 찾아가는 도구로 질문을 사용하는 것입니다. 질문을 하면 데이터 집합의 특정 부분에 주의를 집중시키고 어떤 그래프, 모델 또는 변환을 만들지 결정하는 데 도움이 됩니다.
-
-EDA는 근본적으로 창의적인 프로세스입니다. 대부분의 창의적인 프로세스와 마찬가지로 양질의 질문을 하기 위한 핵심은 많은 양의 질문을 생성하는 것입니다. 분석을 시작할 때 데이터 집합에서 어떤 인사이트를 얻을 수 있는지 모르기 때문에, 분석의 시작 단계에서 드러나는 질문을 하기는 어렵습니다. 반면에, 새로운 질문을 할 때마다 데이터의 새로운 측면에 노출되어 발견할 가능성이 높아집니다. 발견한 내용에 따라 새로운 질문으로 후속 질문을 하면 데이터에서 가장 흥미로운 부분을 빠르게 드릴다운하고 생각을 자극하는 일련의 질문을 개발할 수 있습니다.
-
-연구를 안내하기 위해 어떤 질문을 해야 하는지에 대한 규칙은 없습니다. 하지만 두 가지 유형의 질문은 데이터 내에서 발견을 이끌어내는 데 항상 유용합니다. 이러한 질문은 다음과 같이 느슨하게 표현할 수 있습니다.
-
-- 내 변수 내에서 어떤 유형의 변이가 발생하나요?
-- 내 변수 간에 어떤 유형의 공변량이 발생하나요?
-
-이 장의 나머지 부분에서는 이 두 가지 질문에 대해 살펴봅니다. 변이와 공변량이 무엇인지 설명하고 각 질문에 답하는 몇 가지 방법을 보여 드리겠습니다.
-
 ### Variation
 
-분포(Variation)란 측정할 때마다 변수의 값이 변하는 경향을 말합니다. 실생활에서 분포를 쉽게 볼 수 있는데, 연속적인 변수를 두 번 측정하면 두 가지 다른 결과를 얻을 수 있습니다. 이는 빛의 속도와 같이 일정한 양을 측정하는 경우에도 마찬가지입니다. 각 측정에는 측정마다 달라지는 소량의 오차가 포함됩니다. 다른 대상(예: 여러 사람의 눈 색깔)이나 다른 시간(예: 다른 순간의 전자의 에너지 준위)에 걸쳐 측정하는 경우에도 변수가 달라질 수 있습니다. 모든 변수에는 고유한 변화 패턴이 있으며, 이를 통해 동일한 관측에 대한 측정 간은 물론 여러 관측에 걸쳐 어떻게 변화하는지에 대한 흥미로운 정보를 얻을 수 있습니다. 이러한 패턴을 이해하는 가장 좋은 방법은 1장에서 배운 변수 값의 분포를 시각화하는 것입니다.
-
-다이아몬드 데이터 집합에서 약 54,000개의 다이아몬드 무게(캐럿) 분포를 시각화하여 탐색을 시작하겠습니다. 캐럿은 숫자 변수이므로 히스토그램을 사용할 수 있습니다.
+> The key to asking good follow-up questions will be to rely on your curiosity (What do you want to learn more about?) as well as your skepticism (How could this be misleading?).
 
 ```{r}
 ggplot(diamonds, aes(x = carat)) + 
   geom_histogram(binwidth = 0.5)
 ```
 
-이제 분포를 시각화할 수 있게 되었으니 그래프에서 무엇을 찾아야 할까요? 어떤 유형의 후속 질문을 해야 할까요? 그래프에서 찾을 수 있는 가장 유용한 정보 유형과 각 정보 유형에 대한 몇 가지 후속 질문 목록을 아래에 정리해 두었습니다. 좋은 후속 질문의 핵심은 호기심(무엇을 더 알고 싶으신가요?)과 회의론(어떻게 오해의 소지가 있을 수 있나요?)에 의존하는 것입니다.
+> However, if they have a substantial effect on your results, you shouldn’t drop them without justification. You’ll need to figure out what caused them (e.g., a data entry error) and disclose that you removed them in your write-up.
 
-
-#### Typical values
-
-막대 차트와 히스토그램 모두에서 긴 막대는 변수의 일반적인 값을 나타내고, 짧은 막대는 덜 일반적인 값을 나타냅니다. 막대가 없는 부분은 데이터에서 볼 수 없었던 값을 나타냅니다. 이 정보를 유용한 질문으로 전환하려면 예상치 못한 것이 있는지 찾아보세요.
-
-- 가장 일반적인 값은 무엇인가요? 왜 그럴까요?
-- 가장 드문 값은 무엇인가요? 왜 그런가요? 기대치와 일치하나요?
-- 특이한 패턴이 보이나요? 이를 설명할 수 있는 것은 무엇인가요?
-
-작은 다이아몬드의 캐럿 분포를 살펴보겠습니다.
-
-```{r}
-smaller <- diamonds |> filter(carat < 3)
-ggplot(smaller, aes(x = carat)) + geom_histogram(binwidth = 0.01)
-```
-
-이 히스토그램은 몇 가지 흥미로운 질문을 제시합니다.
-
-- 전체 캐럿과 일반적인 분수 캐럿의 다이아몬드가 더 많은 이유는 무엇인가요?
-- 각 봉우리의 왼쪽보다 오른쪽에 약간 더 많은 다이아몬드가 있는 이유는 무엇인가요?
-
-비주얼리제이션을 통해 데이터에 하위 그룹이 존재함을 시사하는 클러스터를 확인할 수도 있습니다. 하위 그룹을 이해하려면 물어보세요.
-
-- 각 하위 그룹 내의 관측값은 서로 어떻게 유사합니까?
-- 개별 클러스터의 관측값은 서로 어떻게 다른가요?
-- 클러스터를 어떻게 설명하거나 설명할 수 있나요?
-- 클러스터의 모양이 오해의 소지가 있는 이유는 무엇인가요?
-
-이러한 질문 중 일부는 데이터로 답할 수 있지만 일부는 데이터에 대한 도메인 전문 지식이 필요합니다. 예를 들어, 한 변수의 값이 다른 변수의 동작을 설명할 수 있는지 확인하는 등 변수 간의 관계를 탐색하라는 메시지가 표시되는 경우가 많습니다. 이에 대해서는 곧 설명하겠습니다.
-
-#### Unusual values
-
-이상값은 패턴에 맞지 않는 데이터와 같이 비정상적인 관측값을 말합니다. 이상값은 데이터 입력 오류일 때도 있고, 데이터 수집에서 우연히 관찰된 극단의 값일 때도 있으며, 중요한 새로운 발견을 암시하는 것일 때도 있습니다. 데이터가 많으면 히스토그램에서 이상값을 확인하기 어려운 경우가 있습니다. 예를 들어 다이아몬드 데이터 집합에서 `y` 변수의 분포를 살펴봅시다. 이상값의 유일한 증거는 `X`축의 한계가 비정상적으로 넓다는 것입니다.
-
-```{r}
-ggplot(diamonds, aes(x = y)) + 
-  geom_histogram(binwidth = 0.5)
-```
-
-일반적인 항목은 관찰 값이 많고, 관찰 값이 작은 항목은 희소합니다. 비정상적인 값을 쉽게 보려면 `coord_cartesian()`을 사용하여 `y`축의 작은 값으로 확대해야 합니다.
-
-```{r}
-ggplot(diamonds, aes(x = y)) + 
-  geom_histogram(binwidth = 0.5) +
-  coord_cartesian(ylim = c(0, 50))
-```
-
-coord_cartesian()에는 x축을 조정하는 xlim()도 있습니다. ggplot2에는 약간 다르게 작동하는 xlim() 및 ylim() 함수도 있는데, 이들은 한계 밖의 데이터를 버립니다. 이를 통해 세 가지 특이한 값이 있음을 알 수 있습니다: 0, ~30, ~60입니다. dplyr로 이를 추출합니다.
-
-```{r}
-unusual <- diamonds |> 
-  filter(y < 3 | y > 20) |> 
-  select(price, x, y, z) |>
-  arrange(y)
-unusual
-#> # A tibble: 9 × 4
-#>   price     x     y     z
-#>   <int> <dbl> <dbl> <dbl>
-#> 1  5139  0      0    0   
-#> 2  6381  0      0    0   
-#> 3 12800  0      0    0   
-#> 4 15686  0      0    0   
-#> 5 18034  0      0    0   
-#> 6  2130  0      0    0   
-#> 7  2130  0      0    0   
-#> 8  2075  5.15  31.8  5.12
-#> 9 12210  8.09  58.9  8.06
-```
-
-`y` 변수는 이러한 다이아몬드의 세 가지 치수 중 하나를 `mm` 단위로 측정합니다. 다이아몬드의 너비가 `0 mm`일 수 없다는 것을 알고 있으므로 이 값은 틀린 값이어야 합니다. EDA를 수행하면서 `0`으로 코딩된 누락된 데이터를 발견했는데, 이는 단순히 `NA`를 검색했다면 결코 발견하지 못했을 것입니다. 
-
-앞으로는 잘못된 계산을 방지하기 위해 이러한 값을 다시 NA로 변경할 수 있습니다. `32mm`와 59mm`의 측정값이 믿을 수 없다고 의심할 수도 있습니다. 이 다이아몬드는 길이에 비해서 금액이 적절하지 않기 때문입니다. 결과에 미치는 영향이 미미하고 이상값이 존재하는 이유를 파악할 수 없는 경우에는 이상값을 생략하고 다음 단계로 넘어가는 것이 합리적입니다. 그러나 결과에 상당한 영향을 미치는 경우라면 정당한 이유 없이 삭제해서는 안 됩니다. 데이터 입력 오류 등의 원인을 파악하고 글에서 해당 항목을 삭제했음을 밝혀야 합니다.
-
-### 연습문제 10.3.3
+### 10.3.3(연습문제)
 
 #### 1
 
@@ -1503,58 +1437,10 @@ ggplot(diamonds) +
 
 ### Unusual values
 
-데이터 집합에서 비정상적인 값을 발견하고 나머지 분석으로 넘어가고 싶은 경우, 두 가지 옵션이 있습니다.
+> If you’ve encountered unusual values in your dataset, and simply want to move on to the rest of your analysis, you have two options. Drop the entire row with the strange values: We don’t recommend this option because one invalid value doesn’t imply that all the other values for that observation are also invalid. Additionally, if you have low quality data, by the time that you’ve applied this approach to every variable you might find that you don’t have any data left! Instead, we recommend replacing the unusual values with missing values. The easiest way to do this is to use mutate() to replace the variable with a modified copy. You can use the if_else() function to replace unusual values with NA:
 
-1. 이상한 값이 있는 전체 행을 삭제합니다.
 
-```{r}
-#| eval: false
-diamonds2 <- diamonds |> 
-  filter(between(y, 3, 20))
-```
-
-하나의 유효하지 않은 값이 있다고 해서 해당 관찰에 대한 다른 모든 값도 유효하지 않다는 의미는 아니므로 이 옵션을 권장하지 않습니다. 또한 품질이 낮은 데이터가 있는 경우 모든 변수에 이 접근 방식을 적용했을 때 남은 데이터가 없을 수도 있습니다!
-
-2. 대신 비정상적인 값을 누락된 값으로 대체하는 것이 좋습니다. 
-
-```{r}
-diamonds2 <- diamonds |> 
-  mutate(y = if_else(y < 3 | y > 20, NA, y))
-```
-
-누락된 값을 어디에 그려야 하는지 명확하지 않으므로 ggplot2는 누락된 값을 플롯에 포함하지 않지만, 누락된 값이 제거되었음을 경고합니다.
-
-```{r}
-ggplot(diamonds2, aes(x = x, y = y)) + 
-  geom_point()
-```
-
-이 경고를 표시하지 않으려면 `na.rm = TRUE`를 설정합니다.
-
-```{r}
-#| eval: false
-
-ggplot(diamonds2, aes(x = x, y = y)) + 
-  geom_point(na.rm = TRUE)
-```
-
-새 변수를 만들고 `is.na()`를 사용하여 `dep_time`이 누락되었는지 확인하면 이 작업을 수행할 수 있습니다.
-
-```{r}
-nycflights13::flights |> 
-  mutate(
-    cancelled = is.na(dep_time),
-    sched_hour = sched_dep_time %/% 100,
-    sched_min = sched_dep_time %% 100,
-    sched_dep_time = sched_hour + (sched_min / 60)
-  ) |> 
-  ggplot(aes(x = sched_dep_time)) + 
-  geom_freqpoly(aes(color = cancelled), binwidth = 1/4)
-```
-
-하지만 취소된 항공편보다 취소되지 않은 항공편이 훨씬 더 많기 때문에 이 계획은 좋지 않습니다.
-
-### 연습문제 10.4.1
+### 10.4.1(연습문제)
 
 #### 1
 
@@ -1582,55 +1468,9 @@ sum(c(0, 1, 2, NA), na.rm = TRUE)
 
 ### Covariation
 
-#### A categorical and a numerical variable
+> If variation describes the behavior within a variable, covariation describes the behavior between variables. Covariation is the tendency for the values of two or more variables to vary together in a related way. The best way to spot covariation is to visualize the relationship between two or more variables.
 
-```{r}
-ggplot(diamonds, aes(x = price)) + 
-  geom_freqpoly(aes(color = cut), binwidth = 500, linewidth = 0.75)
-```
-
-ggplot2는 데이터에서 정렬된 요소 변수로 정의되기 때문에 `cut`에 정렬된 색 눈금을 사용합니다. 전체 개수에 의해 결정되는 높이가 'cut'에 따라 너무 많이 달라져 분포의 모양 차이를 확인하기 어렵기 때문에 `geom_freqpoly()`의 기본 모양은 여기서 그다지 유용하지 않습니다.
-
-비교를 쉽게 하기 위해 Y축에 표시되는 내용을 바꿔야 합니다. 개수를 표시하는 대신 각 주파수 다각형 아래의 면적이 1이 되도록 표준화된 개수인 **밀도**를 표시합니다.
-
-```{r}
-ggplot(diamonds, aes(x = price, y = after_stat(density))) + 
-  geom_freqpoly(aes(color = cut), binwidth = 500, linewidth = 0.75)
-```
-
-밀도를 'y'에 매핑하고 있지만 '다이아몬드' 데이터 집합에는 '밀도'가 변수가 아니므로 먼저 밀도를 계산해야 합니다. 이를 위해 `after_stat()` 함수를 사용합니다. 이 플롯에는 다소 놀라운 점이 있는데, 가장 품질이 낮은 페어 다이아몬드의 평균 가격이 가장 높은 것으로 나타났습니다! 하지만 주파수 다각형이 해석하기 조금 어렵기 때문일 수도 있습니다. 이 플롯에는 많은 일이 일어나고 있습니다.
-
-이 관계를 탐색하는 데 시각적으로 더 간단한 플롯은 나란히 배치된 박스 플롯을 사용하는 것입니다.
-
-```{r}
-ggplot(diamonds, aes(x = cut, y = price)) +
-  geom_boxplot()
-```
-
-분포에 대한 정보는 훨씬 적지만, 박스 플롯이 훨씬 더 간결해져 더 쉽게 비교할 수 있고 한 플롯에 더 많은 것을 담을 수 있습니다. 이는 일반적으로 더 좋은 품질의 다이아몬드가 더 저렴하다는 반직관적인 결과를 뒷받침합니다! 연습 문제에서는 그 이유를 알아내야 합니다.
-
-`cut`은 순서가 있는 요소입니다. 즉, 보통은 좋음보다 나쁘고, 좋음은 매우 좋음보다 나쁘다는 식입니다. 많은 범주형 변수는 이러한 내재적 순서가 없으므로 더 많은 정보를 표시하기 위해 순서를 바꾸고 싶을 수 있습니다. 이를 위한 한 가지 방법은 `fct_reorder()`를 사용하는 것입니다. 예를 들어, `mpg` 데이터 집합의 `class` 변수를 살펴봅시다. 고속도로 주행 거리가 등급에 따라 어떻게 달라지는지 알고 싶을 수 있습니다.
-
-```{r}
-ggplot(mpg, aes(x = class, y = hwy)) +
-  geom_boxplot()
-```
-
-추세를 더 쉽게 볼 수 있도록 'class'의 중앙값을 기준으로 'hwy'의 순서를 바꿀 수 있습니다.
-
-```{r}
-ggplot(mpg, aes(x = fct_reorder(class, hwy, median), y = hwy)) +
-  geom_boxplot()
-```
-
-변수 이름이 긴 경우 `geom_boxplot()`을 90°로 뒤집으면 더 잘 작동합니다. X와 Y의 미적 매핑을 교환하면 됩니다.
-
-```{r}
-ggplot(mpg, aes(x = hwy, y = fct_reorder(class, hwy, median))) +
-  geom_boxplot()
-```
-
-#### 연습문제 10.5.1.1
+#### 10.5.1.1(연습문제)
 
 1. None
 
@@ -1646,32 +1486,22 @@ ggplot(mpg, aes(x = hwy, y = fct_reorder(class, hwy, median))) +
 
 #### Two categorical variables
 
-범주형 변수 간의 공변량을 시각화하려면 이러한 범주형 변수의 각 수준 조합에 대한 관찰 횟수를 계산해야 합니다. 이를 수행하는 한 가지 방법은 내장된 `geom_count()`를 사용하는 것입니다:
+> To visualize the covariation between categorical variables, you’ll need to count the number of observations for each combination of levels of these categorical variables. One way to do that is to rely on the built-in geom_count():
 
 ```{r}
 ggplot(diamonds, aes(x = cut, y = color)) +
   geom_count()
-```
 
-플롯에서 각 원의 크기는 각 값 조합에서 발생한 관찰 횟수를 표시합니다. 공변량은 특정 x 값과 특정 y 값 사이의 강한 상관관계로 나타납니다. 이러한 변수 간의 관계를 탐색하는 또 다른 접근 방식은 dplyr로 개수를 계산하는 것입니다.
-
-```{r}
 diamonds |> 
   count(color, cut)
-```
 
-그런 다음 `geom_tile()`과 채우기 미학을 사용하여 시각화합니다.
-
-```{r}
 diamonds |> 
   count(color, cut) |>  
   ggplot(aes(x = color, y = cut)) +
   geom_tile(aes(fill = n))
 ```
 
-범주형 변수의 순서가 지정되지 않은 경우, 흥미로운 패턴을 보다 명확하게 드러내기 위해 직렬화 패키지를 사용하여 행과 열의 순서를 동시에 재정렬할 수 있습니다. 더 큰 플롯의 경우 대화형 플롯을 만드는 히트맵리 패키지를 사용해 볼 수 있습니다.
-
-#### 연습문제 10.5.2.1
+#### 10.5.2.1(연습문제)
 
 1.  None
 
@@ -1681,63 +1511,50 @@ diamonds |>
 
 #### Two numerical variables
 
-두 숫자 변수 간의 공분산을 시각화하는 한 가지 좋은 방법은 `geom_point()`로 산점도를 그리는 것입니다. 점의 패턴으로 공분산을 볼 수 있습니다. 예를 들어 다이아몬드의 캐럿 크기와 가격 간에 양의 관계가 있음을 알 수 있습니다. 캐럿이 많은 다이아몬드는 가격이 더 높습니다. 이 관계는 기하급수적입니다.
+> You’ve already seen one great way to visualize the covariation between two numerical variables: draw a scatterplot with geom_point(). You can see covariation as a pattern in the points. For example, you can see a positive relationship between the carat size and price of a diamond: diamonds with more carats have a higher price. The relationship is exponential.
 
 ```{r}
 ggplot(smaller, aes(x = carat, y = price)) +
   geom_point()
 ```
 
-분산형 차트는 데이터 집합의 크기가 커지면 점들이 겹치기 시작하고 균일한 검은색 영역으로 쌓이기 시작하여 2차원 공간에서 데이터 밀도의 차이를 판단하기 어려울 뿐만 아니라 추세를 파악하기 어렵게 되므로 그 유용성이 떨어집니다. 이 문제를 해결할 수 있는 한 가지 방법은 '알파' 미학을 사용하여 투명도를 추가하는 것입니다.
+> geom_bin2d() and geom_hex() divide the coordinate plane into 2d bins and then use a fill color to display how many points fall into each bin. geom_bin2d() creates rectangular bins. geom_hex() creates hexagonal bins. You will need to install the hexbin package to use geom_hex().
 
 ```{r}
 ggplot(smaller, aes(x = carat, y = price)) + 
   geom_point(alpha = 1 / 100)
-```
 
-```{r}
 ggplot(smaller, aes(x = carat, y = price)) +
   geom_bin2d()
 
 # install.packages("hexbin")
 ggplot(smaller, aes(x = carat, y = price)) +
   geom_hex()
-```
 
-```{r}
 ggplot(smaller, aes(x = carat, y = price)) + 
   geom_boxplot(aes(group = cut_width(carat, 0.1)))
 ```
 
 
-#### 연습문제 10.5.3.1
+#### 10.5.3.1(연습문제)
 
-1.  None
+1. None
 
-2.  None
+2. None
 
-3.  None
+3. None
 
-4.  None
+4. None
 
-5.  None
+5. None
 
-```{r}
-diamonds |> 
-  filter(x >= 4) |> 
-  ggplot(aes(x = x, y = y)) +
-  geom_point() +
-  coord_cartesian(xlim = c(4, 11), ylim = c(4, 11))
-```
-
-6.  
-
-```{r}
-ggplot(smaller, aes(x = carat, y = price)) + 
-  geom_boxplot(aes(group = cut_number(carat, 20)))
-```
+6. None
 
 ### Patterns and models
+
+> If a systematic relationship exists between two variables it will appear as a pattern in the data. If you spot a pattern, ask yourself: 1) Could this pattern be due to coincidence (i.e. random chance)? 2) How can you describe the relationship implied by the pattern? 3) How strong is the relationship implied by the pattern? 4) What other variables might affect the relationship? 5) Does the relationship change if you look at individual subgroups of the data? 
+
+> Patterns in your data provide clues about relationships, i.e., they reveal covariation. If you think of variation as a phenomenon that creates uncertainty, covariation is a phenomenon that reduces it. If two variables covary, you can use the values of one variable to make better predictions about the values of the second. If the covariation is due to a causal relationship (a special case), then you can use the value of one variable to control the value of the second.
 
 ```{r}
 library(tidymodels)
@@ -1756,9 +1573,7 @@ diamonds_aug <- augment(diamonds_fit, new_data = diamonds) |>
 
 ggplot(diamonds_aug, aes(x = carat, y = .resid)) + 
   geom_point()
-```
 
-```{r}
 ggplot(diamonds_aug, aes(x = cut, y = .resid)) + 
   geom_boxplot()
 ```
